@@ -6,7 +6,7 @@ function Navbar() {
   return (
     <div className='nav-cont'>
       <img src={LogoImage} alt='' className='l-img' />
-      <button className='connect-cta'>Connect Wallet</button>
+<button className='connect-cta'>Connect wallet</button>
     </div>
   )
 }

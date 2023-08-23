@@ -1,16 +1,16 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
 import "./deploy.css";
 import Eth from "../../assets/Images/ethereum.svg";
 import Matic from "../../assets/Images/polygon.svg";
 import Bsc from "../../assets/Images/binance.svg";
 import Avax from "../../assets/Images/avax.svg";
 import { HiSquares2X2 } from "react-icons/hi2";
-import { GoArrowUpRight } from "react-icons/go";
+// import { GoArrowUpRight } from "react-icons/go";
 import { BsLink45Deg } from "react-icons/bs";
 import { IconContext } from "react-icons";
 import Codenz from "../../assets/Images/Codenz.png";
 import Suite from "../../assets/Images/3suite.png";
-import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import "react-responsive-carousel/lib/styles/carousel.min.css"; 
 import { Carousel } from "react-responsive-carousel";
 import Crypit from "../../assets/Images/crypit.png"
 
@@ -109,7 +109,7 @@ function DeployContract() {
               }}
             >
               <div style={{ marginLeft:5,marginTop:5 }}>
-                <GoArrowUpRight />
+                {/* <GoArrowUpRight /> */}
               </div>
             </IconContext.Provider>
             </div>
@@ -135,7 +135,7 @@ function DeployContract() {
               }}
             >
               <div style={{ marginLeft:5,marginTop:5 }}>
-                <GoArrowUpRight />
+                {/* <GoArrowUpRight /> */}
               </div>
             </IconContext.Provider>
             </div>
@@ -161,7 +161,7 @@ function DeployContract() {
               }}
             >
               <div style={{ marginLeft:5,marginTop:5 }}>
-                <GoArrowUpRight />
+                {/* <GoArrowUpRight /> */}
               </div>
             </IconContext.Provider>
             </div>
