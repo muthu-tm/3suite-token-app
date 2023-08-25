@@ -14,19 +14,24 @@ import { web3GlobalContext } from "../../context/global-context";
 import getLinker from "../../utils/deepLink";
 import mobileCheck from "../../utils/mobileCheck";
 import { getEllipsisTxt } from "../../utils/formatter";
+import { switchBlockchain } from "../../utils/web3-utils";
+import config from "../../config";
 
 function Navbar() {
-
-
-  const  {setProvider,setWeb3Obj,setChainGlobal,setWalletAddress} = useContext(web3GlobalContext)
-
+  const {
+    setProvider,
+    setWeb3Obj,
+    setChainGlobal,
+    setWalletAddress,
+    chainGlobal,
+  } = useContext(web3GlobalContext);
 
   const walletType = "trustwallet";
   const [modal1Open, setModal1Open] = useState(false);
   const [modal2Open, setModal2Open] = useState(false);
   const [web3Modal, setWeb3Modal] = useState(null);
 
-const PublicAddr = localStorage.getItem("walletAddress")
+  const PublicAddr = localStorage.getItem("walletAddress");
 
   useEffect(() => {
     const providerOptions = {
@@ -91,6 +96,9 @@ const PublicAddr = localStorage.getItem("walletAddress")
       setWalletAddress(publicAddress);
       localStorage.setItem("wallet_type", "metamask");
       setModal2Open(false);
+      if (Number(networkId) != Number(config.defaultNetwork)) {
+        switchBlockchainLogic(config.defaultNetwork);
+      }
     } catch (e) {
       console.error(e);
       return;
@@ -113,33 +121,51 @@ const PublicAddr = localStorage.getItem("walletAddress")
         localStorage.setItem("walletAddress", publicAddress);
         setWalletAddress(publicAddress);
       }
+
       setModal2Open(false);
+      if (Number(network) != Number(config.defaultNetwork)) {
+        switchBlockchainLogic(config.defaultNetwork);
+      }
     } catch (error) {
       console.error(error);
       return false;
     }
   };
   const diconnectWallet = async () => {
-
     localStorage.clear();
     setModal1Open(false);
     setWeb3Obj("");
     setWalletAddress(null);
   };
+  // useEffect(()=>{
+  //   if(chainGlobal){
+  //     if(chainGlobal!= config.defaultNetwork){
+  //       switchBlockchainLogic(config.defaultNetwork)
+  //     }
+  //   }
 
+  // },[chainGlobal])
+  const switchBlockchainLogic = async () => {
+    try {
+      await switchBlockchain(config.defaultNetwork);
+      setChainGlobal(config.defaultNetwork);
+    } catch (error) {
+      console.log("Error in switchBlockchainLogic", error);
+      return false;
+    }
+  };
   return (
     <div className="nav-cont">
       <img src={LogoImage} alt="" className="l-img" />
-      {PublicAddr? 
-      <button className="connect-cta" onClick={() => setModal1Open(true)}>
-        {getEllipsisTxt(PublicAddr,9)}
-</button>
-      :
-      <button className="connect-cta" onClick={() => setModal2Open(true)}>
-      
-    
-      Connect wallet
-      </button> }
+      {PublicAddr ? (
+        <button className="connect-cta" onClick={() => setModal1Open(true)}>
+          {getEllipsisTxt(PublicAddr, 9)}
+        </button>
+      ) : (
+        <button className="connect-cta" onClick={() => setModal2Open(true)}>
+          Connect wallet
+        </button>
+      )}
       <Modal
         className="popup-modal"
         title="Connect your wallet"
@@ -221,7 +247,7 @@ const PublicAddr = localStorage.getItem("walletAddress")
                 letterSpacing: 1,
               }}
             >
-    {getEllipsisTxt(PublicAddr,10)}
+              {getEllipsisTxt(PublicAddr, 10)}
             </div>
 
             <IconContext.Provider
@@ -242,7 +268,9 @@ const PublicAddr = localStorage.getItem("walletAddress")
               </div>
             </IconContext.Provider>
           </div>
-          <button className="disconnect-btn" onClick={diconnectWallet}>Disconnect</button>
+          <button className="disconnect-btn" onClick={diconnectWallet}>
+            Disconnect
+          </button>
         </div>
       </Modal>
     </div>

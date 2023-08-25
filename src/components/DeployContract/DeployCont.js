@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from "react";
+import React,{useState,useEffect, useContext} from "react";
 import "./deploy.css";
 import Eth from "../../assets/Images/ethereum.svg";
 import Matic from "../../assets/Images/polygon.svg";
@@ -13,38 +13,49 @@ import Suite from "../../assets/Images/3suite.png";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; 
 import { Carousel } from "react-responsive-carousel";
 import Crypit from "../../assets/Images/crypit.png"
+import config from "../../config";
+import { switchBlockchain } from "../../utils/web3-utils";
+import { web3GlobalContext } from "../../context/global-context";
 
 function DeployContract() {
+  const [radioOption,setRadioOption] = useState()
+  const  {setChainGlobal} = useContext(web3GlobalContext)
+const chainId = localStorage.getItem("netId")
   const blockchainFeed = [
     {
       id: 1,
       ChainName: "Georli",
       symbol: "ETH",
       image: `${Eth}`,
+      chainId:5,
     },
     {
       id: 2,
       ChainName: "Sepolia",
       symbol: "ETH",
       image: `${Eth}`,
+      chainId:1115511,
     },
     {
       id: 3,
       ChainName: "Mumbai",
       symbol: "MATIC",
       image: `${Matic}`,
+      chainId:80001,
     },
     {
       id: 4,
       ChainName: "BSC testnet",
       symbol: "BSC",
       image: `${Bsc}`,
+      chainId:97,
     },
     {
       id: 5,
       ChainName: "Fuji C chain",
       symbol: "AVAX",
       image: `${Avax}`,
+      chainId:43113,
     },
   ];
   const responsive = {
@@ -66,6 +77,15 @@ function DeployContract() {
       items: 1,
     },
   };
+
+  const onChainChange = async(e) =>{
+    console.log("chainValue" , Number(e.target.value))
+    setRadioOption(Number(e.target.value))  
+      await switchBlockchain(Number(e.target.value));
+      setChainGlobal(Number(e.target.value));
+      localStorage.setItem("netId",e.target.value)
+
+  }
   return (
     <div className="deploy-sec">
       {/* <div>Deploy Contract</div> */}
@@ -207,10 +227,12 @@ function DeployContract() {
                   <div className="radio-btn">
                     <input
                       type="radio"
-                      id={item.id}
+                      id={item.chainId}
                       name={item.ChainName}
-                      value={item.ChainName}
+                      value={item.chainId}
                       className="radio-btn"
+                      onChange={(e)=>onChainChange(e)}
+                      checked = {Number(chainId) === Number(item.chainId) ? true : false}
                     />
                   </div>
                 </div>
