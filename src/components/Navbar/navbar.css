@@ -20,3 +20,20 @@
     border-radius: 25px;
     cursor: pointer;
 }
+.disconnect-btn {
+    background: #FF5353;
+    border-radius: 6px;
+    border: none;
+    text-align: center;
+    padding: 10px 20px;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 22px;
+    /* identical to box height */
+    cursor: pointer;
+    width: 250px;
+    color: #fff;
+    margin-top: 25px;
+  }
+  

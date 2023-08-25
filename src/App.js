@@ -2,6 +2,7 @@
 import './App.css';
 import DeployContract from './components/DeployContract/DeployCont';
 import Navbar from './components/Navbar/Navbar';
+import "./styles/globalStyles.css"
 
 function App() {
   return (
