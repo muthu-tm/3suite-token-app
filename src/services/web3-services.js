@@ -1,10 +1,8 @@
 import Web3 from "web3";
-import config from "../config";
-
 
 export const createWeb3Object = async () => {
   try {
-    const web3Obj = new Web3(config.rpcUrl);
+    const web3Obj = new Web3(Web3.givenProvider);
 
     return web3Obj;
   } catch (error) {
@@ -102,14 +100,14 @@ export const setApproval = async function (
   paramObj
 ) {
   try {
-    
+
     const contractObj = await createContractObject(
       web3Obj,
       paxgAbi,
       contractAddress
     );
     // check allowance
-    
+
     let fromAddress = await getConnectedWalletAddress(
       web3Obj,
       localStorage.getItem("wallet_type")
@@ -120,9 +118,9 @@ export const setApproval = async function (
         paramObj.approvalAddress
       )
       .call();
-    
+
     const existingAllowanceAsBn = Web3.utils.toBN(existingAllowance);
-    
+
     console.log(existingAllowance);
     if (
       existingAllowanceAsBn.sub(Web3.utils.toBN(paramObj.approvalAmount)) >= 0
@@ -131,7 +129,7 @@ export const setApproval = async function (
     } else {
       const txReceipt = await contractObj.methods
         .approve(paramObj.approvalAddress, paramObj.approvalAmount)
-        .send({ from: fromAddress});
+        .send({ from: fromAddress });
       return txReceipt;
     }
   } catch (error) {

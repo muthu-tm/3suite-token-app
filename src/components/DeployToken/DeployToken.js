@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
-import "./mint.css";
+import "./deploy.css";
 import Eth from "../../assets/Images/ethereum.svg";
 import Matic from "../../assets/Images/polygon.svg";
 import Bsc from "../../assets/Images/binance.svg";
 import Avax from "../../assets/Images/avax.svg";
 import { HiSquares2X2 } from "react-icons/hi2";
-// import { GoArrowUpRight } from "react-icons/go";
 import { BsLink45Deg } from "react-icons/bs";
 import { IconContext } from "react-icons";
 import Codenz from "../../assets/Images/Codenz.png";
@@ -13,16 +12,16 @@ import Suite from "../../assets/Images/3suite.png";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import Crypit from "../../assets/Images/crypit.png"
-import config from "../../config";
 import { switchBlockchain } from "../../utils/web3-utils";
 import { web3GlobalContext } from "../../context/global-context";
+import { deployToken } from "../../services/web3-token-services";
 
-function MintToken() {
+function DeployToken() {
   const [radioOption, setRadioOption] = useState()
   const [name, setName] = useState("");
   const [symbol, setSymbol] = useState("");
-  const [supply, setSupply] = useState(1000);
-  const [decimals, setDecimals] = useState(18);
+  const [supply, setSupply] = useState();
+  const [decimals, setDecimals] = useState();
   const { setChainGlobal, walletAddress } = useContext(web3GlobalContext)
   const chainId = localStorage.getItem("netId")
   const blockchainFeed = [
@@ -30,7 +29,7 @@ function MintToken() {
       id: 1,
       ChainName: "Georli",
       symbol: "ETH",
-      image: `${Eth}`,  
+      image: `${Eth}`,
       chainId: 5,
     },
     {
@@ -90,7 +89,7 @@ function MintToken() {
     localStorage.setItem("netId", e.target.value)
   }
 
-  const onMintClick = async () => {
+  const onDeployClick = async () => {
     try {
       let data = {
         name: name,
@@ -100,7 +99,20 @@ function MintToken() {
       }
 
       console.log(data)
+      let deployRes = await deployToken(
+        "UI TEST TOKEN", "UTT01", 1000, 18
+      );
 
+      console.log("deploy Token Res: ", deployRes);
+      if (deployRes && deployRes.transactionHash) {
+        console.log(
+          "Successfully created an ERC20: ",
+          deployRes.transactionHash
+        );
+        // navigate("/portfolio");
+      } else {
+        console.log("Failed to create an ERC20 Token!");
+      }
     } catch (error) {
       console.log(error);
     }
@@ -284,29 +296,29 @@ function MintToken() {
               placeholder="3Suite Token"
               className="token-input"
               onClick={(e) => setName(e.target.value)}
-              />
+            />
           </div>
           <div style={{ marginTop: 15 }}>
             <div className="tk-label"> Symbol</div>
-            <input 
-            placeholder="SUITE"
-             className="token-input" 
-             onClick={(e) => setSymbol(e.target.value)}
-             />
+            <input
+              placeholder="SUITE"
+              className="token-input"
+              onClick={(e) => setSymbol(e.target.value)}
+            />
           </div>
           <div style={{ marginTop: 15 }}>
             <div className="tk-label"> Total Supply</div>
-            <input placeholder="1000" 
-            className="token-input"
-            onClick={(e) => setSupply(e.target.value)}
-             />
+            <input placeholder="1000"
+              className="token-input"
+              onClick={(e) => setSupply(e.target.value)}
+            />
           </div>
           <div style={{ marginTop: 15 }}>
             <div className="tk-label"> Decimals</div>
-            <input placeholder="18" 
-            className="token-input"
-            onClick={(e) => setDecimals(e.target.value)}
-             />
+            <input placeholder="18"
+              className="token-input"
+              onClick={(e) => setDecimals(e.target.value)}
+            />
           </div>
           <div
             style={{
@@ -348,7 +360,7 @@ function MintToken() {
               value={walletAddress}
             />
           </div>
-          <button className="deploy-cta" onClick={onMintClick}>Deploy</button>
+          <button className="deploy-cta" onClick={onDeployClick}>Deploy Token</button>
         </div>
       </div>
 
@@ -356,4 +368,4 @@ function MintToken() {
   );
 }
 
-export default MintToken;
+export default DeployToken;
