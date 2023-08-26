@@ -18,8 +18,8 @@ import { deployToken } from "../../services/web3-token-services";
 
 function DeployToken() {
   const [radioOption, setRadioOption] = useState()
-  const [name, setName] = useState("");
-  const [symbol, setSymbol] = useState("");
+  const [name, setName] = useState();
+  const [symbol, setSymbol] = useState();
   const [supply, setSupply] = useState();
   const [decimals, setDecimals] = useState();
   const { setChainGlobal, walletAddress } = useContext(web3GlobalContext)
@@ -94,11 +94,11 @@ function DeployToken() {
       let data = {
         name: name,
         symbol: symbol,
-        supply: supply,
-        decimals: decimals,
+        supply: Number(supply),
+        decimals: Number(decimals),
       }
-
       console.log(data)
+        
       let deployRes = await deployToken(
         "UI TEST TOKEN", "UTT01", 1000, 18
       );
@@ -295,7 +295,7 @@ function DeployToken() {
             <input
               placeholder="3Suite Token"
               className="token-input"
-              onClick={(e) => setName(e.target.value)}
+              onChange={(e) => setName(e.target.value)}
             />
           </div>
           <div style={{ marginTop: 15 }}>
@@ -303,21 +303,21 @@ function DeployToken() {
             <input
               placeholder="SUITE"
               className="token-input"
-              onClick={(e) => setSymbol(e.target.value)}
+              onChange={(e) => setSymbol(e.target.value)}
             />
           </div>
           <div style={{ marginTop: 15 }}>
             <div className="tk-label"> Total Supply</div>
             <input placeholder="1000"
               className="token-input"
-              onClick={(e) => setSupply(e.target.value)}
+              onChange={(e) => setSupply(e.target.value)}
             />
           </div>
           <div style={{ marginTop: 15 }}>
             <div className="tk-label"> Decimals</div>
             <input placeholder="18"
               className="token-input"
-              onClick={(e) => setDecimals(e.target.value)}
+              onChange={(e) => setDecimals(e.target.value)}
             />
           </div>
           <div
