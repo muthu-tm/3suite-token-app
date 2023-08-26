@@ -1,5 +1,5 @@
-import React,{useState,useEffect, useContext} from "react";
-import "./deploy.css";
+import React, { useState, useEffect, useContext } from "react";
+import "./mint.css";
 import Eth from "../../assets/Images/ethereum.svg";
 import Matic from "../../assets/Images/polygon.svg";
 import Bsc from "../../assets/Images/binance.svg";
@@ -10,52 +10,56 @@ import { BsLink45Deg } from "react-icons/bs";
 import { IconContext } from "react-icons";
 import Codenz from "../../assets/Images/Codenz.png";
 import Suite from "../../assets/Images/3suite.png";
-import "react-responsive-carousel/lib/styles/carousel.min.css"; 
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import Crypit from "../../assets/Images/crypit.png"
 import config from "../../config";
 import { switchBlockchain } from "../../utils/web3-utils";
 import { web3GlobalContext } from "../../context/global-context";
 
-function DeployContract() {
-  const [radioOption,setRadioOption] = useState()
-  const  {setChainGlobal} = useContext(web3GlobalContext)
-const chainId = localStorage.getItem("netId")
+function MintToken() {
+  const [radioOption, setRadioOption] = useState()
+  const [name, setName] = useState("");
+  const [symbol, setSymbol] = useState("");
+  const [supply, setSupply] = useState(1000);
+  const [decimals, setDecimals] = useState(18);
+  const { setChainGlobal, walletAddress } = useContext(web3GlobalContext)
+  const chainId = localStorage.getItem("netId")
   const blockchainFeed = [
     {
       id: 1,
       ChainName: "Georli",
       symbol: "ETH",
-      image: `${Eth}`,
-      chainId:5,
+      image: `${Eth}`,  
+      chainId: 5,
     },
     {
       id: 2,
       ChainName: "Sepolia",
       symbol: "ETH",
       image: `${Eth}`,
-      chainId:1115511,
+      chainId: 1115511,
     },
     {
       id: 3,
       ChainName: "Mumbai",
       symbol: "MATIC",
       image: `${Matic}`,
-      chainId:80001,
+      chainId: 80001,
     },
     {
       id: 4,
       ChainName: "BSC testnet",
       symbol: "BSC",
       image: `${Bsc}`,
-      chainId:97,
+      chainId: 97,
     },
     {
       id: 5,
       ChainName: "Fuji C chain",
       symbol: "AVAX",
       image: `${Avax}`,
-      chainId:43113,
+      chainId: 43113,
     },
   ];
   const responsive = {
@@ -78,115 +82,131 @@ const chainId = localStorage.getItem("netId")
     },
   };
 
-  const onChainChange = async(e) =>{
-    console.log("chainValue" , Number(e.target.value))
-    setRadioOption(Number(e.target.value))  
-      await switchBlockchain(Number(e.target.value));
-      setChainGlobal(Number(e.target.value));
-      localStorage.setItem("netId",e.target.value)
-
+  const onChainChange = async (e) => {
+    console.log("chainValue", Number(e.target.value))
+    setRadioOption(Number(e.target.value))
+    await switchBlockchain(Number(e.target.value));
+    setChainGlobal(Number(e.target.value));
+    localStorage.setItem("netId", e.target.value)
   }
+
+  const onMintClick = async () => {
+    try {
+      let data = {
+        name: name,
+        symbol: symbol,
+        supply: supply,
+        decimals: decimals,
+      }
+
+      console.log(data)
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <div className="deploy-sec">
       {/* <div>Deploy Contract</div> */}
       <div className="right-sec">
         <div className="sub-head">Our Products</div>
         <Carousel
-        swipeable={false}
-        draggable={false}
-        showDots={true}
-        responsive={responsive}
-        ssr={true} // means to render carousel on server-side.
-        infinite={true}
-        autoPlay={false}
-        autoPlaySpeed={1000}
-        autoPlayTimeout={100}
-        keyBoardControl={true}
-        customTransition="all .5"
-        transitionDuration={100}
-        containerClass="carousel-container"
-        removeArrowOnDeviceType={["tablet", "mobile"]}
-        dotListClass="custom-dot-list-style"
-        itemClass="carousel-item-padding-40-px"
-      >
-        <div className="Product">
-          <div className="prod-head">Codenz</div>
-          <div className="prod-desc">
-            Explore an extraordinary collection of tokenized code creations that
-            transcend mere functionality. From elegant algorithms to poetic
-            scripts, our marketplace hosts a variety of code artifacts waiting
-            to be appreciated as digital treasures.
-          </div>
-          <img src={Codenz} alt="" className="prod-img" />
-          <button className="connect-cta" style={{marginBottom:10}}>
-          <div style={{ display: "flex", alignItems: "center" }}>
-          <div> Take me there </div>
-            <IconContext.Provider
-              value={{
-                size: "1.2em",
-                color: "#3fa45a",
-                className: "global-class-name",
-              }}
-            >
-              <div style={{ marginLeft:5,marginTop:5 }}>
-                {/* <GoArrowUpRight /> */}
-              </div>
-            </IconContext.Provider>
+          swipeable={false}
+          draggable={false}
+          showDots={true}
+          responsive={responsive}
+          ssr={true} // means to render carousel on server-side.
+          infinite={true}
+          autoPlay={false}
+          autoPlaySpeed={1000}
+          autoPlayTimeout={100}
+          keyBoardControl={true}
+          customTransition="all .5"
+          transitionDuration={100}
+          containerClass="carousel-container"
+          removeArrowOnDeviceType={["tablet", "mobile"]}
+          dotListClass="custom-dot-list-style"
+          itemClass="carousel-item-padding-40-px"
+        >
+          <div className="Product">
+            <div className="prod-head">Codenz</div>
+            <div className="prod-desc">
+              Explore an extraordinary collection of tokenized code creations that
+              transcend mere functionality. From elegant algorithms to poetic
+              scripts, our marketplace hosts a variety of code artifacts waiting
+              to be appreciated as digital treasures.
             </div>
-           </button>
-        </div>
-        <div className="Product">
-          <div className="prod-head">3Suite</div>
-          <div className="prod-desc">
-          Dive into a world of limitless imagination, where every digital
+            <img src={Codenz} alt="" className="prod-img" />
+            <button className="connect-cta" style={{ marginBottom: 10 }}>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <div> Take me there </div>
+                <IconContext.Provider
+                  value={{
+                    size: "1.2em",
+                    color: "#3fa45a",
+                    className: "global-class-name",
+                  }}
+                >
+                  <div style={{ marginLeft: 5, marginTop: 5 }}>
+                    {/* <GoArrowUpRight /> */}
+                  </div>
+                </IconContext.Provider>
+              </div>
+            </button>
+          </div>
+          <div className="Product">
+            <div className="prod-head">3Suite</div>
+            <div className="prod-desc">
+              Dive into a world of limitless imagination, where every digital
               creation becomes a masterpiece. Our curated collection features a
               diverse array of NFTs, from mesmerizing digital artwork to
               captivating virtual experiences.
-          </div>
-          <img src={Suite} alt="" className="prod-img" />
-          <button className="connect-cta" style={{marginBottom:10}} >
-          <div style={{ display: "flex", alignItems: "center" }}>
-          <div> Take me there </div>
-            <IconContext.Provider
-              value={{
-                size: "1.2em",
-                color: "#3fa45a",
-                className: "global-class-name",
-              }}
-            >
-              <div style={{ marginLeft:5,marginTop:5 }}>
-                {/* <GoArrowUpRight /> */}
-              </div>
-            </IconContext.Provider>
             </div>
-           </button>
-        </div>
-        <div className="Product">
-          <div className="prod-head">CrypIT</div>
-          <div className="prod-desc">
-          CrypIT is an unified crypto super app built to make the web3
+            <img src={Suite} alt="" className="prod-img" />
+            <button className="connect-cta" style={{ marginBottom: 10 }} >
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <div> Take me there </div>
+                <IconContext.Provider
+                  value={{
+                    size: "1.2em",
+                    color: "#3fa45a",
+                    className: "global-class-name",
+                  }}
+                >
+                  <div style={{ marginLeft: 5, marginTop: 5 }}>
+                    {/* <GoArrowUpRight /> */}
+                  </div>
+                </IconContext.Provider>
+              </div>
+            </button>
+          </div>
+          <div className="Product">
+            <div className="prod-head">CrypIT</div>
+            <div className="prod-desc">
+              CrypIT is an unified crypto super app built to make the web3
               journey of everyday people safe, simple and hassle free. CrypIT
               aims to bridge the gap between traditional fiat and crypto
               currency.
-          </div>
-          <img src={Crypit} alt="" className="prod-img" />
-          <button className="connect-cta" style={{marginBottom:10}}>
-          <div style={{ display: "flex", alignItems: "center" }}>
-          <div> Take me there </div>
-            <IconContext.Provider
-              value={{
-                size: "1.2em",
-                color: "#3fa45a",
-                className: "global-class-name",
-              }}
-            >
-              <div style={{ marginLeft:5,marginTop:5 }}>
-                {/* <GoArrowUpRight /> */}
-              </div>
-            </IconContext.Provider>
             </div>
-           </button>
-        </div>
+            <img src={Crypit} alt="" className="prod-img" />
+            <button className="connect-cta" style={{ marginBottom: 10 }}>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <div> Take me there </div>
+                <IconContext.Provider
+                  value={{
+                    size: "1.2em",
+                    color: "#3fa45a",
+                    className: "global-class-name",
+                  }}
+                >
+                  <div style={{ marginLeft: 5, marginTop: 5 }}>
+                    {/* <GoArrowUpRight /> */}
+                  </div>
+                </IconContext.Provider>
+              </div>
+            </button>
+          </div>
         </Carousel>
       </div>
       <div className="left-sec">
@@ -231,8 +251,8 @@ const chainId = localStorage.getItem("netId")
                       name={item.ChainName}
                       value={item.chainId}
                       className="radio-btn"
-                      onChange={(e)=>onChainChange(e)}
-                      checked = {Number(chainId) === Number(item.chainId) ? true : false}
+                      onChange={(e) => onChainChange(e)}
+                      checked={Number(chainId) === Number(item.chainId) ? true : false}
                     />
                   </div>
                 </div>
@@ -260,15 +280,33 @@ const chainId = localStorage.getItem("netId")
           </div>
           <div style={{ marginTop: 24 }}>
             <div className="tk-label">Token Name</div>
-            <input placeholder="eg: 'Sample Token'" className="token-input" />
+            <input
+              placeholder="3Suite Token"
+              className="token-input"
+              onClick={(e) => setName(e.target.value)}
+              />
           </div>
           <div style={{ marginTop: 15 }}>
             <div className="tk-label"> Symbol</div>
-            <input placeholder="eg: 'STKN'" className="token-input" />
+            <input 
+            placeholder="SUITE"
+             className="token-input" 
+             onClick={(e) => setSymbol(e.target.value)}
+             />
           </div>
           <div style={{ marginTop: 15 }}>
             <div className="tk-label"> Total Supply</div>
-            <input placeholder="eg: '20,000'" className="token-input" />
+            <input placeholder="1000" 
+            className="token-input"
+            onClick={(e) => setSupply(e.target.value)}
+             />
+          </div>
+          <div style={{ marginTop: 15 }}>
+            <div className="tk-label"> Decimals</div>
+            <input placeholder="18" 
+            className="token-input"
+            onClick={(e) => setDecimals(e.target.value)}
+             />
           </div>
           <div
             style={{
@@ -307,14 +345,15 @@ const chainId = localStorage.getItem("netId")
             <input
               placeholder="eg: '0x72bCE2654500B89FC7876b1973636Ab116Da7C8A'"
               className="token-input"
+              value={walletAddress}
             />
           </div>
-          <button className="deploy-cta">Deploy</button>
+          <button className="deploy-cta" onClick={onMintClick}>Deploy</button>
         </div>
       </div>
-      
+
     </div>
   );
 }
 
-export default DeployContract;
+export default MintToken;

@@ -1,14 +1,14 @@
 
 import './App.css';
-import DeployContract from './components/DeployContract/DeployCont';
+import MintToken from './components/MintToken/MintToken';
 import Navbar from './components/Navbar/Navbar';
 import "./styles/globalStyles.css"
 
 function App() {
   return (
     <div className="App">
-      <Navbar/>
-<DeployContract/>
+      <Navbar />
+      <MintToken />
     </div>
   );
 }
