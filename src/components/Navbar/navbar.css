@@ -8,17 +8,20 @@
     margin: auto;
 }
 .l-img{
-    width: 150px;
+    width: 100px;
+    cursor: pointer;
 }
 .connect-cta{
     background-color: #3fa45a24;
     color: #3fa45a;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 500;
     padding: 10px 18px;
     border: none;
     border-radius: 25px;
     cursor: pointer;
+    letter-spacing: 0.8px;
+    
 }
 .disconnect-btn {
     background: #FF5353;
@@ -36,4 +39,19 @@
     color: #fff;
     margin-top: 25px;
   }
-  
+  ul {
+    display: flex;
+    align-items: center;
+  }
+  li{
+    list-style: none;
+    margin: auto 20px;
+    cursor: pointer;
+    letter-spacing: 0.8px;
+    
+  } 
+
+  li:hover{
+    color: #3fa45a;
+    
+  }

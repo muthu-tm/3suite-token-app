@@ -16,8 +16,10 @@ import mobileCheck from "../../utils/mobileCheck";
 import { getEllipsisTxt } from "../../utils/formatter";
 import { switchBlockchain } from "../../utils/web3-utils";
 import config from "../../config";
+import { useNavigate } from "react-router-dom";
 
 function Navbar() {
+ 
   const {
     setProvider,
     setWeb3Obj,
@@ -26,7 +28,7 @@ function Navbar() {
     chainGlobal,
   } = useContext(web3GlobalContext);
 
-  const walletType = "trustwallet";
+  const walletType = localStorage.getItem("wallet_type");
   const [modal1Open, setModal1Open] = useState(false);
   const [modal2Open, setModal2Open] = useState(false);
   const [web3Modal, setWeb3Modal] = useState(null);
@@ -137,14 +139,7 @@ function Navbar() {
     setWeb3Obj("");
     setWalletAddress(null);
   };
-  // useEffect(()=>{
-  //   if(chainGlobal){
-  //     if(chainGlobal!= config.defaultNetwork){
-  //       switchBlockchainLogic(config.defaultNetwork)
-  //     }
-  //   }
 
-  // },[chainGlobal])
   const switchBlockchainLogic = async () => {
     try {
       await switchBlockchain(config.defaultNetwork);
@@ -156,7 +151,16 @@ function Navbar() {
   };
   return (
     <div className="nav-cont">
-      <img src={LogoImage} alt="" className="l-img" />
+      <img src={LogoImage} alt="" className="l-img"/>
+
+
+<ul>
+  <li>Home</li>
+  <li>Products</li>
+  <li>About</li>
+  <li>Newsletter</li>
+</ul>
+      
       {PublicAddr ? (
         <button className="connect-cta" onClick={() => setModal1Open(true)}>
           {getEllipsisTxt(PublicAddr, 9)}

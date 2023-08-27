@@ -1,0 +1,56 @@
+.newsletter {
+    background-color: #3fa45a24;
+    padding: 75px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.n-head {
+    font-size: 44px;
+    font-weight: 600;
+    line-height: 58px;
+    margin-bottom: 20px;
+    letter-spacing: 0.5px;
+
+}
+
+.n-desc {
+    font-size: 18px;
+    line-height: 32px;
+    width: 75%;
+    margin: 5px auto 15px;
+    text-align: center;
+    color: rgb(246 252 249 / 67%);
+}
+.GT-cta{
+    border:2px solid #3fa45ab5 ;
+    background: transparent;
+    border-radius: 4px;
+    padding:15px 10px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #fff;
+    margin-right: 20px;
+    width: 400px;
+    outline-style: 0;
+}
+.get-in-touch{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 30px;
+}
+.sub-cta{
+    background:#3fa45ab5 ;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 15px 18px;
+    border-radius: 4px;
+    cursor: pointer;
+    letter-spacing: 0.8px;
+    width: 150px;
+    border: 0;
+}
