@@ -18,9 +18,7 @@ function Home() {
         <button className="join-cta" >
       Join Us
         </button> 
-        <button className="join-cta-border">
-          Launch DApp
-        </button>
+
         </div>
  
       </div>

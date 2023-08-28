@@ -30,21 +30,26 @@
     margin: auto;
 }
 .join-cta{
-    background:#3fa45ab5 ;
+    border :2px solid #3fa45ab5 ;
+    background-color: transparent;
     color: #fff;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 500;
-    padding: 10px 18px;
-    border: 2px solid transparent;
-    border-radius: 8px;
+    padding:15px 18px;
+    border-radius: 4px;
     cursor: pointer;
     letter-spacing: 0.8px;
     width: 150px;
+    transition: all 0.4s ease;
+}
+.join-cta:hover{
+    transition: all 0.4s ease;
+   border :2px solid transparent ;
+    background:linear-gradient(94.59deg, #476e43d4 1.33%,#22cf1ebd  52.86%) ;
 }
 
 .join-cta-border{
-    border :2px solid #3fa45ab5 ;
-    background-color: transparent;
+
     color: #fff;
     font-size: 14px;
     font-weight: 500;

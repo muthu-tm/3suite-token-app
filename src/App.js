@@ -1,24 +1,21 @@
-
-import './App.css';
-import DeployToken from './components/DeployToken/DeployToken';
-import Features from './components/Features/Features';
-import Footer from './components/Footer/Footer';
-import Home from './components/Home/Home';
-import Navbar from './components/Navbar/Navbar';
-import Newsletter from './components/Newsletter/Newsletter';
-import Product from './components/Products/Product';
-import "./styles/globalStyles.css"
+import { Route, Routes } from "react-router-dom";
+import "./App.css";
+import Footer from "./components/Footer/Footer";
+import Navbar from "./components/Navbar/Navbar";
+import "./styles/globalStyles.css";
+import HomePage from "./pages/HomePage";
+import DeployToken from "./components/DeployToken/DeployToken";
 
 function App() {
   return (
     <div className="App">
       <Navbar />
-      <Home/>
-      <Product/>
-      <Features/>
-      <Newsletter/>
-      <Footer/>
-      {/* <DeployToken /> */}
+      <Routes>
+      <Route path="*" element={<HomePage />} exact />
+      <Route path="token-deploy" element={<DeployToken />} />
+      </Routes>
+
+      <Footer />
     </div>
   );
 }

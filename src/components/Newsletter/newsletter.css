@@ -1,5 +1,6 @@
 .newsletter {
-    background-color: #3fa45a24;
+    background-color: hsl(140.57deg 41.21% 31.38% / 10%);
+
     padding: 75px 20px;
     display: flex;
     flex-direction: column;
@@ -43,7 +44,7 @@
     margin-top: 30px;
 }
 .sub-cta{
-    background:#3fa45ab5 ;
+    background:linear-gradient(94.59deg, #476e43d4 1.33%,#22cf1ebd  52.86%) ;
     color: #fff;
     font-size: 16px;
     font-weight: 500;

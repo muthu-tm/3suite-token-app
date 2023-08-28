@@ -24,6 +24,15 @@ function DeployToken() {
   const [decimals, setDecimals] = useState();
   const { setChainGlobal, walletAddress } = useContext(web3GlobalContext)
   const chainId = localStorage.getItem("netId")
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+  };
+ 
+  useEffect(()=>{
+    scrollToTop();
+  },[]);
+
   const blockchainFeed = [
     {
       id: 1,

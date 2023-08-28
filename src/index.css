@@ -7,8 +7,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: #131414;
   background-repeat: no-repeat;
-  background-size: cover;
-  background-image: url("./assets/Images/bgGrad.png");
+  background-size: contain;
+  background-image: url("./assets/Images/bgGrad2.png");
   color: #fff;
 }
 
