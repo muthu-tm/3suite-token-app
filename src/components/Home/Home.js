@@ -1,6 +1,7 @@
 import React from "react";
 import "./home.css";
 import Codenz from "../../assets/Images/Codenz.png";
+import { Link } from "react-scroll";
 
 function Home() {
   return (
@@ -14,13 +15,11 @@ function Home() {
           ecosystem. These tools were built to help you create your own web3
           products fast, simple and cheap way!
         </div>
-        <div style={{display:'flex',alignItems:'center',marginTop:25}}> 
-        <button className="join-cta" >
-      Join Us
-        </button> 
-
+        <div style={{ display: "flex", alignItems: "center", marginTop: 25 }}>
+          <Link to="newsletter" spy={true} smooth={true}>
+            <button className="join-cta">Join Us</button>
+          </Link>
         </div>
- 
       </div>
       <img src={Codenz} alt="" className="b-img" />
     </div>
