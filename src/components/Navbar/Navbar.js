@@ -16,10 +16,10 @@ import mobileCheck from "../../utils/mobileCheck";
 import { getEllipsisTxt } from "../../utils/formatter";
 import { switchBlockchain } from "../../utils/web3-utils";
 import config from "../../config";
+import { Link } from "react-scroll";
 import { useNavigate } from "react-router-dom";
 
 function Navbar() {
- 
   const {
     setProvider,
     setWeb3Obj,
@@ -27,6 +27,7 @@ function Navbar() {
     setWalletAddress,
     chainGlobal,
   } = useContext(web3GlobalContext);
+  const navigate = useNavigate()
 
   const walletType = localStorage.getItem("wallet_type");
   const [modal1Open, setModal1Open] = useState(false);
@@ -151,16 +152,26 @@ function Navbar() {
   };
   return (
     <div className="nav-cont">
-      <img src={LogoImage} alt="" className="l-img"/>
+      <div onClick={()=>navigate("/")}> 
+      <img src={LogoImage} alt="" className="l-img" />
+      </div>
+{    window.location.pathname == "/token-deploy" ? <>
+</> :
+      <ul>
+        <Link activeClass="active" to="home" spy={true} smooth={true}>
+          <li>Home</li>
+        </Link>
+        <Link to="product" spy={true} smooth={true}>
+          <li>Products</li>
+        </Link>
+        <Link to="about" spy={true} smooth={true}>
+          <li>About</li>
+        </Link>
+        <Link to="newsletter" spy={true} smooth={true}>
+          <li>Newsletter</li>
+        </Link>
+      </ul>}
 
-
-<ul>
-  <li>Home</li>
-  <li>Products</li>
-  <li>About</li>
-  <li>Newsletter</li>
-</ul>
-      
       {PublicAddr ? (
         <button className="connect-cta" onClick={() => setModal1Open(true)}>
           {getEllipsisTxt(PublicAddr, 9)}

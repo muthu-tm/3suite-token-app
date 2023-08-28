@@ -7,14 +7,14 @@ import { useNavigate } from "react-router-dom";
 function Product() {
   const navigate = useNavigate();
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   };
- 
-  useEffect(()=>{
+
+  useEffect(() => {
     scrollToTop();
-  },[]);
+  }, []);
   return (
-    <div className="prod-cont">
+    <div className="prod-cont" id="product">
       <div className="prod-head">Explore Our Innovative Product Line</div>
       <div className="p-desc">
         Step into the realm of seamless token deployment with our cutting-edge
@@ -25,7 +25,7 @@ function Product() {
         deployment.
       </div>
       <div className="prod-section">
-        <div className="single-prod" onClick={()=>navigate("/token-deploy")}>
+        <div className="single-prod" onClick={() => navigate("/token-deploy")}>
           <div className="sp-head">Token Mint</div>
           <div className="sp-desc">
             {" "}
@@ -61,8 +61,6 @@ function Product() {
           </div>
           <div className="sp-cta">
             <div>Coming Soon.. </div>
-
-           
           </div>
         </div>
         <div className="single-prod">
@@ -76,8 +74,6 @@ function Product() {
           </div>
           <div className="sp-cta">
             <div>Coming Soon.. </div>
-
-           
           </div>
         </div>
         <div className="single-prod">
@@ -91,11 +87,9 @@ function Product() {
           </div>
           <div className="sp-cta">
             <div>Coming Soon.. </div>
-
-          
           </div>
         </div>
-    
+
         <div className="single-prod">
           <div className="sp-head">Crypto Staking</div>
           <div className="sp-desc">
@@ -107,11 +101,9 @@ function Product() {
           </div>
           <div className="sp-cta">
             <div>Coming Soon.. </div>
-
           </div>
         </div>
-     
-     
+
         <div className="single-prod">
           <div className="sp-head">Allowance - Revoke</div>
           <div className="sp-desc">

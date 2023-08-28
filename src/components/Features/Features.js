@@ -11,7 +11,7 @@ import { IconContext } from "react-icons";
 
 function Features() {
   return (
-    <div className="feature-cont">
+    <div className="feature-cont" id="about">
       <div className="f-head">Built by Web3 Experts for Token Management</div>
       <div className="f-cont">
         <div className="f-cont-50">

@@ -3,7 +3,7 @@ import "./newsletter.css";
 
 function Newsletter() {
   return (
-    <div className="newsletter">
+    <div className="newsletter" id="newsletter">
       <div className="n-head">Join with our 3Suite App</div>
       <div className="n-desc">
         Step into the realm of seamless token deployment with our cutting-edge

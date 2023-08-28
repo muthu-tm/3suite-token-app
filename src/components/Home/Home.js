@@ -4,7 +4,7 @@ import Codenz from "../../assets/Images/Codenz.png";
 
 function Home() {
   return (
-    <div className="banner">
+    <div className="banner" id="home">
       {/* Empowering Your Tokens, One Contract at a Time */}
       <div className="banner-left">
         <div className="banner-head"> A suite of tools for web3 products</div>
