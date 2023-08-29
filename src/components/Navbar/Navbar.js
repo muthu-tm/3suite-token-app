@@ -164,9 +164,9 @@ function Navbar() {
         <Link to="product" spy={true} smooth={true}>
           <li>Products</li>
         </Link>
-        <Link to="about" spy={true} smooth={true}>
+        {/* <Link to="about" spy={true} smooth={true}>
           <li>About</li>
-        </Link>
+        </Link> */}
         <Link to="newsletter" spy={true} smooth={true}>
           <li>Newsletter</li>
         </Link>

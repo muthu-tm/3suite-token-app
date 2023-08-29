@@ -69,6 +69,6 @@ color: #fff;
 }
 .sp-cta:hover{
     transition: all 0.4s ease;
-    border :2px solid transparent ;
-     background:linear-gradient(94.59deg, #476e43d4 1.33%,#22cf1ebd  52.86%) ;
+    border :2px solid #568651d4 ;
+     background:linear-gradient(94.59deg, #568651d4 1.33%,#22cf1ebd  52.86%);
 }

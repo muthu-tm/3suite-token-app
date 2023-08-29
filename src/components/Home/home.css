@@ -10,12 +10,12 @@
     
 }
 .banner-head{
-    font-size: 44px;
+    font-size: 36px;
     font-weight: 600;
     line-height: 58px;
     margin-bottom: 25px;
-    letter-spacing: 0.5px;
- 
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
 }
 .banner-left{
     max-width: 55%;
@@ -44,8 +44,9 @@
 }
 .join-cta:hover{
     transition: all 0.4s ease;
-   border :2px solid transparent ;
-    background:linear-gradient(94.59deg, #476e43d4 1.33%,#22cf1ebd  52.86%) ;
+    border :2px solid #568651d4 ;
+   
+    background:linear-gradient(94.59deg, #568651d4 1.33%,#22cf1ebd  52.86%);
 }
 
 .join-cta-border{

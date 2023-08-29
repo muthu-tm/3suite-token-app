@@ -29,9 +29,9 @@ const Footer = () => {
             <Link to="product" spy={true} smooth={true}>
               <div className="s-route">Product</div>
             </Link>
-            <Link to="about" spy={true} smooth={true}>
+            {/* <Link to="about" spy={true} smooth={true}>
               <div className="s-route">About</div>
-            </Link>
+            </Link> */}
             <Link to="newsletter" spy={true} smooth={true}>
               <div className="s-route">Newsletter</div>
             </Link>

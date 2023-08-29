@@ -25,7 +25,7 @@ function Product() {
         deployment.
       </div>
       <div className="prod-section">
-        <div className="single-prod" onClick={() => navigate("/token-deploy")}>
+        <div className="single-prod" >
           <div className="sp-head">Token Mint</div>
           <div className="sp-desc">
             {" "}
@@ -34,7 +34,7 @@ function Product() {
             designed to revolutionize how you create, deploy, and manage token
             contracts on the blockchain
           </div>
-          <div className="sp-cta">
+          <div className="sp-cta" onClick={() => navigate("/token-deploy")}>
             <div>Launch DApp </div>
 
             <IconContext.Provider
