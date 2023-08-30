@@ -1,6 +1,6 @@
 import React from "react";
 import "./home.css";
-import Codenz from "../../assets/Images/Codenz.png";
+import Codenz from "../../assets/Images/short-logo.png";
 import { Link } from "react-scroll";
 
 function Home() {

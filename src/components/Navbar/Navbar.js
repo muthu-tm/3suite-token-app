@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import "./navbar.css";
-import LogoImage from "../../assets/Images/logoSuite2.png";
+import LogoImage from "../../assets/Images/vectorLogo.png";
 import { Modal } from "antd";
 import copy from "copy-to-clipboard";
 import Metamask from "../../assets/Images/metamask.png";
