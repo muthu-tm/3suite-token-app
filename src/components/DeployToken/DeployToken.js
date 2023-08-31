@@ -27,6 +27,7 @@ function DeployToken() {
   const [tnxHash, setTnxHash] = useState();
   const [modal1Open, setModal1Open] = useState(false);
   const [loadingText, setLoadingText] = useState(false);
+  const [tnkAddress, setTokenAddr] = useState(false);
   const { setChainGlobal, walletAddress } = useContext(web3GlobalContext);
   const chainId = localStorage.getItem("netId");
 
@@ -124,6 +125,7 @@ function DeployToken() {
           deployRes.transactionHash
         );
         setTnxHash(deployRes.transactionHash);
+        setTokenAddr(deployRes.contractAddress);
         setLoadingText(false);
         // navigate("/portfolio");
       } else {
@@ -358,7 +360,7 @@ function DeployToken() {
               style={{ display: "flex", alignItems: "center", marginTop: 10 }}
             >
               <div className="m-head">Transaction Address :</div>
-              <div className="m-desc">{getEllipsisTxt(tnxHash, 15)}</div>
+              <div className="m-desc">{getEllipsisTxt(tnkAddress, 9)}</div>
             </div>
             <div
               style={{
