@@ -3,6 +3,7 @@ import Home from "../components/Home/Home";
 import Product from "../components/Products/Product";
 import Features from "../components/Features/Features";
 import Newsletter from "../components/Newsletter/Newsletter";
+import NewsletterSubscribe from "../components/Newsletter/Subscribe";
 
 function HomePage() {
   return (
@@ -10,7 +11,8 @@ function HomePage() {
       <Home />
       <Product />
       <Features />
-      <Newsletter />
+      {/* <Newsletter /> */}
+      <NewsletterSubscribe/>
     </div>
   );
 }
