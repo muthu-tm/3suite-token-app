@@ -10,12 +10,12 @@
     max-width: 60%;
 
 }
-.mint-cont{
+
+.mint-cont {
     margin: auto;
 }
-.right-sec {
 
-}
+.right-sec {}
 
 .Heading {
     font-size: 32px;
@@ -120,59 +120,115 @@
     line-height: 1.5rem;
     padding-bottom: 10px;
 }
-.deploy-cta{
- background: #3fa45ab5;   
- color: #fff;
- font-weight: 500;
- font-size: 1.1rem;
- width: 99%;
- margin: 20px 0;
- padding: 10px 0;
- text-align: center;
- border: 0;
- border-radius: 8px;
- cursor: pointer;
-}
-.checkbox{
+
+.deploy-cta {
+    background: #3fa45ab5;
+    color: #fff;
+    font-weight: 500;
+    font-size: 1.1rem;
+    width: 99%;
+    margin: 20px 0;
+    padding: 10px 0;
+    text-align: center;
+    border: 0;
+    border-radius: 8px;
     cursor: pointer;
-  
 }
-.right-sec{
+
+.checkbox {
+    cursor: pointer;
+
+}
+
+.right-sec {
     max-width: 40%;
     border: 2px solid rgba(152, 161, 192, 0.24);
     padding: 12px 25px 0;
     background: #3fa45a24;
-    height:fit-content;
-border-radius: 8px;   
+    height: fit-content;
+    border-radius: 8px;
     width: 32%;
 
 }
-.Product{
+
+.Product {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
-.prod-desc{
+
+.prod-desc {
     margin-top: 10px;
     font-size: 14px;
     line-height: 1.2rem;
     color: rgb(107 114 128/1)
 }
-.prod-img{
+
+.prod-img {
     width: 90%;
     margin: 20px auto;
     border-radius: 8px;
 }
-.carousel .thumbs{
-    display: none!important;
+
+.carousel .thumbs {
+    display: none !important;
 }
+
 .carousel .control-dots {
-    bottom: -13px!important;
+    bottom: -13px !important;
 }
-.carousel .carousel-status{
-    display: none!important;
+
+.carousel .carousel-status {
+    display: none !important;
 }
-.carousel.carousel-slider .control-arrow:hover{
-    background: none!important;
+
+.carousel.carousel-slider .control-arrow:hover {
+    background: none !important;
+}
+
+.m-head {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 26px;
+    color: #fff;
+    letter-spacing: 0.5px;
+    /* width: 175px; */
+
+}
+
+.m-desc {
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 26px;
+    color: #ffffffcb;
+    margin-left: 5px;
+    letter-spacing: 0.8px;
+    cursor: pointer;
+}
+.load{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    margin: auto;
+
+}
+.loadingText{
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 26px;
+    color: #fff;
+    letter-spacing: 0.5px;
+    text-align: center;
+    margin-bottom: 30px;
+}
+.loadingGif{
+    width: 100px;
+    height: 100px;
+    display: block;
+    margin:30px auto 20px;
+}
+.cursor{
+    cursor: pointer;
 }

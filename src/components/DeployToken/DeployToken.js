@@ -6,32 +6,37 @@ import Bsc from "../../assets/Images/binance.svg";
 import Avax from "../../assets/Images/avax.svg";
 import { HiSquares2X2 } from "react-icons/hi2";
 import { BsLink45Deg } from "react-icons/bs";
-import { IconContext } from "react-icons";
-import Codenz from "../../assets/Images/Codenz.png";
-import Suite from "../../assets/Images/3suite.png";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { Carousel } from "react-responsive-carousel";
-import Crypit from "../../assets/Images/crypit.png"
+import { MdContentCopy } from "react-icons/md";
+import { IconContext } from "react-icons";
 import { switchBlockchain } from "../../utils/web3-utils";
 import { web3GlobalContext } from "../../context/global-context";
 import { deployToken } from "../../services/web3-token-services";
+import { Modal } from "antd";
+import { getEllipsisTxt } from "../../utils/formatter";
+import copy from "copy-to-clipboard";
+import loadingGif from "../../assets/Images/loading-green-loading.gif";
+import config from "../../config";
 
 function DeployToken() {
-  const [radioOption, setRadioOption] = useState()
+  const [radioOption, setRadioOption] = useState();
   const [name, setName] = useState();
   const [symbol, setSymbol] = useState();
   const [supply, setSupply] = useState();
   const [decimals, setDecimals] = useState();
-  const { setChainGlobal, walletAddress } = useContext(web3GlobalContext)
-  const chainId = localStorage.getItem("netId")
+  const [tnxHash, setTnxHash] = useState();
+  const [modal1Open, setModal1Open] = useState(false);
+  const [loadingText, setLoadingText] = useState(false);
+  const { setChainGlobal, walletAddress } = useContext(web3GlobalContext);
+  const chainId = localStorage.getItem("netId");
 
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   };
- 
-  useEffect(()=>{
+
+  useEffect(() => {
     scrollToTop();
-  },[]);
+  }, []);
 
   const blockchainFeed = [
     {
@@ -91,26 +96,26 @@ function DeployToken() {
   };
 
   const onChainChange = async (e) => {
-    console.log("chainValue", Number(e.target.value))
-    setRadioOption(Number(e.target.value))
+    console.log("chainValue", Number(e.target.value));
+    setRadioOption(Number(e.target.value));
     await switchBlockchain(Number(e.target.value));
     setChainGlobal(Number(e.target.value));
-    localStorage.setItem("netId", e.target.value)
-  }
+    localStorage.setItem("netId", e.target.value);
+  };
 
   const onDeployClick = async () => {
     try {
+      setLoadingText(true);
+      setModal1Open(true);
       let data = {
         name: name,
         symbol: symbol,
         supply: Number(supply),
         decimals: Number(decimals),
-      }
-      console.log(data)
-        
-      let deployRes = await deployToken(
-        "UI TEST TOKEN", "UTT01", 1000, 18
-      );
+      };
+      console.log(data);
+
+      let deployRes = await deployToken("UI TEST TOKEN", "UTT01", 1000, 18);
 
       console.log("deploy Token Res: ", deployRes);
       if (deployRes && deployRes.transactionHash) {
@@ -118,14 +123,42 @@ function DeployToken() {
           "Successfully created an ERC20: ",
           deployRes.transactionHash
         );
+        setTnxHash(deployRes.transactionHash);
+        setLoadingText(false);
         // navigate("/portfolio");
       } else {
         console.log("Failed to create an ERC20 Token!");
       }
     } catch (error) {
       console.log(error);
+      setModal1Open(false);
     }
-  }
+  };
+
+  const copyToClipboard = () => {
+    document.getElementById("tx-hash").style.color = "#3fa45a";
+    document.getElementById("tx-hash").style.fontWeight = 600;
+    setTimeout(() => {
+      document.getElementById("tx-hash").style.color = "#fff";
+      document.getElementById("tx-hash").style.fontWeight = 400;
+    }, 250);
+
+    copy(tnxHash);
+  };
+
+  const lookupSearch = () => {
+    if (Number(chainId) === Number(1115511)) {
+      window.open(config.sepoliaScan.concat(tnxHash), "_blank");
+    } else if (Number(chainId) === Number(5)) {
+      window.open(config.georliScan.concat(tnxHash), "_blank");
+    } else if (Number(chainId) === Number(80001)) {
+      window.open(config.mumbaiScan.concat(tnxHash), "_blank");
+    } else if (Number(chainId) === Number(97)) {
+      window.open(config.bscScan.concat(tnxHash), "_blank");
+    } else if (Number(chainId) === Number(43113)) {
+      window.open(config.fujiScan.concat(tnxHash), "_blank");
+    }
+  };
 
   return (
     <div className="deploy-sec">
@@ -174,7 +207,9 @@ function DeployToken() {
                       value={item.chainId}
                       className="radio-btn"
                       onChange={(e) => onChainChange(e)}
-                      checked={Number(chainId) === Number(item.chainId) ? true : false}
+                      checked={
+                        Number(chainId) === Number(item.chainId) ? true : false
+                      }
                     />
                   </div>
                 </div>
@@ -218,14 +253,16 @@ function DeployToken() {
           </div>
           <div style={{ marginTop: 15 }}>
             <div className="tk-label"> Total Supply</div>
-            <input placeholder="1000"
+            <input
+              placeholder="1000"
               className="token-input"
               onChange={(e) => setSupply(e.target.value)}
             />
           </div>
           <div style={{ marginTop: 15 }}>
             <div className="tk-label"> Decimals</div>
-            <input placeholder="18"
+            <input
+              placeholder="18"
               className="token-input"
               onChange={(e) => setDecimals(e.target.value)}
             />
@@ -270,10 +307,131 @@ function DeployToken() {
               value={walletAddress}
             />
           </div>
-          <button className="deploy-cta" onClick={onDeployClick}>Deploy Token</button>
+          <button className="deploy-cta" onClick={onDeployClick}>
+            Deploy Token
+          </button>
         </div>
       </div>
-
+      <Modal
+        className="popup-modal"
+        title={loadingText ? "MINTING" : "TOKEN MINTED"}
+        centered
+        open={modal1Open}
+        onOk={() => setModal1Open(false)}
+        onCancel={() => setModal1Open(false)}
+        okButtonProps={{ style: { display: "none" } }}
+        cancelButtonProps={{ style: { display: "none" } }}
+      >
+        {loadingText ? (
+          <div className="load">
+            <img src={loadingGif} alt="" className="loadingGif" />
+            <div className="loadingText">Minting your Token</div>
+          </div>
+        ) : (
+          <>
+            <div
+              style={{ display: "flex", alignItems: "center", marginTop: 20 }}
+            >
+              <div className="m-head">Transaction Hash :</div>
+              <div className="m-desc" id="tx-hash">
+                {getEllipsisTxt(tnxHash, 15)}
+              </div>
+              <IconContext.Provider
+                value={{
+                  size: "1.2em",
+                  color: "#fff",
+                  className: "global-class-name",
+                }}
+              >
+                <div
+                  style={{ marginLeft: 8, marginTop: 5, cursor: "pointer" }}
+                  className="copy-icon"
+                  onClick={() => {
+                    copyToClipboard();
+                  }}
+                >
+                  <MdContentCopy />
+                </div>
+              </IconContext.Provider>
+            </div>
+            <div
+              style={{ display: "flex", alignItems: "center", marginTop: 10 }}
+            >
+              <div className="m-head">Transaction Address :</div>
+              <div className="m-desc">{getEllipsisTxt(tnxHash, 15)}</div>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginTop: 10,
+                marginBottom: 10,
+              }}
+            >
+              <div className="m-head">View in Explorer: </div>
+              {Number(chainId) === Number(1115511) ? (
+                <div
+                  className="m-desc cursor"
+                  style={{ textDecoration: "underline", cursor: "pointer" }}
+                  onClick={lookupSearch}
+                >
+                  {config.sepoliaScan}.{getEllipsisTxt(tnxHash, 5)}
+                </div>
+              ) : (
+                <>
+                  {Number(chainId) === Number(5) ? (
+                    <div
+                      className="m-desc cursor"
+                      style={{ textDecoration: "underline" }}
+                      onClick={lookupSearch}
+                    >
+                      {config.georliScan}.{getEllipsisTxt(tnxHash, 5)}
+                    </div>
+                  ) : (
+                    <>
+                      {Number(chainId) === Number(80001) ? (
+                        <div
+                          className="m-desc cursor"
+                          style={{ textDecoration: "underline" }}
+                          onClick={lookupSearch}
+                        >
+                          {config.mumbaiScan}.{getEllipsisTxt(tnxHash, 5)}
+                        </div>
+                      ) : (
+                        <>
+                          {Number(chainId) === Number(97) ? (
+                            <div
+                              className="m-desc cursor"
+                              style={{ textDecoration: "underline" }}
+                              onClick={lookupSearch}
+                            >
+                              {config.bscScan}.{getEllipsisTxt(tnxHash, 5)}
+                            </div>
+                          ) : (
+                            <>
+                              {Number(chainId) === Number(43113) ? (
+                                <div
+                                  className="m-desc cursor"
+                                  style={{ textDecoration: "underline" }}
+                                  onClick={lookupSearch}
+                                >
+                                  {config.fujiScan}.{getEllipsisTxt(tnxHash, 5)}
+                                </div>
+                              ) : (
+                                <></>
+                              )}
+                            </>
+                          )}
+                        </>
+                      )}
+                    </>
+                  )}
+                </>
+              )}
+            </div>
+          </>
+        )}
+      </Modal>
     </div>
   );
 }

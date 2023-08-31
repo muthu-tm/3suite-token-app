@@ -45,7 +45,7 @@ export const deployToken = async function (_name, _symbol, _supply, _decimals, _
 
     let deploy = await factoryContract.methods
       .deployToken(_name, _symbol, _supply, _decimals, _isMint, _isBurn, _isPause)
-      .send({ from: walletAddress })
+      .send({ from: "0xC4f4Bc698c3090A5aBC23dfCBc50227C25895E9a" })
       .then(function (receipt) {
         return receipt;
       });
