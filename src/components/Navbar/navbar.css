@@ -55,3 +55,18 @@
     color: #3fa45a;
     
   }
+
+  @media (min-width:325px) and (max-width:960px){
+    ul{
+      display: none;
+    }
+    .nav-cont{
+      width: auto;
+    }
+    .connect-cta{
+      font-size: 12px;
+    }
+    .l-img{
+      width: 137px;
+    }
+  }

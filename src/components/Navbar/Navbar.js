@@ -18,6 +18,9 @@ import { switchBlockchain } from "../../utils/web3-utils";
 import config from "../../config";
 import { Link } from "react-scroll";
 import { useNavigate } from "react-router-dom";
+import useWindowSize from "../../utils/windowSize";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { MdOutlineClose } from "react-icons/md";
 
 function Navbar() {
   const {
@@ -27,13 +30,14 @@ function Navbar() {
     setWalletAddress,
     chainGlobal,
   } = useContext(web3GlobalContext);
-  const navigate = useNavigate()
-
+  const navigate = useNavigate();
+  const windowSize = useWindowSize();
   const walletType = localStorage.getItem("wallet_type");
   const [modal1Open, setModal1Open] = useState(false);
   const [modal2Open, setModal2Open] = useState(false);
   const [web3Modal, setWeb3Modal] = useState(null);
-
+  const [click, setClick] = React.useState(false);
+  const handleClick = () => setClick(!click);
   const PublicAddr = localStorage.getItem("walletAddress");
 
   useEffect(() => {
@@ -152,25 +156,28 @@ function Navbar() {
   };
   return (
     <div className="nav-cont">
-      <div onClick={()=>navigate("/")}> 
-      <img src={LogoImage} alt="" className="l-img" />
+      <div onClick={() => navigate("/")}>
+        <img src={LogoImage} alt="" className="l-img" />
       </div>
-{    window.location.pathname == "/token-deploy" ? <>
-</> :
-      <ul>
-        <Link activeClass="active" to="home" spy={true} smooth={true}>
-          <li>Home</li>
-        </Link>
-        <Link to="product" spy={true} smooth={true}>
-          <li>Products</li>
-        </Link>
-        {/* <Link to="about" spy={true} smooth={true}>
+
+      {window.location.pathname == "/token-deploy" ? (
+        <></>
+      ) : (
+        <ul>
+          <Link activeClass="active" to="home" spy={true} smooth={true}>
+            <li>Home</li>
+          </Link>
+          <Link to="product" spy={true} smooth={true}>
+            <li>Products</li>
+          </Link>
+          {/* <Link to="about" spy={true} smooth={true}>
           <li>About</li>
         </Link> */}
-        <Link to="newsletter" spy={true} smooth={true}>
-          <li>Newsletter</li>
-        </Link>
-      </ul>}
+          <Link to="newsletter" spy={true} smooth={true}>
+            <li>Newsletter</li>
+          </Link>
+        </ul>
+      )}
 
       {PublicAddr ? (
         <button className="connect-cta" onClick={() => setModal1Open(true)}>
@@ -181,6 +188,35 @@ function Navbar() {
           Connect wallet
         </button>
       )}
+    {/* {windowSize.width <= 960 && (
+            <div onClick={handleClick}>
+              {click ? (
+                <IconContext.Provider
+                  value={{
+                    size: "1.2em",
+                    color: "#3fa45a",
+                    className: "global-class-name",
+                  }}
+                >
+                  <div style={{ marginLeft: 15, cursor: "pointer" }}>
+                    <MdOutlineClose />
+                  </div>
+                </IconContext.Provider>
+              ) : (
+                <IconContext.Provider
+                  value={{
+                    size: "1.2em",
+                    color: "#3fa45a ",
+                    className: "global-class-name",
+                  }}
+                >
+                  <div style={{ marginLeft: 15, cursor: "pointer" }}>
+                    <GiHamburgerMenu />
+                  </div>
+                </IconContext.Provider>
+              )}
+            </div>
+          )} */}
       <Modal
         className="popup-modal"
         title="Connect your wallet"

@@ -72,3 +72,23 @@ color: #fff;
     border :2px solid #568651d4 ;
      background:linear-gradient(94.59deg, #568651d4 1.33%,#22cf1ebd  52.86%);
 }
+@media (min-width:325px) and (max-width:960px){
+    .p-desc{
+        font-size: 16px;
+        line-height: 26px;
+        width: 95%;
+    }
+    .prod-head{
+        font-size: 32px;
+    }
+    .single-prod{
+        padding: 30px 10px;
+        width: 76%;
+        margin: 20px auto;
+    }
+    .sp-desc{
+        font-size: 16px;
+        line-height: 26px;
+        width: 95%;
+    }
+    }

@@ -59,3 +59,25 @@
     margin:0 auto;
     width: 50px;
 }
+@media (min-width:325px) and (max-width:960px){
+.n-head{
+    text-align: center;
+    font-size: 29px;
+    font-weight: 600;
+    line-height: 38px;
+}
+.n-desc {
+    font-size: 16px;
+    line-height: 28px;
+    width: 100%;
+}
+.get-in-touch{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+}
+.GT-cta{
+    margin-bottom: 10px;
+    width: 300px;
+}
+}

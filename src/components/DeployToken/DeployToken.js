@@ -118,21 +118,29 @@ function DeployToken() {
         decimals: Number(decimals),
       };
       console.log(data);
-
-      let deployRes = await deployToken("UI TEST TOKEN", "UTT01", 1000, 18);
-
-      console.log("deploy Token Res: ", deployRes);
-      if (deployRes && deployRes.transactionHash) {
-        console.log(
-          "Successfully created an ERC20: ",
-          deployRes.events.TokenDeployed.returnValues.tokenAddress
+      if (name && symbol && supply) {
+        let deployRes = await deployToken(
+          name,
+          symbol,
+          supply,
+          decimals ? decimals : Number(18)
         );
-        setTnxHash(deployRes.transactionHash);
-        setTokenAddr(deployRes.events.TokenDeployed.returnValues.tokenAddress);
-        setLoadingText(false);
-        // navigate("/portfolio");
+        console.log("deploy Token Res: ", deployRes);
+        if (deployRes && deployRes.transactionHash) {
+          console.log(
+            "Successfully created an ERC20: ",
+            deployRes.events.TokenDeployed.returnValues.tokenAddress
+          );
+          setTnxHash(deployRes.transactionHash);
+          setTokenAddr(
+            deployRes.events.TokenDeployed.returnValues.tokenAddress
+          );
+          setLoadingText(false);
+        } else {
+          console.log("Failed to create an ERC20 Token!");
+        }
       } else {
-        console.log("Failed to create an ERC20 Token!");
+        return;
       }
     } catch (error) {
       console.log(error);
@@ -167,8 +175,6 @@ function DeployToken() {
 
   return (
     <div className="deploy-sec">
-      {/* <div>Deploy Contract</div> */}
-
       <div className="mint-cont">
         <div className="Heading">Create Token</div>
         <div className="select-bc">
@@ -241,7 +247,7 @@ function DeployToken() {
             Please provide the following information to create your token
           </div>
           <div style={{ marginTop: 24 }}>
-            <div className="tk-label">Token Name</div>
+            <div className="tk-label">Token Name *</div>
             <input
               placeholder="3Suite Token"
               className="token-input"
@@ -249,7 +255,7 @@ function DeployToken() {
             />
           </div>
           <div style={{ marginTop: 15 }}>
-            <div className="tk-label"> Symbol</div>
+            <div className="tk-label"> Symbol *</div>
             <input
               placeholder="SUITE"
               className="token-input"
@@ -257,7 +263,7 @@ function DeployToken() {
             />
           </div>
           <div style={{ marginTop: 15 }}>
-            <div className="tk-label"> Total Supply</div>
+            <div className="tk-label"> Total Supply *</div>
             <input
               placeholder="1000"
               className="token-input"
@@ -312,9 +318,16 @@ function DeployToken() {
               value={walletAddress}
             />
           </div>
-          <button className="deploy-cta" onClick={onDeployClick}>
-            Deploy Token
-          </button>
+          {name && symbol && supply  ? 
+                <button className="deploy-cta" onClick={onDeployClick}>
+                Deploy Token
+              </button>
+          : 
+          <button className="deploy-cta-gray" onClick={onDeployClick}>
+          Deploy Token
+        </button>
+          }
+    
         </div>
       </div>
       <Modal

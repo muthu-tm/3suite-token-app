@@ -76,3 +76,27 @@
     width: 48%;
 
 }
+@media (min-width:325px) and (max-width:960px){
+.feature-cont{
+    margin: 105px auto;
+}
+.f-head{
+    width: 95%;
+    margin: auto;
+    
+    font-size: 28px;
+
+}
+.f-cont{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.f-cont-50 {
+    width: 95%;
+}
+.single-fc-cont{
+    padding-bottom: 15px;
+    font-size: 18px;
+}
+}

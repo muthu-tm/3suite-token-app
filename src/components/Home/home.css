@@ -61,3 +61,26 @@
     width: 150px;  
     margin-left: 20px;
 }
+@media (min-width:325px) and (max-width:960px){
+    .banner{
+        display: flex;
+        flex-direction: column-reverse;
+        align-items: center;
+        margin: 125px auto 75px;
+    }
+    .banner-left {
+        max-width: 95%;
+        margin: auto;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .banner-head{
+        font-size: 30px;
+    font-weight: 600;
+    line-height: 39px;
+    margin-top: 25px;
+    }
+ 
+}
