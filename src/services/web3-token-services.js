@@ -1,13 +1,18 @@
 import { TOKEN_FACTORY_CONTRACT } from "../contracts-abi/TokenFactory";
 import { TOKEN_CONTRACT } from "../contracts-abi/Token";
 import { NFT_CONTRACT } from "../contracts-abi/NFTToken";
-import { createContractObject, createWeb3Object, getConnectedWalletAddress } from "./web3-services";
+import {
+  createContractObject,
+  createWeb3Object,
+  getConnectedWalletAddress,
+} from "./web3-services";
 import config from "../config";
 
-const factoryContractAdd = config.factoryContract;
+// let factoryContractAdd;
+
 
 export const getTokenInfo = async function (_tokenAddress) {
-  const web3Obj = await createWeb3Object()
+  const web3Obj = await createWeb3Object();
   const tokenContract = await createContractObject(
     web3Obj,
     TOKEN_CONTRACT.abi,
@@ -20,7 +25,7 @@ export const getTokenInfo = async function (_tokenAddress) {
 };
 
 export const getTokenContract = async function (_tokenAddress) {
-  const web3Obj = await createWeb3Object()
+  const web3Obj = await createWeb3Object();
   const tokenContract = await createContractObject(
     web3Obj,
     TOKEN_CONTRACT.abi,
@@ -30,9 +35,18 @@ export const getTokenContract = async function (_tokenAddress) {
   return tokenContract;
 };
 
-export const deployToken = async function (_name, _symbol, _supply, _decimals, _isMint, _isBurn, _isPause) {
+export const deployToken = async function (
+  _name,
+  _symbol,
+  _supply,
+  _decimals,
+  _isMint,
+  _isBurn,
+  _isPause,
+  factoryContractAdd, //getting it as params 
+) {
   try {
-    const web3Obj = await createWeb3Object()
+    const web3Obj = await createWeb3Object();
     const factoryContract = await createContractObject(
       web3Obj,
       TOKEN_FACTORY_CONTRACT.abi,
@@ -44,8 +58,16 @@ export const deployToken = async function (_name, _symbol, _supply, _decimals, _
     );
 
     let deploy = await factoryContract.methods
-      .deployToken(_name, _symbol, _supply, _decimals, _isMint, _isBurn, _isPause)
-      .send({ from: "0xC4f4Bc698c3090A5aBC23dfCBc50227C25895E9a" })
+      .deployToken(
+        _name,
+        _symbol,
+        _supply,
+        _decimals,
+        _isMint,
+        _isBurn,
+        _isPause
+      )
+      .send({ from: walletAddress })
       .then(function (receipt) {
         return receipt;
       });
@@ -59,7 +81,7 @@ export const deployToken = async function (_name, _symbol, _supply, _decimals, _
 
 export const mintToken = async function (_tokenAddress, _toAdd, _amount) {
   try {
-    const web3Obj = await createWeb3Object()
+    const web3Obj = await createWeb3Object();
     const tokenContract = await createContractObject(
       web3Obj,
       TOKEN_CONTRACT.abi,
@@ -86,7 +108,7 @@ export const mintToken = async function (_tokenAddress, _toAdd, _amount) {
 
 export const burnToken = async function (_tokenAddress, _amount) {
   try {
-    const web3Obj = await createWeb3Object()
+    const web3Obj = await createWeb3Object();
     const tokenContract = await createContractObject(
       web3Obj,
       TOKEN_CONTRACT.abi,
@@ -113,7 +135,7 @@ export const burnToken = async function (_tokenAddress, _amount) {
 
 export const pauseToken = async function (_tokenAddress) {
   try {
-    const web3Obj = await createWeb3Object()
+    const web3Obj = await createWeb3Object();
     const tokenContract = await createContractObject(
       web3Obj,
       TOKEN_CONTRACT.abi,
@@ -140,7 +162,7 @@ export const pauseToken = async function (_tokenAddress) {
 
 export const unPauseToken = async function (_tokenAddress) {
   try {
-    const web3Obj = await createWeb3Object()
+    const web3Obj = await createWeb3Object();
     const tokenContract = await createContractObject(
       web3Obj,
       TOKEN_CONTRACT.abi,
@@ -165,9 +187,13 @@ export const unPauseToken = async function (_tokenAddress) {
   }
 };
 
-export const increaseERC20Allowance = async function (_tokenAddress, _toAddress, _amount) {
+export const increaseERC20Allowance = async function (
+  _tokenAddress,
+  _toAddress,
+  _amount
+) {
   try {
-    const web3Obj = await createWeb3Object()
+    const web3Obj = await createWeb3Object();
     const nftContract = await createContractObject(
       web3Obj,
       TOKEN_CONTRACT.abi,
@@ -178,8 +204,8 @@ export const increaseERC20Allowance = async function (_tokenAddress, _toAddress,
       localStorage.getItem("wallet_type")
     );
 
-    let [decimals, symbol] = await getTokenInfo(_tokenAddress)
-    _amount = _amount * Math.pow(10, decimals)
+    let [decimals, symbol] = await getTokenInfo(_tokenAddress);
+    _amount = _amount * Math.pow(10, decimals);
 
     let approve = await nftContract.methods
       .increaseAllowance(_toAddress, _amount.toString())
@@ -193,11 +219,15 @@ export const increaseERC20Allowance = async function (_tokenAddress, _toAddress,
     console.log("Error| ERC20 Approve token", error);
     throw new Error("Error while increasing the token allowance.");
   }
-}
+};
 
-export const decreaseERC20Allowance = async function (_tokenAddress, _toAddress, _amount) {
+export const decreaseERC20Allowance = async function (
+  _tokenAddress,
+  _toAddress,
+  _amount
+) {
   try {
-    const web3Obj = await createWeb3Object()
+    const web3Obj = await createWeb3Object();
     const nftContract = await createContractObject(
       web3Obj,
       NFT_CONTRACT.abi,
@@ -208,8 +238,8 @@ export const decreaseERC20Allowance = async function (_tokenAddress, _toAddress,
       localStorage.getItem("wallet_type")
     );
 
-    let [decimals, symbol] = await getTokenInfo(_tokenAddress)
-    _amount = _amount * Math.pow(10, decimals)
+    let [decimals, symbol] = await getTokenInfo(_tokenAddress);
+    _amount = _amount * Math.pow(10, decimals);
     let revoke = await nftContract.methods
       .decreaseAllowance(_toAddress, _amount.toString())
       .send({ from: walletAddress })
@@ -222,4 +252,4 @@ export const decreaseERC20Allowance = async function (_tokenAddress, _toAddress,
     console.log("Error| ERC20 Reduce allowance", error);
     throw new Error("Error while reducing the allwance amount.");
   }
-}
+};

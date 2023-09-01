@@ -17,6 +17,7 @@ import { getEllipsisTxt } from "../../utils/formatter";
 import copy from "copy-to-clipboard";
 import loadingGif from "../../assets/Images/loading-green-loading.gif";
 import config from "../../config";
+let factoryContractAdd;
 
 function DeployToken() {
   const [radioOption, setRadioOption] = useState();
@@ -104,6 +105,22 @@ function DeployToken() {
     localStorage.setItem("netId", e.target.value);
   };
 
+useEffect(()=>{
+
+  if (Number(chainId) === Number(1115511)) {
+    factoryContractAdd = config.sepoliafactoryContract;
+  } else if (Number(chainId) === Number(5)) {
+    factoryContractAdd = config.georlifactoryContract;
+  } else if (Number(chainId) === Number(80001)) {
+    factoryContractAdd = config.mumbaifactoryContract;
+  } else if (Number(chainId) === Number(97)) {
+    factoryContractAdd = config.bscfactoryContract;
+  } else if (Number(chainId) === Number(43113)) {
+    factoryContractAdd = config.fujiScan;
+  }
+},[chainId])
+
+
   const onDeployClick = async () => {
     try {
       setLoadingText(true);
@@ -116,7 +133,7 @@ function DeployToken() {
       };
       console.log(data);
 
-      let deployRes = await deployToken("UI TEST TOKEN", "UTT01", 1000, 18);
+      let deployRes = await deployToken("UI TEST TOKEN", "UTT01", 1000, 18,factoryContractAdd);
 
       console.log("deploy Token Res: ", deployRes);
       if (deployRes && deployRes.transactionHash) {
