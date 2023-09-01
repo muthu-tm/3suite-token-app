@@ -17,6 +17,7 @@ import { getEllipsisTxt } from "../../utils/formatter";
 import copy from "copy-to-clipboard";
 import loadingGif from "../../assets/Images/loading-green-loading.gif";
 import config from "../../config";
+import { AddCustomToken } from "../../services/addCustomToken";
 let factoryContractAdd;
 
 function DeployToken() {
@@ -29,7 +30,8 @@ function DeployToken() {
   const [modal1Open, setModal1Open] = useState(false);
   const [loadingText, setLoadingText] = useState(false);
   const [tnkAddress, setTokenAddr] = useState(false);
-  const { setChainGlobal, walletAddress } = useContext(web3GlobalContext);
+  const { setChainGlobal, walletAddress, web3Obj } =
+    useContext(web3GlobalContext);
   const chainId = localStorage.getItem("netId");
 
   const scrollToTop = () => {
@@ -105,9 +107,6 @@ function DeployToken() {
     localStorage.setItem("netId", e.target.value);
   };
 
-
-
-
   const onDeployClick = async () => {
     try {
       setLoadingText(true);
@@ -126,10 +125,10 @@ function DeployToken() {
       if (deployRes && deployRes.transactionHash) {
         console.log(
           "Successfully created an ERC20: ",
-          deployRes.transactionHash
+          deployRes.events.TokenDeployed.returnValues.tokenAddress
         );
         setTnxHash(deployRes.transactionHash);
-        setTokenAddr(deployRes.contractAddress);
+        setTokenAddr(deployRes.events.TokenDeployed.returnValues.tokenAddress);
         setLoadingText(false);
         // navigate("/portfolio");
       } else {
@@ -363,7 +362,7 @@ function DeployToken() {
             <div
               style={{ display: "flex", alignItems: "center", marginTop: 10 }}
             >
-              <div className="m-head">Transaction Address :</div>
+              <div className="m-head">Token Address :</div>
               <div className="m-desc">{getEllipsisTxt(tnkAddress, 9)}</div>
             </div>
             <div
@@ -435,6 +434,22 @@ function DeployToken() {
                 </>
               )}
             </div>
+
+            <button
+              className="deploy-cta"
+              onClick={() =>
+                AddCustomToken(
+                  tnkAddress,
+                  symbol ? symbol : "TKN",
+                  18,
+                  "",
+                  web3Obj
+                )
+              }
+            >
+              {" "}
+              Add to Metamask
+            </button>
           </>
         )}
       </Modal>
