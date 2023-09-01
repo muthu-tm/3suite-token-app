@@ -8,8 +8,21 @@ import {
 } from "./web3-services";
 import config from "../config";
 
-// let factoryContractAdd;
+let factoryContractAdd;
+const chainId = localStorage.getItem("netId");
+const publicAddress = localStorage.getItem("walletAddress");
 
+if (Number(chainId) === Number(1115511)) {
+  factoryContractAdd = config.sepoliafactoryContract;
+} else if (Number(chainId) === Number(5)) {
+  factoryContractAdd = config.georlifactoryContract;
+} else if (Number(chainId) === Number(80001)) {
+  factoryContractAdd = config.mumbaifactoryContract;
+} else if (Number(chainId) === Number(97)) {
+  factoryContractAdd = config.bscfactoryContract;
+} else if (Number(chainId) === Number(43113)) {
+  factoryContractAdd = config.fujiScan;
+}
 
 export const getTokenInfo = async function (_tokenAddress) {
   const web3Obj = await createWeb3Object();
@@ -43,19 +56,23 @@ export const deployToken = async function (
   _isMint,
   _isBurn,
   _isPause,
-  factoryContractAdd, //getting it as params 
+  walletAddress //getting it as params 
 ) {
   try {
+    
+    console.log("walletAddress", walletAddress);
+
     const web3Obj = await createWeb3Object();
+    
     const factoryContract = await createContractObject(
       web3Obj,
       TOKEN_FACTORY_CONTRACT.abi,
       factoryContractAdd
     );
-    let walletAddress = await getConnectedWalletAddress(
-      web3Obj,
-      localStorage.getItem("wallet_type")
-    );
+    // let walletAddress = await getConnectedWalletAddress(
+    //   web3Obj,
+    //   localStorage.getItem("wallet_type")
+    // );
 
     let deploy = await factoryContract.methods
       .deployToken(
@@ -67,7 +84,7 @@ export const deployToken = async function (
         _isBurn,
         _isPause
       )
-      .send({ from: walletAddress })
+      .send({ from: publicAddress })
       .then(function (receipt) {
         return receipt;
       });

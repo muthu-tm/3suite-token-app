@@ -105,20 +105,7 @@ function DeployToken() {
     localStorage.setItem("netId", e.target.value);
   };
 
-useEffect(()=>{
 
-  if (Number(chainId) === Number(1115511)) {
-    factoryContractAdd = config.sepoliafactoryContract;
-  } else if (Number(chainId) === Number(5)) {
-    factoryContractAdd = config.georlifactoryContract;
-  } else if (Number(chainId) === Number(80001)) {
-    factoryContractAdd = config.mumbaifactoryContract;
-  } else if (Number(chainId) === Number(97)) {
-    factoryContractAdd = config.bscfactoryContract;
-  } else if (Number(chainId) === Number(43113)) {
-    factoryContractAdd = config.fujiScan;
-  }
-},[chainId])
 
 
   const onDeployClick = async () => {
@@ -133,7 +120,7 @@ useEffect(()=>{
       };
       console.log(data);
 
-      let deployRes = await deployToken("UI TEST TOKEN", "UTT01", 1000, 18,factoryContractAdd);
+      let deployRes = await deployToken("UI TEST TOKEN", "UTT01", 1000, 18);
 
       console.log("deploy Token Res: ", deployRes);
       if (deployRes && deployRes.transactionHash) {
