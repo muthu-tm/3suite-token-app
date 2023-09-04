@@ -64,13 +64,13 @@ function DeployToken() {
       image: `${Matic}`,
       chainId: 80001,
     },
-    {
-      id: 4,
-      ChainName: "BSC testnet",
-      symbol: "BSC",
-      image: `${Bsc}`,
-      chainId: 97,
-    },
+    // {
+    //   id: 4,
+    //   ChainName: "BSC testnet",
+    //   symbol: "BSC",
+    //   image: `${Bsc}`,
+    //   chainId: 97,
+    // },
     {
       id: 5,
       ChainName: "Fuji C chain",
@@ -176,7 +176,7 @@ function DeployToken() {
   return (
     <div className="deploy-sec">
       <div className="mint-cont">
-        <div className="Heading">Create Token</div>
+        <div className="Heading">Create Token - Testnet</div>
         <div className="select-bc">
           <div style={{ display: "flex", alignItems: "center" }}>
             <IconContext.Provider

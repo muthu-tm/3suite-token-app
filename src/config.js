@@ -4,7 +4,7 @@ const config = {
   defaultNetwork: 5,
   networkname: "Georli",
   sepoliafactoryContract: "0xB20896DAb4A59E076dB6CfD821a65E366a59747A",
-  georlifactoryContract: "0x1C95f0a5AB346a61E42EAd979c2B5977AC9aBbb6",
+  georlifactoryContract: "0xB20896DAb4A59E076dB6CfD821a65E366a59747A",
   mumbaifactoryContract: "0x1C95f0a5AB346a61E42EAd979c2B5977AC9aBbb6",
   bscfactoryContract: "0x1C95f0a5AB346a61E42EAd979c2B5977AC9aBbb6",
   fujifactoryContract: "0xB20896DAb4A59E076dB6CfD821a65E366a59747A",
