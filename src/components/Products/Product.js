@@ -59,8 +59,20 @@ function Product() {
             designed to revolutionize how you create, deploy, and manage token
             contracts on the blockchain
           </div>
-          <div className="sp-cta">
-            <div>Coming Soon.. </div>
+          <div className="sp-cta" onClick={() => navigate("/multi-sender")}>
+            <div>Launch DApp </div>
+
+            <IconContext.Provider
+              value={{
+                size: "1.1em",
+                color: "#fff",
+                className: "global-class-name",
+              }}
+            >
+              <div style={{ marginLeft: 8, marginTop: 5 }}>
+                <FaChevronRight />
+              </div>
+            </IconContext.Provider>
           </div>
         </div>
         <div className="single-prod">
