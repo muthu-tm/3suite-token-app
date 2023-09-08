@@ -37,6 +37,26 @@ export const getTokenInfo = async function (_tokenAddress) {
   return [decimals, symbol];
 };
 
+
+export const getTokenBalance = async (_tokenAddress,walletAddress) => {
+  try {
+
+    const web3Obj = await createWeb3Object();
+    const tokenContract = await createContractObject(
+      web3Obj,
+      TOKEN_CONTRACT.abi,
+      _tokenAddress
+    );
+
+    let result = await tokenContract.methods.balanceOf(walletAddress).call();
+
+    return result;
+  } catch (error) {
+    console.log("Error in web3-utils | getTokenBalance", error);
+    throw new Error("Error whileget token.");
+  }
+};
+
 export const getTokenContract = async function (_tokenAddress) {
   const web3Obj = await createWeb3Object();
   const tokenContract = await createContractObject(

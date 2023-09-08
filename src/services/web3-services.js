@@ -11,21 +11,7 @@ export const createWeb3Object = async () => {
   }
 };
 
-export const getTokenBalance = async (
-  web3Obj,
-  contractABI,
-  contractAddress,
-  walletAddress
-) => {
-  try {
-    const contract = new web3Obj.eth.Contract(contractABI, contractAddress);
-    let result = await contract.methods.balanceOf(walletAddress).call();
-    return result;
-  } catch (error) {
-    console.log("Error in web3-utils | getTokenBalance", error);
-    throw new Error("Error whileget token.");
-  }
-};
+
 
 export const createContractObject = async function (
   web3Obj,

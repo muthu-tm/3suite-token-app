@@ -160,23 +160,23 @@ function Navbar() {
         <img src={LogoImage} alt="" className="l-img" />
       </div>
 
-      {window.location.pathname == "/token-deploy" ? (
-        <></>
+      {window.location.pathname == "/" ? (
+  <ul>
+  <Link activeClass="active" to="home" spy={true} smooth={true}>
+    <li>Home</li>
+  </Link>
+  <Link to="product" spy={true} smooth={true}>
+    <li>Products</li>
+  </Link>
+  {/* <Link to="about" spy={true} smooth={true}>
+  <li>About</li>
+</Link> */}
+  <Link to="newsletter" spy={true} smooth={true}>
+    <li>Newsletter</li>
+  </Link>
+</ul>
       ) : (
-        <ul>
-          <Link activeClass="active" to="home" spy={true} smooth={true}>
-            <li>Home</li>
-          </Link>
-          <Link to="product" spy={true} smooth={true}>
-            <li>Products</li>
-          </Link>
-          {/* <Link to="about" spy={true} smooth={true}>
-          <li>About</li>
-        </Link> */}
-          <Link to="newsletter" spy={true} smooth={true}>
-            <li>Newsletter</li>
-          </Link>
-        </ul>
+      <></>
       )}
 
       {PublicAddr ? (

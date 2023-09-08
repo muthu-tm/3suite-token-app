@@ -9,14 +9,14 @@ import { switchBlockchain } from "../../utils/web3-utils";
 import { web3GlobalContext } from "../../context/global-context";
 import Eth from "../../assets/Images/ethereum.svg";
 import Matic from "../../assets/Images/polygon.svg";
-import Bsc from "../../assets/Images/binance.svg";
 import Avax from "../../assets/Images/avax.svg";
-import Select from "react-select";
 import Editor from "react-simple-code-editor";
 import { highlight, languages } from "prismjs/components/prism-core";
 import "prismjs/components/prism-clike";
 import "prismjs/components/prism-javascript";
 import "prismjs/themes/prism.css";
+import { getTokenBalance } from "../../services/web3-token-services";
+import { convertWeiToEth } from "../../services/web3-services";
 
 const code = `//0xC4f4Bc698c3090A5aBC23dfCBc502296425895E9a,1
 //0x72bCE2654500B99FC7876b1973636Ab116Da7C8A,0.5
@@ -34,10 +34,12 @@ const hightlightWithLineNumbers = (input, language) =>
 
 function Multisender() {
   const [radioOption, setRadioOption] = useState();
-  const [selectedValue, setSelectedValue] = useState();
+  const [tokenAddress, setTokenAddress] = useState();
   const [codeValue, setCodeValue] = useState(code);
-
+  const [tokenBalance, setTokenBalance] = useState();
   const [textValue, setTextValue] = useState("");
+  const [showBalance, setShowBalance] = useState("1");
+
   const handleChange = (e) => {
     const file = e.target.files[0];
 
@@ -55,6 +57,7 @@ function Multisender() {
 
   const { setChainGlobal, walletAddress, web3Obj } =
     useContext(web3GlobalContext);
+
   const chainId = localStorage.getItem("netId");
   const scrollToTop = () => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
@@ -62,6 +65,40 @@ function Multisender() {
   useEffect(() => {
     scrollToTop();
   }, []);
+
+  const getCustomBalance = async (tokenAddress) => {
+    try {
+      const resToken = await getTokenBalance(tokenAddress, walletAddress);
+
+      console.log("resToken", resToken);
+      setTokenBalance(resToken);
+    } catch (err) {
+      console.log("error", err);
+      return;
+    }
+  };
+
+  const nativeTokenBalance = async (walletAddress) => {
+    const balance = await window.ethereum.request({
+      method: "eth_getBalance",
+      params: [walletAddress, "latest"],
+    });
+    const balanceArray = [balance];
+    let BalanceInEth = await convertWeiToEth(balanceArray);
+    setTokenBalance(BalanceInEth);
+  };
+
+  useEffect(() => {
+    if (chainId && walletAddress) {
+      nativeTokenBalance(walletAddress);
+    }
+  }, [chainId]);
+
+  useEffect(() => {
+    if (walletAddress && tokenAddress) {
+      getCustomBalance(tokenAddress);
+    }
+  }, [tokenAddress]);
 
   const blockchainFeed = [
     {
@@ -107,68 +144,16 @@ function Multisender() {
     setChainGlobal(Number(e.target.value));
     localStorage.setItem("netId", e.target.value);
   };
-  const customStyles = {
-    control: (base, state) => ({
-      ...base,
-      background: "transparent",
-      color: "#fff!important",
-      width: "99%",
-      padding: "5px 8px",
-      borderRadius: state.isFocused ? "3px 3px 0 0" : 3,
-      borderColor: state.isFocused
-        ? "rgba(152, 161, 192, 0.24)"
-        : "rgba(152, 161, 192, 0.24)",
-      boxShadow: state.isFocused ? null : null,
-      "&:hover": {
-        borderColor: state.isFocused
-          ? "rgba(152, 161, 192, 0.24)"
-          : "rgba(152, 161, 192, 0.24)",
-        cursor: "pointer",
-      },
-    }),
-    menu: (base) => ({
-      ...base,
-      // override border radius to match the box
-      borderRadius: 0,
-      // kill the gap
-      marginTop: 0,
-    }),
-    menuList: (base) => ({
-      ...base,
-      // kill the white space on first and last option
-      padding: 0,
-    }),
-    option: (styles, { isFocused, isSelected }) => ({
-      ...styles,
-      color: isFocused ? "#000" : isSelected ? "#000" : "#fff",
-      background: isFocused ? "#3fa45a" : isSelected ? "#3fa45a" : "#19281E",
-      zIndex: 1,
-    }),
+const onMultiSend = async() =>{
+  try{
 
-    singleValue: (provided) => ({
-      ...provided,
-      color: "#fff!important",
-    }),
-  };
-  const options = [
-    { value: "1", label: "Level 1" },
-    { value: "2", label: "Level 2" },
-    { value: "3", label: "Level 3" },
-    { value: "4", label: "Level 4" },
-    { value: "5", label: "Level 5" },
-    { value: "6", label: "Level 6" },
-    { value: "7", label: "Level 7" },
-    { value: "8", label: "Level 8" },
-    { value: "9", label: "Level 9" },
-    { value: "10", label: "Level 10" },
-  ];
-  const CustomOption = options.map((item) => {
-    item.label = <div>address</div>;
-    return item;
-  });
-  const onClickAddress = async (e) => {
-    console.log(e.value);
-  };
+  }catch(err){
+    if (err.code === 4001) {
+    }
+    console.log("err",err)
+    return
+  }
+}
   return (
     <div className="ms-sec">
       <div className="Heading">3Suite Token - Multisender</div>
@@ -224,56 +209,112 @@ function Multisender() {
         </div>
       </div>
       <div className="tkn-addr">
-          <div
-            style={{ display: "flex", alignItems: "center", marginBottom: 10 }}
+        <div
+          style={{ display: "flex", alignItems: "center", marginBottom: 10 }}
+        >
+          <IconContext.Provider
+            value={{
+              size: "1.2em",
+              color: "rgb(139 149 169)",
+              className: "global-class-name",
+            }}
           >
-            <IconContext.Provider
-              value={{
-                size: "1.2em",
-                color: "rgb(139 149 169)",
-                className: "global-class-name",
-              }}
-            >
-              <div style={{ marginRight: 8 }}>
-                <BiWallet />
-              </div>
-            </IconContext.Provider>
-            <div className="sub-head">Wallet Address</div>
-          </div>
-          <input
-              placeholder={walletAddress ? "" : " Please connect your wallet "}
-              className="token-input-ms"
-              value={walletAddress}
-            />
-          </div>
+            <div style={{ marginRight: 8 }}>
+              <BiWallet />
+            </div>
+          </IconContext.Provider>
+          <div className="sub-head">Wallet Address</div>
+        </div>
+        <input
+          placeholder={walletAddress ? "" : " Please connect your wallet "}
+          className="token-input-ms"
+          value={walletAddress}
+        />
+      </div>
       <div className="tkn-sec">
         <div className="tkn-addr">
           <div
-            style={{ display: "flex", alignItems: "center", marginBottom: 10 }}
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginBottom: 5,
+            }}
           >
-            <IconContext.Provider
-              value={{
-                size: "1.2em",
-                color: "rgb(139 149 169)",
-                className: "global-class-name",
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginBottom: 10,
               }}
             >
-              <div style={{ marginRight: 8 }}>
-                <TbLockAccess />
+              <IconContext.Provider
+                value={{
+                  size: "1.2em",
+                  color: "rgb(139 149 169)",
+                  className: "global-class-name",
+                }}
+              >
+                <div style={{ marginRight: 8 }}>
+                  <TbLockAccess />
+                </div>
+              </IconContext.Provider>
+              <div className="sub-head">Token Address</div>
+            </div>
+            {tokenBalance && (
+              <div className="sub-head">
+                Balance: {Number(tokenBalance).toFixed(5)}
               </div>
-            </IconContext.Provider>
-            <div className="sub-head">Token Address</div>
+            )}
           </div>
-          <div className="tkn-field">
-            <Select
-              styles={customStyles}
-              options={CustomOption}
-              onChange={onClickAddress}
-              placeholder={"Select Address"}
-              value={CustomOption.find((obj) => obj.value === selectedValue)}
-              isDisabled={walletAddress?false:true}
-            />
+          <div
+            style={{ display: "flex", alignItems: "center", marginBottom: 10 }}
+          >
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <input
+                type="checkbox"
+                className="checkbox"
+                checked={showBalance === "1" ? true : false}
+                onChange={() => setShowBalance("1")}
+              />
+              <div
+                className="tk-label"
+                style={{ paddingBottom: 0, paddingLeft: 8 }}
+              >
+                {" "}
+                Native Token
+              </div>
+            </div>
+            <div
+              style={{ display: "flex", alignItems: "center", marginLeft: 35 }}
+            >
+              <input
+                type="checkbox"
+                className="checkbox"
+                checked={showBalance === "2" ? true : false}
+                onChange={() => setShowBalance("2")}
+              />
+              <div
+                className="tk-label"
+                style={{ paddingBottom: 0, paddingLeft: 8 }}
+              >
+                {" "}
+                Custom Token
+              </div>
+            </div>
           </div>
+
+          {showBalance === "2" ? (
+            <div className="tkn-field" style={{ marginTop: 20 }}>
+              <input
+                placeholder="Please enter the token address"
+                className="token-input-ms"
+                onChange={(e) => setTokenAddress(e.target.value)}
+              />
+            </div>
+          ) : (
+            <></>
+          )}
         </div>
       </div>
       <div className="tkn-addr">
@@ -322,12 +363,11 @@ function Multisender() {
           />
         </div>
       </div>
-{walletAddress ? 
-      <button className="deploy-cta">Continue</button>
-      :
-      <button className="deploy-cta-gray">Continue</button>
-       
-       }
+      {walletAddress ? (
+        <button className="deploy-cta" onClick={onMultiSend}>Continue</button>
+      ) : (
+        <button className="deploy-cta-gray">Continue</button>
+      )}
     </div>
   );
 }
