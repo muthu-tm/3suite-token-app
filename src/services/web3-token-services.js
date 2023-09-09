@@ -37,10 +37,8 @@ export const getTokenInfo = async function (_tokenAddress) {
   return [decimals, symbol];
 };
 
-
-export const getTokenBalance = async (_tokenAddress,walletAddress) => {
+export const getTokenBalance = async (_tokenAddress, walletAddress) => {
   try {
-
     const web3Obj = await createWeb3Object();
     const tokenContract = await createContractObject(
       web3Obj,
@@ -76,14 +74,13 @@ export const deployToken = async function (
   _isMint,
   _isBurn,
   _isPause,
-  walletAddress //getting it as params 
+  walletAddress //getting it as params
 ) {
   try {
-    
     console.log("walletAddress", walletAddress);
 
     const web3Obj = await createWeb3Object();
-    
+
     const factoryContract = await createContractObject(
       web3Obj,
       TOKEN_FACTORY_CONTRACT.abi,

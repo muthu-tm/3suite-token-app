@@ -16,7 +16,9 @@ import "prismjs/components/prism-clike";
 import "prismjs/components/prism-javascript";
 import "prismjs/themes/prism.css";
 import { getTokenBalance } from "../../services/web3-token-services";
-import { convertWeiToEth } from "../../services/web3-services";
+import { convertToChecksum, convertWeiToEth } from "../../services/web3-services";
+import DotGif from "../../assets/Images/dot-loading.gif"
+
 
 const code = `//0xC4f4Bc698c3090A5aBC23dfCBc502296425895E9a,1
 //0x72bCE2654500B99FC7876b1973636Ab116Da7C8A,0.5
@@ -39,6 +41,7 @@ function Multisender() {
   const [tokenBalance, setTokenBalance] = useState();
   const [textValue, setTextValue] = useState("");
   const [showBalance, setShowBalance] = useState("1");
+  const [balanceLoading,setBalanceLoading] = useState(false)
 
   const handleChange = (e) => {
     const file = e.target.files[0];
@@ -68,10 +71,14 @@ function Multisender() {
 
   const getCustomBalance = async (tokenAddress) => {
     try {
-      const resToken = await getTokenBalance(tokenAddress, walletAddress);
-
-      console.log("resToken", resToken);
-      setTokenBalance(resToken);
+      setBalanceLoading(true)
+      let checksumTknAddr = await convertToChecksum(tokenAddress)
+      const resToken = await getTokenBalance(checksumTknAddr, walletAddress);
+      let balanceArray = [resToken]
+      let BalanceInEth = await convertWeiToEth(balanceArray)
+      setTokenBalance(BalanceInEth[0]);
+      console.log("resToken", BalanceInEth[0]);
+      setBalanceLoading(false)
     } catch (err) {
       console.log("error", err);
       return;
@@ -144,16 +151,15 @@ function Multisender() {
     setChainGlobal(Number(e.target.value));
     localStorage.setItem("netId", e.target.value);
   };
-const onMultiSend = async() =>{
-  try{
-
-  }catch(err){
-    if (err.code === 4001) {
+  const onMultiSend = async () => {
+    try {
+    } catch (err) {
+      if (err.code === 4001) {
+      }
+      console.log("err", err);
+      return;
     }
-    console.log("err",err)
-    return
-  }
-}
+  };
   return (
     <div className="ms-sec">
       <div className="Heading">3Suite Token - Multisender</div>
@@ -263,7 +269,8 @@ const onMultiSend = async() =>{
             </div>
             {tokenBalance && (
               <div className="sub-head">
-                Balance: {Number(tokenBalance).toFixed(5)}
+                {/* Balance:{balanceLoading ? <span><img src={DotGif} alt="" className="dot-gif" /></span> :<span>{Number(tokenBalance).toFixed(7)}</span>  } */}
+             Balance : {Number(tokenBalance).toFixed(7)}
               </div>
             )}
           </div>
@@ -364,7 +371,9 @@ const onMultiSend = async() =>{
         </div>
       </div>
       {walletAddress ? (
-        <button className="deploy-cta" onClick={onMultiSend}>Continue</button>
+        <button className="deploy-cta" onClick={onMultiSend}>
+          Continue
+        </button>
       ) : (
         <button className="deploy-cta-gray">Continue</button>
       )}
