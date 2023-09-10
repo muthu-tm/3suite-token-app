@@ -16,6 +16,12 @@ const Footer = () => {
       "_blank"
     );
   };
+  const lookupInsta = (address) => {
+    window.open(
+      "https://instagram.com/3suite?igshid=MWZjMTM2ODFkZg==",
+      "_blank"
+    );
+  };
   return (
     <>
       <div className="footer">
@@ -62,11 +68,11 @@ const Footer = () => {
                 className: "global-class-name",
               }}
             >
-              <Tooltip title="Coming Soon.." placement="top">
-                <div className="footer-icon">
+
+                <div className="footer-icon" onClick={lookupInsta}>
                   <BsInstagram />
                 </div>
-              </Tooltip>
+            
             </IconContext.Provider>
             <IconContext.Provider
               value={{
