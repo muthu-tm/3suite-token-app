@@ -22,6 +22,13 @@ const Footer = () => {
       "_blank"
     );
   };
+  // https://twitter.com/3suite_tech
+  const lookTwitter = (address) => {
+    window.open(
+      "https://twitter.com/3suite_tech",
+      "_blank"
+    );
+  };
   return (
     <>
       <div className="footer">
@@ -81,25 +88,11 @@ const Footer = () => {
                 className: "global-class-name",
               }}
             >
-              <Tooltip title="Coming Soon.." placement="top">
-                <div className="footer-icon">
+                <div className="footer-icon" onClick={lookTwitter}>
                   <BsTwitter />
                 </div>
-              </Tooltip>
             </IconContext.Provider>
-            <IconContext.Provider
-              value={{
-                size: "1.4em",
-                color: "#fff",
-                className: "global-class-name",
-              }}
-            >
-              <Tooltip title="Coming Soon.." placement="top">
-                <div className="footer-icon">
-                  <TbBrandTelegram />
-                </div>
-              </Tooltip>
-            </IconContext.Provider>
+
           </div>
         </div>
       </div>
