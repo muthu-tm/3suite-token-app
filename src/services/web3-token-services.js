@@ -74,10 +74,8 @@ export const deployToken = async function (
   _isMint,
   _isBurn,
   _isPause,
-  walletAddress //getting it as params
 ) {
   try {
-    console.log("walletAddress", walletAddress);
 
     const web3Obj = await createWeb3Object();
 

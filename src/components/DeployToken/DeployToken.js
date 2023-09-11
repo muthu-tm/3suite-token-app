@@ -30,6 +30,9 @@ function DeployToken() {
   const [modal1Open, setModal1Open] = useState(false);
   const [loadingText, setLoadingText] = useState(false);
   const [tnkAddress, setTokenAddr] = useState(false);
+  const [mintFunction, setMintFunction] = useState(false);
+  const [burnFunction, setBurnFunction] = useState(false);
+  const [pauseFunction, setPauseFunction] = useState(false);
   const { setChainGlobal, walletAddress, web3Obj } =
     useContext(web3GlobalContext);
   const chainId = localStorage.getItem("netId");
@@ -123,7 +126,10 @@ function DeployToken() {
           name,
           symbol,
           supply,
-          decimals ? decimals : Number(18)
+          decimals ? decimals : Number(18),
+          mintFunction,
+          burnFunction,
+          pauseFunction
         );
         console.log("deploy Token Res: ", deployRes);
         if (deployRes && deployRes.transactionHash) {
@@ -142,6 +148,8 @@ function DeployToken() {
       } else {
         return;
       }
+      setLoadingText(false);
+      setModal1Open(false);
     } catch (error) {
       console.log(error);
       setModal1Open(false);
@@ -290,7 +298,16 @@ function DeployToken() {
           >
             <div className="tk-label"> Contract Configiration</div>
             <div style={{ display: "flex", alignItems: "center" }}>
-              <input type="checkbox" className="checkbox" />
+              <input
+                type="checkbox"
+                className="checkbox"
+                checked={mintFunction ? true : false}
+                onClick={() => {
+                  setMintFunction(!mintFunction);
+                  setBurnFunction(false);
+                  setPauseFunction(false);
+                }}
+              />
               <div
                 className="tk-label"
                 style={{ paddingBottom: 0, paddingLeft: 8 }}
@@ -300,13 +317,41 @@ function DeployToken() {
               </div>
             </div>
             <div style={{ display: "flex", alignItems: "center" }}>
-              <input type="checkbox" className="checkbox" />
+              <input
+                type="checkbox"
+                className="checkbox"
+                checked={burnFunction ? true : false}
+                onClick={() => {
+                  setMintFunction(false);
+                  setBurnFunction(!burnFunction);
+                  setPauseFunction(false);
+                }}
+              />
               <div
                 className="tk-label"
                 style={{ paddingBottom: 0, paddingLeft: 8 }}
               >
                 {" "}
                 Burn Function
+              </div>
+            </div>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <input
+                type="checkbox"
+                className="checkbox"
+                checked={pauseFunction ? true : false}
+                onClick={() => {
+                  setMintFunction(false);
+                  setBurnFunction(false);
+                  setPauseFunction(!pauseFunction);
+                }}
+              />
+              <div
+                className="tk-label"
+                style={{ paddingBottom: 0, paddingLeft: 8 }}
+              >
+                {" "}
+                Pause Function
               </div>
             </div>
           </div>
@@ -318,16 +363,13 @@ function DeployToken() {
               value={walletAddress}
             />
           </div>
-          {name && symbol && supply  ? 
-                <button className="deploy-cta" onClick={onDeployClick}>
-                Deploy Token
-              </button>
-          : 
-          <button className="deploy-cta-gray" onClick={onDeployClick}>
-          Deploy Token
-        </button>
-          }
-    
+          {name && symbol && supply ? (
+            <button className="deploy-cta" onClick={onDeployClick}>
+              Deploy Token
+            </button>
+          ) : (
+            <button className="deploy-cta-gray">Deploy Token</button>
+          )}
         </div>
       </div>
       <Modal
