@@ -10,15 +10,19 @@ import { web3GlobalContext } from "../../context/global-context";
 import Eth from "../../assets/Images/ethereum.svg";
 import Matic from "../../assets/Images/polygon.svg";
 import Avax from "../../assets/Images/avax.svg";
+import { Modal } from "antd";
 import Editor from "react-simple-code-editor";
 import { highlight, languages } from "prismjs/components/prism-core";
 import "prismjs/components/prism-clike";
 import "prismjs/components/prism-javascript";
 import "prismjs/themes/prism.css";
 import { getTokenBalance } from "../../services/web3-token-services";
-import { convertToChecksum, convertWeiToEth } from "../../services/web3-services";
-import DotGif from "../../assets/Images/dot-loading.gif"
-
+import {
+  convertToChecksum,
+  convertWeiToEth,
+} from "../../services/web3-services";
+import DotGif from "../../assets/Images/dot-loading.gif";
+import loadingGif from "../../assets/Images/loading-green-loading.gif";
 
 const code = `//0xC4f4Bc698c3090A5aBC23dfCBc502296425895E9a,1
 //0x72bCE2654500B99FC7876b1973636Ab116Da7C8A,0.5
@@ -41,7 +45,9 @@ function Multisender() {
   const [tokenBalance, setTokenBalance] = useState();
   const [textValue, setTextValue] = useState("");
   const [showBalance, setShowBalance] = useState("1");
-  const [balanceLoading,setBalanceLoading] = useState(false)
+  const [balanceLoading, setBalanceLoading] = useState(false);
+  const [modal1Open, setModal1Open] = useState(false);
+  const [loadingText, setLoadingText] = useState(false);
 
   const handleChange = (e) => {
     const file = e.target.files[0];
@@ -71,14 +77,14 @@ function Multisender() {
 
   const getCustomBalance = async (tokenAddress) => {
     try {
-      setBalanceLoading(true)
-      let checksumTknAddr = await convertToChecksum(tokenAddress)
+      setBalanceLoading(true);
+      let checksumTknAddr = await convertToChecksum(tokenAddress);
       const resToken = await getTokenBalance(checksumTknAddr, walletAddress);
-      let balanceArray = [resToken]
-      let BalanceInEth = await convertWeiToEth(balanceArray)
+      let balanceArray = [resToken];
+      let BalanceInEth = await convertWeiToEth(balanceArray);
       setTokenBalance(BalanceInEth[0]);
       console.log("resToken", BalanceInEth[0]);
-      setBalanceLoading(false)
+      setBalanceLoading(false);
     } catch (err) {
       console.log("error", err);
       return;
@@ -270,7 +276,7 @@ function Multisender() {
             {tokenBalance && (
               <div className="sub-head">
                 {/* Balance:{balanceLoading ? <span><img src={DotGif} alt="" className="dot-gif" /></span> :<span>{Number(tokenBalance).toFixed(7)}</span>  } */}
-             Balance : {Number(tokenBalance).toFixed(7)}
+                Balance : {Number(tokenBalance).toFixed(7)}
               </div>
             )}
           </div>
@@ -371,12 +377,49 @@ function Multisender() {
         </div>
       </div>
       {walletAddress ? (
-        <button className="deploy-cta" onClick={onMultiSend}>
+        <button className="deploy-cta" onClick={() => setModal1Open(true)}>
           Continue
         </button>
       ) : (
         <button className="deploy-cta-gray">Continue</button>
       )}
+      <Modal
+        className="popup-modal"
+        title={"MultiSender Detail"}
+        centered
+        open={modal1Open}
+        onOk={() => setModal1Open(false)}
+        onCancel={() => setModal1Open(false)}
+        okButtonProps={{ style: { display: "none" } }}
+        cancelButtonProps={{ style: { display: "none" } }}
+      >
+        <div style={{ marginTop: 20 }} />
+        {loadingText ? (
+          <div className="load">
+            <img src={loadingGif} alt="" className="loadingGif" />
+            <div className="loadingText">Sending your Token</div>
+          </div>
+        ) : (
+          <>
+            <div className="m-head" style={{ paddingBottom: 8 }}>
+              Total no.of Sender Address:
+            </div>
+            <div className="m-head" style={{ paddingBottom: 8 }}>
+              Token Sending:
+            </div>
+            <div className="m-head" style={{ paddingBottom: 8 }}>
+              Total no.of Token:
+            </div>
+            <button
+              className="deploy-cta"
+              style={{ margin: "15px 0 8px" }}
+              onClick={() => setLoadingText(true)}
+            >
+              Approve
+            </button>
+          </>
+        )}
+      </Modal>
     </div>
   );
 }
