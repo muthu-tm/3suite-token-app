@@ -29,7 +29,7 @@ import loadingGif from "../../assets/Images/loading-green-loading.gif";
 import Web3 from "web3";
 let total_amount = Number(0);
 let total_senders = 0;
-let TokenSymbol =""
+let TokenSymbol = "";
 const code = `0xC4f4Bc698c3090A5aBC23dfCBc50227C25895E9a,1
 0xC4f4Bc698c3090A5aBC23dfCBc50227C25895E9a,0.5
 0xC4f4Bc698c3090A5aBC23dfCBc50227C25895E9a,0.9
@@ -53,9 +53,7 @@ function Multisender() {
   const [loadingText, setLoadingText] = useState(false);
   const handleChange = (e) => {
     const file = e.target.files[0];
-
     let reader = new FileReader();
-
     reader.onload = (e) => {
       const file = e.target.result;
       console.log(file);
@@ -86,7 +84,7 @@ function Multisender() {
       // let balanceArray = [resToken];
       // let BalanceInEth = await convertWeiToEth(balanceArray);
       const getDecimal = await getTokenInfo(tokenAddress);
-      TokenSymbol=getDecimal[1]
+      TokenSymbol = getDecimal[1];
       if (resToken > 0) {
         resToken = resToken / getDecimal[0] ** 10;
       }
@@ -166,57 +164,37 @@ function Multisender() {
     localStorage.setItem("netId", e.target.value);
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     if (Number(chainId) === Number(1115511)) {
-     TokenSymbol="Sepolia"
+      TokenSymbol = "Sepolia";
     } else if (Number(chainId) === Number(5)) {
-      TokenSymbol="Georli"
+      TokenSymbol = "Georli";
     } else if (Number(chainId) === Number(80001)) {
-      TokenSymbol="Mumbai"
+      TokenSymbol = "Mumbai";
     } else if (Number(chainId) === Number(97)) {
-      TokenSymbol="Sepolia"
+      TokenSymbol = "Sepolia";
     } else if (Number(chainId) === Number(43113)) {
-      TokenSymbol="fujiScan";
+      TokenSymbol = "fujiScan";
     }
-  },[chainId])
+  }, [chainId]);
   const onMultiSend = async () => {
     try {
-      
       let senders = code.split("\n");
-      
-
       for (let index = 0; index < senders.length; index++) {
-      
-
         const sender = senders[index];
-      
-
         let value = sender.split(",");
-      
-
-        if (Web3.utils.isAddress(value[0])) {
-      
-
+        if (!Web3.utils.isAddress(value[0])) {
           if (value[1] > 0) {
-      
-
             total_amount += Number(value[1]);
-      
-
             total_senders++;
-      
-
-            console.log("amt", total_amount)
-            console.log("sender",  total_senders)
           }
         }
+   
       }
-
-      setModal1Open(true);
     } catch (err) {
       if (err.code === 4001) {
       }
-      console.log("err in for loop", err );
+      console.log("err in for loop", err);
       return;
     }
   };
@@ -263,7 +241,9 @@ function Multisender() {
                     name={item.ChainName}
                     value={item.chainId}
                     className="radio-btn"
-                    onChange={(e) => {onChainChange(e)}}
+                    onChange={(e) => {
+                      onChainChange(e);
+                    }}
                     checked={
                       Number(chainId) === Number(item.chainId) ? true : false
                     }
@@ -429,6 +409,7 @@ function Multisender() {
             className="csv-opac"
           />
         </div>
+
       </div>
       {walletAddress ? (
         <button className="deploy-cta" onClick={onMultiSend}>
