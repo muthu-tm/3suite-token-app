@@ -16,20 +16,23 @@ import { highlight, languages } from "prismjs/components/prism-core";
 import "prismjs/components/prism-clike";
 import "prismjs/components/prism-javascript";
 import "prismjs/themes/prism.css";
-import { getTokenBalance } from "../../services/web3-token-services";
+import {
+  getTokenBalance,
+  getTokenInfo,
+} from "../../services/web3-token-services";
 import {
   convertToChecksum,
   convertWeiToEth,
 } from "../../services/web3-services";
 import DotGif from "../../assets/Images/dot-loading.gif";
 import loadingGif from "../../assets/Images/loading-green-loading.gif";
-
-const code = `//0xC4f4Bc698c3090A5aBC23dfCBc502296425895E9a,1
-//0x72bCE2654500B99FC7876b1973636Ab116Da7C8A,0.5
-//0x440641eABcA767D9274791F8CBF5D337e42e1091,0.9
-
-
-
+import Web3 from "web3";
+let total_amount = Number(0);
+let total_senders = 0;
+let TokenSymbol =""
+const code = `0xC4f4Bc698c3090A5aBC23dfCBc50227C25895E9a,1
+0xC4f4Bc698c3090A5aBC23dfCBc50227C25895E9a,0.5
+0xC4f4Bc698c3090A5aBC23dfCBc50227C25895E9a,0.9
   `;
 
 const hightlightWithLineNumbers = (input, language) =>
@@ -48,7 +51,6 @@ function Multisender() {
   const [balanceLoading, setBalanceLoading] = useState(false);
   const [modal1Open, setModal1Open] = useState(false);
   const [loadingText, setLoadingText] = useState(false);
-
   const handleChange = (e) => {
     const file = e.target.files[0];
 
@@ -68,6 +70,7 @@ function Multisender() {
     useContext(web3GlobalContext);
 
   const chainId = localStorage.getItem("netId");
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   };
@@ -79,11 +82,16 @@ function Multisender() {
     try {
       setBalanceLoading(true);
       let checksumTknAddr = await convertToChecksum(tokenAddress);
-      const resToken = await getTokenBalance(checksumTknAddr, walletAddress);
-      let balanceArray = [resToken];
-      let BalanceInEth = await convertWeiToEth(balanceArray);
-      setTokenBalance(BalanceInEth[0]);
-      console.log("resToken", BalanceInEth[0]);
+      let resToken = await getTokenBalance(checksumTknAddr, walletAddress);
+      // let balanceArray = [resToken];
+      // let BalanceInEth = await convertWeiToEth(balanceArray);
+      const getDecimal = await getTokenInfo(tokenAddress);
+      TokenSymbol=getDecimal[1]
+      if (resToken > 0) {
+        resToken = resToken / getDecimal[0] ** 10;
+      }
+      setTokenBalance(resToken);
+      console.log("resToken", resToken);
       setBalanceLoading(false);
     } catch (err) {
       console.log("error", err);
@@ -157,12 +165,58 @@ function Multisender() {
     setChainGlobal(Number(e.target.value));
     localStorage.setItem("netId", e.target.value);
   };
+
+  useEffect(()=>{
+    if (Number(chainId) === Number(1115511)) {
+     TokenSymbol="Sepolia"
+    } else if (Number(chainId) === Number(5)) {
+      TokenSymbol="Georli"
+    } else if (Number(chainId) === Number(80001)) {
+      TokenSymbol="Mumbai"
+    } else if (Number(chainId) === Number(97)) {
+      TokenSymbol="Sepolia"
+    } else if (Number(chainId) === Number(43113)) {
+      TokenSymbol="fujiScan";
+    }
+  },[chainId])
   const onMultiSend = async () => {
     try {
+      
+      let senders = code.split("\n");
+      
+
+      for (let index = 0; index < senders.length; index++) {
+      
+
+        const sender = senders[index];
+      
+
+        let value = sender.split(",");
+      
+
+        if (Web3.utils.isAddress(value[0])) {
+      
+
+          if (value[1] > 0) {
+      
+
+            total_amount += Number(value[1]);
+      
+
+            total_senders++;
+      
+
+            console.log("amt", total_amount)
+            console.log("sender",  total_senders)
+          }
+        }
+      }
+
+      setModal1Open(true);
     } catch (err) {
       if (err.code === 4001) {
       }
-      console.log("err", err);
+      console.log("err in for loop", err );
       return;
     }
   };
@@ -209,7 +263,7 @@ function Multisender() {
                     name={item.ChainName}
                     value={item.chainId}
                     className="radio-btn"
-                    onChange={(e) => onChainChange(e)}
+                    onChange={(e) => {onChainChange(e)}}
                     checked={
                       Number(chainId) === Number(item.chainId) ? true : false
                     }
@@ -276,7 +330,7 @@ function Multisender() {
             {tokenBalance && (
               <div className="sub-head">
                 {/* Balance:{balanceLoading ? <span><img src={DotGif} alt="" className="dot-gif" /></span> :<span>{Number(tokenBalance).toFixed(7)}</span>  } */}
-                Balance : {Number(tokenBalance).toFixed(7)}
+                Balance : {Number(tokenBalance).toFixed(4)}
               </div>
             )}
           </div>
@@ -377,7 +431,7 @@ function Multisender() {
         </div>
       </div>
       {walletAddress ? (
-        <button className="deploy-cta" onClick={() => setModal1Open(true)}>
+        <button className="deploy-cta" onClick={onMultiSend}>
           Continue
         </button>
       ) : (
@@ -402,13 +456,13 @@ function Multisender() {
         ) : (
           <>
             <div className="m-head" style={{ paddingBottom: 8 }}>
-              Total no.of Sender Address:
+              Total no.of Sender: {total_senders}
             </div>
             <div className="m-head" style={{ paddingBottom: 8 }}>
-              Token Sending:
+              Token Sending: {TokenSymbol}
             </div>
             <div className="m-head" style={{ paddingBottom: 8 }}>
-              Total no.of Token:
+              Total no.of Token: {total_amount}
             </div>
             <button
               className="deploy-cta"
