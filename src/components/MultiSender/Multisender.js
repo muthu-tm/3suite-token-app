@@ -19,6 +19,7 @@ import "prismjs/themes/prism.css";
 import {
   getTokenBalance,
   getTokenInfo,
+  increaseERC20Allowance,
 } from "../../services/web3-token-services";
 import {
   convertToChecksum,
@@ -27,6 +28,7 @@ import {
 import DotGif from "../../assets/Images/dot-loading.gif";
 import loadingGif from "../../assets/Images/loading-green-loading.gif";
 import Web3 from "web3";
+import config from "../../config";
 let total_amount = Number(0);
 let total_senders = 0;
 let TokenSymbol = "";
@@ -83,13 +85,18 @@ function Multisender() {
       let resToken = await getTokenBalance(checksumTknAddr, walletAddress);
       // let balanceArray = [resToken];
       // let BalanceInEth = await convertWeiToEth(balanceArray);
+      console.log("resToken: ", resToken)
       const getDecimal = await getTokenInfo(tokenAddress);
       TokenSymbol = getDecimal[1];
+      console.log("TokenSymbol: ", TokenSymbol)
+      console.log("decimal: ", getDecimal[0])
       if (resToken > 0) {
-        resToken = resToken / getDecimal[0] ** 10;
+        resToken = resToken / 10 ** getDecimal[0];
       }
+
+      //0xC9Eb793f245CF94350de58D752a9d7f3AbC2aE40
+      console.log("resToken: ", resToken)
       setTokenBalance(resToken);
-      console.log("resToken", resToken);
       setBalanceLoading(false);
     } catch (err) {
       console.log("error", err);
@@ -177,6 +184,7 @@ function Multisender() {
       TokenSymbol = "fujiScan";
     }
   }, [chainId]);
+
   const onMultiSend = async () => {
     try {
       let senders = code.split("\n");
@@ -189,7 +197,7 @@ function Multisender() {
             total_senders++;
           }
         }
-   
+
       }
     } catch (err) {
       if (err.code === 4001) {
@@ -198,6 +206,58 @@ function Multisender() {
       return;
     }
   };
+
+  const onDeployClick = async () => {
+    try {
+      setLoadingText(true);
+      setModal1Open(true);
+      let data = {
+        name: name,
+        symbol: symbol,
+        supply: Number(supply),
+        decimals: Number(decimals),
+      };
+      console.log(data);
+      
+      if (tokenAddress) {
+        let res = await  increaseERC20Allowance(tokenAddress, config.mumbai.airdrop, total_amount)
+        console.log("deploy Token Res: ", res);
+      }
+      // if (name && symbol && supply) {
+      //   let deployRes = await deployToken(
+      //     name,
+      //     symbol,
+      //     supply,
+      //     decimals ? decimals : Number(18),
+      //     mintFunction,
+      //     burnFunction,
+      //     pauseFunction
+      //   );
+      //   console.log("deploy Token Res: ", deployRes);
+      //   if (deployRes && deployRes.transactionHash) {
+      //     console.log(
+      //       "Successfully created an ERC20: ",
+      //       deployRes.events.TokenDeployed.returnValues.tokenAddress
+      //     );
+      //     setTnxHash(deployRes.transactionHash);
+      //     setTokenAddr(
+      //       deployRes.events.TokenDeployed.returnValues.tokenAddress
+      //     );
+      //     setLoadingText(false);
+      //   } else {
+      //     console.log("Failed to create an ERC20 Token!");
+      //   }
+      // } else {
+      //   return;
+      // }
+      setLoadingText(false);
+      setModal1Open(false);
+    } catch (error) {
+      console.log(error);
+      setModal1Open(false);
+    }
+  };
+
   return (
     <div className="ms-sec">
       <div className="Heading">3Suite Token - Multisender</div>
@@ -448,7 +508,7 @@ function Multisender() {
             <button
               className="deploy-cta"
               style={{ margin: "15px 0 8px" }}
-              onClick={() => setLoadingText(true)}
+              onClick={onDeployClick}
             >
               Approve
             </button>
