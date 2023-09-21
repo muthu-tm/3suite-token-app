@@ -6,6 +6,7 @@ import {
   getConnectedWalletAddress,
 } from "./web3-services";
 import config from "../config";
+import { getTokenInfo } from "./web3-token-services";
 
 let airdropContractAdd;
 const chainId = localStorage.getItem("netId");
@@ -23,29 +24,28 @@ if (Number(chainId) === Number(1115511)) {
   airdropContractAdd = config.fujiScan;
 }
 
-export const increaseERC20Allowance = async function (
+export const AirdropERC20Token = async function (
   _tokenAddress,
   _toAddress,
-  _amount
+  _amounts
 ) {
   try {
     const web3Obj = await createWeb3Object();
-    const nftContract = await createContractObject(
+    const airdropContract = await createContractObject(
       web3Obj,
-      TOKEN_CONTRACT.abi,
-      _tokenAddress
+      TOKEN_AIRDROP_CONTRACT.abi,
+      airdropContractAdd
     );
-    let walletAddress = await getConnectedWalletAddress(
-      web3Obj,
-      localStorage.getItem("wallet_type")
-    );
-
     let [decimals, symbol] = await getTokenInfo(_tokenAddress);
-    _amount = _amount * Math.pow(10, decimals);
-
-    let approve = await nftContract.methods
-      .increaseAllowance(_toAddress, _amount.toString())
-      .send({ from: walletAddress })
+   let tempAmounts=[];
+    for (let index = 0; index < _amounts.length; index++) {
+      let element = _amounts[index];
+      element = element * Math.pow(10, decimals);
+      tempAmounts.push(element.toString())
+    }
+    let approve = await airdropContract.methods
+      .transferToken(_tokenAddress, _toAddress,tempAmounts)
+      .send({ from: publicAddress })
       .then(function (receipt) {
         return receipt;
       });
@@ -57,35 +57,35 @@ export const increaseERC20Allowance = async function (
   }
 };
 
-export const decreaseERC20Allowance = async function (
-  _tokenAddress,
-  _toAddress,
-  _amount
-) {
-  try {
-    const web3Obj = await createWeb3Object();
-    const nftContract = await createContractObject(
-      web3Obj,
-      NFT_CONTRACT.abi,
-      _tokenAddress
-    );
-    let walletAddress = await getConnectedWalletAddress(
-      web3Obj,
-      localStorage.getItem("wallet_type")
-    );
+// export const decreaseERC20Allowance = async function (
+//   _tokenAddress,
+//   _toAddress,
+//   _amount
+// ) {
+//   try {
+//     const web3Obj = await createWeb3Object();
+//     const nftContract = await createContractObject(
+//       web3Obj,
+//       NFT_CONTRACT.abi,
+//       _tokenAddress
+//     );
+//     let walletAddress = await getConnectedWalletAddress(
+//       web3Obj,
+//       localStorage.getItem("wallet_type")
+//     );
 
-    let [decimals, symbol] = await getTokenInfo(_tokenAddress);
-    _amount = _amount * Math.pow(10, decimals);
-    let revoke = await nftContract.methods
-      .decreaseAllowance(_toAddress, _amount.toString())
-      .send({ from: walletAddress })
-      .then(function (receipt) {
-        return receipt;
-      });
+//     let [decimals, symbol] = await getTokenInfo(_tokenAddress);
+//     _amount = _amount * Math.pow(10, decimals);
+//     let revoke = await nftContract.methods
+//       .decreaseAllowance(_toAddress, _amount.toString())
+//       .send({ from: walletAddress })
+//       .then(function (receipt) {
+//         return receipt;
+//       });
 
-    return revoke;
-  } catch (error) {
-    console.log("Error| ERC20 Reduce allowance", error);
-    throw new Error("Error while reducing the allwance amount.");
-  }
-};
+//     return revoke;
+//   } catch (error) {
+//     console.log("Error| ERC20 Reduce allowance", error);
+//     throw new Error("Error while reducing the allwance amount.");
+//   }
+// };

@@ -169,15 +169,15 @@ function DeployToken() {
 
   const lookupSearch = () => {
     if (Number(chainId) === Number(1115511)) {
-      window.open(config.sepoliaScan.concat(tnxHash), "_blank");
+      window.open(config.sepolia.scan.concat(tnxHash), "_blank");
     } else if (Number(chainId) === Number(5)) {
-      window.open(config.georliScan.concat(tnxHash), "_blank");
+      window.open(config.georli.scan.concat(tnxHash), "_blank");
     } else if (Number(chainId) === Number(80001)) {
-      window.open(config.mumbaiScan.concat(tnxHash), "_blank");
+      window.open(config.mumbai.scan.concat(tnxHash), "_blank");
     } else if (Number(chainId) === Number(97)) {
-      window.open(config.bscScan.concat(tnxHash), "_blank");
+      window.open(config.bsc.scan.concat(tnxHash), "_blank");
     } else if (Number(chainId) === Number(43113)) {
-      window.open(config.fujiScan.concat(tnxHash), "_blank");
+      window.open(config.fuji.scan.concat(tnxHash), "_blank");
     }
   };
 
@@ -435,7 +435,7 @@ function DeployToken() {
                   style={{ textDecoration: "underline", cursor: "pointer" }}
                   onClick={lookupSearch}
                 >
-                  {config.sepoliaScan}.{getEllipsisTxt(tnxHash, 5)}
+                  {config.sepolia.scan}.{getEllipsisTxt(tnxHash, 5)}
                 </div>
               ) : (
                 <>
@@ -445,7 +445,7 @@ function DeployToken() {
                       style={{ textDecoration: "underline" }}
                       onClick={lookupSearch}
                     >
-                      {config.georliScan}.{getEllipsisTxt(tnxHash, 5)}
+                      {config.georli.scan}.{getEllipsisTxt(tnxHash, 5)}
                     </div>
                   ) : (
                     <>
@@ -455,7 +455,7 @@ function DeployToken() {
                           style={{ textDecoration: "underline" }}
                           onClick={lookupSearch}
                         >
-                          {config.mumbaiScan}.{getEllipsisTxt(tnxHash, 5)}
+                          {config.mumbai.scan}.{getEllipsisTxt(tnxHash, 5)}
                         </div>
                       ) : (
                         <>
@@ -475,7 +475,7 @@ function DeployToken() {
                                   style={{ textDecoration: "underline" }}
                                   onClick={lookupSearch}
                                 >
-                                  {config.fujiScan}.{getEllipsisTxt(tnxHash, 5)}
+                                  {config.fuji.scan}.{getEllipsisTxt(tnxHash, 5)}
                                 </div>
                               ) : (
                                 <></>

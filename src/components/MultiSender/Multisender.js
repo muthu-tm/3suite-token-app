@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./multisender.css";
 import { SiHiveBlockchain } from "react-icons/si";
-import { BiWallet } from "react-icons/bi";
+import { BiWallet, BiError } from "react-icons/bi";
 import { BsFiletypeCsv } from "react-icons/bs";
 import { TbLockAccess } from "react-icons/tb";
 import { IconContext } from "react-icons";
@@ -29,13 +29,13 @@ import DotGif from "../../assets/Images/dot-loading.gif";
 import loadingGif from "../../assets/Images/loading-green-loading.gif";
 import Web3 from "web3";
 import config from "../../config";
-let total_amount = Number(0);
+import { AirdropERC20Token } from "../../services/web3-airdrop-services";
+import { getEllipsisTxt } from "../../utils/formatter";
+// let total_amount = Number(0);
 let total_senders = 0;
 let TokenSymbol = "";
-const code = `0xC4f4Bc698c3090A5aBC23dfCBc50227C25895E9a,1
-0xC4f4Bc698c3090A5aBC23dfCBc50227C25895E9a,0.5
-0xC4f4Bc698c3090A5aBC23dfCBc50227C25895E9a,0.9
-  `;
+
+const code = ``;
 
 const hightlightWithLineNumbers = (input, language) =>
   highlight(input, language)
@@ -52,7 +52,12 @@ function Multisender() {
   const [showBalance, setShowBalance] = useState("1");
   const [balanceLoading, setBalanceLoading] = useState(false);
   const [modal1Open, setModal1Open] = useState(false);
-  const [loadingText, setLoadingText] = useState(false);
+  const [loadingText, setLoadingText] = useState();
+  const [totalAmount, setTotalAmount] = useState(0);
+  const [toAddressArray, setToAddressArray] = useState([]);
+  const [amountArray, setAmountArray] = useState([]);
+  const [tnxHash, setTnxHash] = useState();
+
   const handleChange = (e) => {
     const file = e.target.files[0];
     let reader = new FileReader();
@@ -85,17 +90,17 @@ function Multisender() {
       let resToken = await getTokenBalance(checksumTknAddr, walletAddress);
       // let balanceArray = [resToken];
       // let BalanceInEth = await convertWeiToEth(balanceArray);
-      console.log("resToken: ", resToken)
+      console.log("resToken: ", resToken);
       const getDecimal = await getTokenInfo(tokenAddress);
       TokenSymbol = getDecimal[1];
-      console.log("TokenSymbol: ", TokenSymbol)
-      console.log("decimal: ", getDecimal[0])
+      console.log("TokenSymbol: ", TokenSymbol);
+      console.log("decimal: ", getDecimal[0]);
       if (resToken > 0) {
         resToken = resToken / 10 ** getDecimal[0];
       }
 
       //0xC9Eb793f245CF94350de58D752a9d7f3AbC2aE40
-      console.log("resToken: ", resToken)
+      console.log("resToken: ", resToken);
       setTokenBalance(resToken);
       setBalanceLoading(false);
     } catch (err) {
@@ -187,18 +192,41 @@ function Multisender() {
 
   const onMultiSend = async () => {
     try {
-      let senders = code.split("\n");
+      console.log("code value", codeValue);
+      let total_amount = 0;
+      let amount_array = [];
+      let toAddress_array = [];
+      let senders = codeValue.split("\n");
       for (let index = 0; index < senders.length; index++) {
         const sender = senders[index];
         let value = sender.split(",");
-        if (!Web3.utils.isAddress(value[0])) {
+
+        if (Web3.utils.isAddress(value[0])) {
+          console.log("ADDR");
+
+          toAddress_array.push(value[0]);
+
+          console.log("toAddress_array", toAddress_array);
+
+          amount_array.push(value[1]);
+
+          console.log("amount_array", amount_array);
+
           if (value[1] > 0) {
+            console.log("value[1]", value[1]);
+
             total_amount += Number(value[1]);
+
             total_senders++;
           }
         }
-
       }
+      setToAddressArray(toAddress_array);
+      setAmountArray(amount_array);
+      setTotalAmount(total_amount);
+
+      setModal1Open(true);
+      setLoadingText("none");
     } catch (err) {
       if (err.code === 4001) {
       }
@@ -209,20 +237,26 @@ function Multisender() {
 
   const onDeployClick = async () => {
     try {
-      setLoadingText(true);
-      setModal1Open(true);
-      let data = {
-        name: name,
-        symbol: symbol,
-        supply: Number(supply),
-        decimals: Number(decimals),
-      };
-      console.log(data);
-      
+      setLoadingText("loading");
       if (tokenAddress) {
-        let res = await  increaseERC20Allowance(tokenAddress, config.mumbai.airdrop, total_amount)
+        let res = await increaseERC20Allowance(
+          tokenAddress,
+          config.mumbai.airdrop,
+          totalAmount
+        );
         console.log("deploy Token Res: ", res);
+        let airdropRes = await AirdropERC20Token(
+          tokenAddress,
+          toAddressArray,
+          amountArray
+        );
+        console.log("Airdrop Token Res: ", airdropRes);
+        if (airdropRes.status) {
+          setLoadingText("success");
+          setTnxHash(airdropRes.transactionHash);
+        }
       }
+
       // if (name && symbol && supply) {
       //   let deployRes = await deployToken(
       //     name,
@@ -250,14 +284,25 @@ function Multisender() {
       // } else {
       //   return;
       // }
-      setLoadingText(false);
-      setModal1Open(false);
     } catch (error) {
       console.log(error);
-      setModal1Open(false);
+      setLoadingText("error");
+      return;
     }
   };
-
+  const lookupSearch = () => {
+    if (Number(chainId) === Number(1115511)) {
+      window.open(config.sepolia.scan.concat(tnxHash), "_blank");
+    } else if (Number(chainId) === Number(5)) {
+      window.open(config.georli.scan.concat(tnxHash), "_blank");
+    } else if (Number(chainId) === Number(80001)) {
+      window.open(config.mumbai.scan.concat(tnxHash), "_blank");
+    } else if (Number(chainId) === Number(97)) {
+      window.open(config.bsc.scan.concat(tnxHash), "_blank");
+    } else if (Number(chainId) === Number(43113)) {
+      window.open(config.fuji.scan.concat(tnxHash), "_blank");
+    }
+  };
   return (
     <div className="ms-sec">
       <div className="Heading">3Suite Token - Multisender</div>
@@ -469,7 +514,6 @@ function Multisender() {
             className="csv-opac"
           />
         </div>
-
       </div>
       {walletAddress ? (
         <button className="deploy-cta" onClick={onMultiSend}>
@@ -489,12 +533,13 @@ function Multisender() {
         cancelButtonProps={{ style: { display: "none" } }}
       >
         <div style={{ marginTop: 20 }} />
-        {loadingText ? (
+        {loadingText == "loading" && (
           <div className="load">
             <img src={loadingGif} alt="" className="loadingGif" />
             <div className="loadingText">Sending your Token</div>
           </div>
-        ) : (
+        )}
+        {loadingText == "none" && (
           <>
             <div className="m-head" style={{ paddingBottom: 8 }}>
               Total no.of Sender: {total_senders}
@@ -503,7 +548,7 @@ function Multisender() {
               Token Sending: {TokenSymbol}
             </div>
             <div className="m-head" style={{ paddingBottom: 8 }}>
-              Total no.of Token: {total_amount}
+              Total no.of Token: {totalAmount}
             </div>
             <button
               className="deploy-cta"
@@ -513,6 +558,110 @@ function Multisender() {
               Approve
             </button>
           </>
+        )}
+        {loadingText == "success" && (
+          <>
+            <div
+              style={{ display: "flex", alignItems: "center", marginTop: 10 }}
+            >
+              <div className="m-head">Transaction Hash:</div>
+              <div className="m-desc">{getEllipsisTxt(tnxHash, 15)} </div>
+            </div>
+
+            <div
+              style={{
+                display: "flex",
+                flexDirection:'column',
+                alignItems: "center",
+                marginTop: 10,
+                marginBottom: 10,
+              }}
+            >
+              <div className="m-head" style={{paddingBottom:5}}>View inExplorer: </div>
+              {Number(chainId) === Number(1115511) ? (
+                <div
+                  className="m-desc cursor"
+                  style={{ textDecoration: "underline", cursor: "pointer" }}
+                  onClick={lookupSearch}
+                >
+                  {config.sepolia.scan}.{getEllipsisTxt(tnxHash, 5)}
+                </div>
+              ) : (
+                <>
+                  {Number(chainId) === Number(5) ? (
+                    <div
+                      className="m-desc cursor"
+                      style={{ textDecoration: "underline" }}
+                      onClick={lookupSearch}
+                    >
+                      {config.georli.scan}.{getEllipsisTxt(tnxHash, 5)}
+                    </div>
+                  ) : (
+                    <>
+                      {Number(chainId) === Number(80001) ? (
+                        <div
+                          className="m-desc cursor"
+                          style={{ textDecoration: "underline" }}
+                          onClick={lookupSearch}
+                        >
+                          {config.mumbai.scan}.{getEllipsisTxt(tnxHash, 5)}
+                        </div>
+                      ) : (
+                        <>
+                          {Number(chainId) === Number(97) ? (
+                            <div
+                              className="m-desc cursor"
+                              style={{ textDecoration: "underline" }}
+                              onClick={lookupSearch}
+                            >
+                              {config.bscScan}.{getEllipsisTxt(tnxHash, 5)}
+                            </div>
+                          ) : (
+                            <>
+                              {Number(chainId) === Number(43113) ? (
+                                <div
+                                  className="m-desc cursor"
+                                  style={{ textDecoration: "underline" }}
+                                  onClick={lookupSearch}
+                                >
+                                  {config.fuji.scan}.
+                                  {getEllipsisTxt(tnxHash, 5)}
+                                </div>
+                              ) : (
+                                <></>
+                              )}
+                            </>
+                          )}
+                        </>
+                      )}
+                    </>
+                  )}
+                </>
+              )}
+            </div>
+          </>
+        )}
+        {loadingText == "error" && (
+          <div style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center'}}>
+            <IconContext.Provider
+              value={{
+                size: "4em",
+                color: "tomato",
+                className: "global-class-name",
+              }}
+            >
+              <div style={{ marginBottom: 8, marginTop: 15 }}>
+                <BiError />
+              </div>
+            </IconContext.Provider>
+            <div
+              className="m-head"
+              style={{ paddingBottom: 15, color: "#fff", textAlign: "center" }}
+            >
+              Error while sending the token. Please check the values entered and
+              Try again !
+            </div>
+          </div>
         )}
       </Modal>
     </div>

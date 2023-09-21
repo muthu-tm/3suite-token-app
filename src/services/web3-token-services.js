@@ -13,15 +13,15 @@ const chainId = localStorage.getItem("netId");
 const publicAddress = localStorage.getItem("walletAddress");
 
 if (Number(chainId) === Number(1115511)) {
-  factoryContractAdd = config.sepoliafactoryContract;
+  factoryContractAdd = config.sepolia.tokenContract;
 } else if (Number(chainId) === Number(5)) {
-  factoryContractAdd = config.georlifactoryContract;
+  factoryContractAdd = config.georli.tokenContract;
 } else if (Number(chainId) === Number(80001)) {
-  factoryContractAdd = config.mumbaifactoryContract;
+  factoryContractAdd = config.mumbai.tokenContract;
 } else if (Number(chainId) === Number(97)) {
-  factoryContractAdd = config.bscfactoryContract;
+  factoryContractAdd = config.bsc.tokenContract;
 } else if (Number(chainId) === Number(43113)) {
-  factoryContractAdd = config.fujiScan;
+  factoryContractAdd = config.fuji.tokenContract;
 }
 
 export const getTokenInfo = async function (_tokenAddress) {
