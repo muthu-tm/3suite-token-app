@@ -12,7 +12,7 @@ let factoryContractAdd;
 const chainId = localStorage.getItem("netId");
 const publicAddress = localStorage.getItem("walletAddress");
 
-if (Number(chainId) === Number(1115511)) {
+if (Number(chainId) === Number(11155111)) {
   factoryContractAdd = config.sepolia.tokenContract;
 } else if (Number(chainId) === Number(5)) {
   factoryContractAdd = config.georli.tokenContract;

@@ -1,0 +1,65 @@
+.activity-sec {
+  max-width: 1300px;
+  margin: 75px auto;
+}
+.user-activity {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
+  margin: 50px auto;
+}
+.single-act-card {
+  background: #3fa45a24;
+  border: 1px solid rgba(152, 161, 192, 0.24);
+  border-radius: 8px;
+  padding: 30px;
+  width: 42%;
+  margin: 20px 0;
+}
+.s-width-card {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+}
+.index {
+  font-size: 14px;
+  font-weight: 500;
+  margin-right: 20px;
+}
+.data-card {
+  border: 1px solid rgba(152, 161, 192, 0.24);
+  border-radius: 6px;
+  padding: 15px;
+  width: 90%;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 26px;
+  color: #fff;
+}
+.file-data {
+  background: #3fa45a24;
+  border: 1px solid rgba(152, 161, 192, 0.24);
+  border-radius: 8px;
+  padding: 30px 15px;
+  width: 50%;
+  height: 150px;
+  margin-top: 25px;
+  overflow-x: hidden;
+  overflow-y: auto;
+
+}
+.uploaded-file {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 26px;
+    color: #fff;
+  margin-bottom: 6px;
+
+}
+.explorer-link{
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 26px;
+margin-top: 10px;
+}

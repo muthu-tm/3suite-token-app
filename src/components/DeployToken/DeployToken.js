@@ -29,7 +29,7 @@ function DeployToken() {
   const [tnxHash, setTnxHash] = useState();
   const [modal1Open, setModal1Open] = useState(false);
   const [loadingText, setLoadingText] = useState(false);
-  const [tnkAddress, setTokenAddr] = useState(false);
+  const [tnkAddress, setTokenAddr] = useState();
   const [mintFunction, setMintFunction] = useState(false);
   const [burnFunction, setBurnFunction] = useState(false);
   const [pauseFunction, setPauseFunction] = useState(false);
@@ -149,7 +149,7 @@ function DeployToken() {
         return;
       }
       setLoadingText(false);
-      setModal1Open(false);
+      // setModal1Open(false);
     } catch (error) {
       console.log(error);
       setModal1Open(false);
@@ -179,6 +179,11 @@ function DeployToken() {
     } else if (Number(chainId) === Number(43113)) {
       window.open(config.fuji.scan.concat(tnxHash), "_blank");
     }
+  };
+
+  const closeModal = async () => {
+    setModal1Open(false);
+    window.location.reload();
   };
 
   return (
@@ -378,7 +383,7 @@ function DeployToken() {
         centered
         open={modal1Open}
         onOk={() => setModal1Open(false)}
-        onCancel={() => setModal1Open(false)}
+        onCancel={closeModal}
         okButtonProps={{ style: { display: "none" } }}
         cancelButtonProps={{ style: { display: "none" } }}
       >
@@ -475,7 +480,8 @@ function DeployToken() {
                                   style={{ textDecoration: "underline" }}
                                   onClick={lookupSearch}
                                 >
-                                  {config.fuji.scan}.{getEllipsisTxt(tnxHash, 5)}
+                                  {config.fuji.scan}.
+                                  {getEllipsisTxt(tnxHash, 5)}
                                 </div>
                               ) : (
                                 <></>
@@ -496,7 +502,7 @@ function DeployToken() {
                 AddCustomToken(
                   tnkAddress,
                   symbol ? symbol : "TKN",
-                  18,
+                  decimals ? decimals : Number(18),
                   "",
                   web3Obj
                 )

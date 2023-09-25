@@ -51,15 +51,15 @@ export const switchBlockchain = async function (chainId) {
             },
           ],
         });
-      } else if (chainId === Number(1115511)) {
+      } else if (chainId === Number(11155111)) {
         await window.ethereum.request({
           method: "wallet_addEthereumChain",
           params: [
             {
               chainName: "Sepolia Testnet",
-              chainId: Web3.utils.toHex(Number(1115511)),
+              chainId: Web3.utils.toHex(Number(11155111)),
               nativeCurrency: { name: "Sepolia", decimals: 18, symbol: "ETH" },
-              rpcUrls: ["https://rpc-mumbai.maticvigil.com/"],
+              rpcUrls: ["https://sepolia.infura.io/v3/0d9a5a6f2bae427485965c56ad732db9"],
             },
           ],
         });

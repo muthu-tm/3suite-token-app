@@ -8,13 +8,12 @@ import { TbBrandTelegram } from "react-icons/tb";
 import { FaLinkedinIn } from "react-icons/fa";
 import { Link } from "react-scroll";
 import { Tooltip } from "antd";
+import { useNavigate } from "react-router-dom";
 
 const Footer = () => {
+  const navigate = useNavigate()
   const lookupLikedIn = (address) => {
-    window.open(
-      "https://www.linkedin.com/company/3suite-tech/",
-      "_blank"
-    );
+    window.open("https://www.linkedin.com/company/3suite-tech/", "_blank");
   };
   const lookupInsta = (address) => {
     window.open(
@@ -24,10 +23,7 @@ const Footer = () => {
   };
   // https://twitter.com/3suite_tech
   const lookTwitter = (address) => {
-    window.open(
-      "https://twitter.com/3suite_tech",
-      "_blank"
-    );
+    window.open("https://twitter.com/3suite_tech", "_blank");
   };
   return (
     <>
@@ -49,12 +45,13 @@ const Footer = () => {
             <Link to="product" spy={true} smooth={true}>
               <div className="s-route">Product</div>
             </Link>
-            {/* <Link to="about" spy={true} smooth={true}>
-              <div className="s-route">About</div>
-            </Link> */}
+            {/* */}
             <Link to="newsletter" spy={true} smooth={true}>
               <div className="s-route">Newsletter</div>
             </Link>
+            <div  onClick={() => navigate("/user-activity")}>
+              <li style={{margin:"0px 0"}}>User Activity</li>
+            </div>
           </div>
           <div className="footer-sm">
             <IconContext.Provider
@@ -75,11 +72,9 @@ const Footer = () => {
                 className: "global-class-name",
               }}
             >
-
-                <div className="footer-icon" onClick={lookupInsta}>
-                  <BsInstagram />
-                </div>
-            
+              <div className="footer-icon" onClick={lookupInsta}>
+                <BsInstagram />
+              </div>
             </IconContext.Provider>
             <IconContext.Provider
               value={{
@@ -88,11 +83,10 @@ const Footer = () => {
                 className: "global-class-name",
               }}
             >
-                <div className="footer-icon" onClick={lookTwitter}>
-                  <BsTwitter />
-                </div>
+              <div className="footer-icon" onClick={lookTwitter}>
+                <BsTwitter />
+              </div>
             </IconContext.Provider>
-
           </div>
         </div>
       </div>
