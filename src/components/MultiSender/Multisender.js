@@ -32,7 +32,7 @@ import config from "../../config";
 import { AirdropERC20Token } from "../../services/web3-airdrop-services";
 import { getEllipsisTxt } from "../../utils/formatter";
 // let total_amount = Number(0);
-let total_senders = 0;
+
 let TokenSymbol = "";
 
 const code = ``;
@@ -57,7 +57,7 @@ function Multisender() {
   const [toAddressArray, setToAddressArray] = useState([]);
   const [amountArray, setAmountArray] = useState([]);
   const [tnxHash, setTnxHash] = useState();
-
+const [totalSenders,setTotalSenders] = useState(0)
   const handleChange = (e) => {
     const file = e.target.files[0];
     let reader = new FileReader();
@@ -87,7 +87,7 @@ function Multisender() {
     try {
       setBalanceLoading(true);
       let checksumTknAddr = await convertToChecksum(tokenAddress);
-      let resToken = await getTokenBalance(checksumTknAddr, walletAddress);
+      let resToken = await getTokenBalance(checksumTknAddr);
       // let balanceArray = [resToken];
       // let BalanceInEth = await convertWeiToEth(balanceArray);
       console.log("resToken: ", resToken);
@@ -196,6 +196,7 @@ function Multisender() {
       let total_amount = 0;
       let amount_array = [];
       let toAddress_array = [];
+      let total_senders = 0;
       let senders = codeValue.split("\n");
       for (let index = 0; index < senders.length; index++) {
         const sender = senders[index];
@@ -221,6 +222,7 @@ function Multisender() {
           }
         }
       }
+      setTotalSenders(total_senders)
       setToAddressArray(toAddress_array);
       setAmountArray(amount_array);
       setTotalAmount(total_amount);
@@ -542,7 +544,7 @@ function Multisender() {
         {loadingText == "none" && (
           <>
             <div className="m-head" style={{ paddingBottom: 8 }}>
-              Total no.of Sender: {total_senders}
+              Total no.of Sender: {totalSenders}
             </div>
             <div className="m-head" style={{ paddingBottom: 8 }}>
               Token Sending: {TokenSymbol}
@@ -614,7 +616,7 @@ function Multisender() {
                               style={{ textDecoration: "underline" }}
                               onClick={lookupSearch}
                             >
-                              {config.bscScan}.{getEllipsisTxt(tnxHash, 5)}
+                              {config.bsc.scan}.{getEllipsisTxt(tnxHash, 5)}
                             </div>
                           ) : (
                             <>

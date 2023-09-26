@@ -21,6 +21,7 @@ const config = {
   bsc:{
     scan:"https://testnet.bscscan.com/tx/",
     tokenContract:"0x1C95f0a5AB346a61E42EAd979c2B5977AC9aBbb6",
+     airdrop:'0xA23d50890896B711b1d175E30983E157e4A1D229',
   },
   fuji:{
     airdrop:'0xA23d50890896B711b1d175E30983E157e4A1D229',

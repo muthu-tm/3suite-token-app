@@ -7,21 +7,22 @@ import {
 } from "./web3-services";
 import config from "../config";
 import { getTokenInfo } from "./web3-token-services";
+import Web3 from "web3";
 
 let airdropContractAdd;
 const chainId = localStorage.getItem("netId");
 const publicAddress = localStorage.getItem("walletAddress");
 
 if (Number(chainId) === Number(1115511)) {
-  airdropContractAdd = config.sepoliafactoryContract;
+  airdropContractAdd = config.sepolia.airdrop;
 } else if (Number(chainId) === Number(5)) {
-  airdropContractAdd = config.georlifactoryContract;
+  airdropContractAdd = config.georli.airdrop;
 } else if (Number(chainId) === Number(80001)) {
   airdropContractAdd = config.mumbai.airdrop;
 } else if (Number(chainId) === Number(97)) {
-  airdropContractAdd = config.bscfactoryContract;
+  airdropContractAdd = config.bsc.airdrop;
 } else if (Number(chainId) === Number(43113)) {
-  airdropContractAdd = config.fujiScan;
+  airdropContractAdd = config.fuji.airdrop;
 }
 
 export const AirdropERC20Token = async function (
@@ -37,15 +38,15 @@ export const AirdropERC20Token = async function (
       airdropContractAdd
     );
     let [decimals, symbol] = await getTokenInfo(_tokenAddress);
-   let tempAmounts=[];
+    let tempAmounts = [];
     for (let index = 0; index < _amounts.length; index++) {
       let element = _amounts[index];
       element = element * Math.pow(10, decimals);
-      tempAmounts.push(element.toString())
+      tempAmounts.push(element.toString());
     }
     let approve = await airdropContract.methods
-      .transferToken(_tokenAddress, _toAddress,tempAmounts)
-      .send({ from: publicAddress })
+      .transferToken(_tokenAddress, _toAddress, tempAmounts)
+      .send({ from: publicAddress, value: Web3.utils.toWei("0.005") })
       .then(function (receipt) {
         return receipt;
       });

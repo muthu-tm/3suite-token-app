@@ -470,7 +470,7 @@ function DeployToken() {
                               style={{ textDecoration: "underline" }}
                               onClick={lookupSearch}
                             >
-                              {config.bscScan}.{getEllipsisTxt(tnxHash, 5)}
+                              {config.bsc.scan}.{getEllipsisTxt(tnxHash, 5)}
                             </div>
                           ) : (
                             <>

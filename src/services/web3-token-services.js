@@ -37,16 +37,17 @@ export const getTokenInfo = async function (_tokenAddress) {
   return [decimals, symbol];
 };
 
-export const getTokenBalance = async (_tokenAddress, walletAddress) => {
+export const getTokenBalance = async (_tokenAddress) => {
   try {
     const web3Obj = await createWeb3Object();
+
     const tokenContract = await createContractObject(
       web3Obj,
       TOKEN_CONTRACT.abi,
       _tokenAddress
     );
 
-    let result = await tokenContract.methods.balanceOf(walletAddress).call();
+    let result = await tokenContract.methods.balanceOf(publicAddress).call();
 
     return result;
   } catch (error) {
@@ -73,10 +74,9 @@ export const deployToken = async function (
   _decimals,
   _isMint,
   _isBurn,
-  _isPause,
+  _isPause
 ) {
   try {
-
     const web3Obj = await createWeb3Object();
 
     const factoryContract = await createContractObject(
