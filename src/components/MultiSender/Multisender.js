@@ -32,7 +32,7 @@ import config from "../../config";
 import { AirdropERC20Token } from "../../services/web3-airdrop-services";
 import { getEllipsisTxt } from "../../utils/formatter";
 // let total_amount = Number(0);
-
+let airdropContractAdd;
 let TokenSymbol = "";
 
 const code = ``;
@@ -57,7 +57,7 @@ function Multisender() {
   const [toAddressArray, setToAddressArray] = useState([]);
   const [amountArray, setAmountArray] = useState([]);
   const [tnxHash, setTnxHash] = useState();
-const [totalSenders,setTotalSenders] = useState(0)
+  const [totalSenders, setTotalSenders] = useState(0);
   const handleChange = (e) => {
     const file = e.target.files[0];
     let reader = new FileReader();
@@ -144,7 +144,7 @@ const [totalSenders,setTotalSenders] = useState(0)
       ChainName: "Sepolia",
       symbol: "ETH",
       image: `${Eth}`,
-      chainId: 1115511,
+      chainId: 11155111,
     },
     {
       id: 3,
@@ -177,18 +177,26 @@ const [totalSenders,setTotalSenders] = useState(0)
   };
 
   useEffect(() => {
-    if (Number(chainId) === Number(1115511)) {
+    if (Number(chainId) === Number(11155111)) {
       TokenSymbol = "Sepolia";
+      airdropContractAdd = config.sepolia.airdrop;
     } else if (Number(chainId) === Number(5)) {
       TokenSymbol = "Georli";
+      airdropContractAdd = config.georli.airdrop;
     } else if (Number(chainId) === Number(80001)) {
       TokenSymbol = "Mumbai";
+      airdropContractAdd = config.mumbai.airdrop;
     } else if (Number(chainId) === Number(97)) {
-      TokenSymbol = "Sepolia";
+      TokenSymbol = "BSC";
+      airdropContractAdd = config.bsc.airdrop;
     } else if (Number(chainId) === Number(43113)) {
       TokenSymbol = "fujiScan";
+      airdropContractAdd = config.fuji.airdrop;
     }
   }, [chainId]);
+
+
+
 
   const onMultiSend = async () => {
     try {
@@ -222,7 +230,7 @@ const [totalSenders,setTotalSenders] = useState(0)
           }
         }
       }
-      setTotalSenders(total_senders)
+      setTotalSenders(total_senders);
       setToAddressArray(toAddress_array);
       setAmountArray(amount_array);
       setTotalAmount(total_amount);
@@ -243,7 +251,7 @@ const [totalSenders,setTotalSenders] = useState(0)
       if (tokenAddress) {
         let res = await increaseERC20Allowance(
           tokenAddress,
-          config.mumbai.airdrop,
+         airdropContractAdd,
           totalAmount
         );
         console.log("deploy Token Res: ", res);
@@ -293,7 +301,7 @@ const [totalSenders,setTotalSenders] = useState(0)
     }
   };
   const lookupSearch = () => {
-    if (Number(chainId) === Number(1115511)) {
+    if (Number(chainId) === Number(11155111)) {
       window.open(config.sepolia.scan.concat(tnxHash), "_blank");
     } else if (Number(chainId) === Number(5)) {
       window.open(config.georli.scan.concat(tnxHash), "_blank");
@@ -305,6 +313,10 @@ const [totalSenders,setTotalSenders] = useState(0)
       window.open(config.fuji.scan.concat(tnxHash), "_blank");
     }
   };
+  const closeModal = () =>{
+    setModal1Open(false)
+    window.location.reload();
+  }
   return (
     <div className="ms-sec">
       <div className="Heading">3Suite Token - Multisender</div>
@@ -530,7 +542,7 @@ const [totalSenders,setTotalSenders] = useState(0)
         centered
         open={modal1Open}
         onOk={() => setModal1Open(false)}
-        onCancel={() => setModal1Open(false)}
+        onCancel={closeModal}
         okButtonProps={{ style: { display: "none" } }}
         cancelButtonProps={{ style: { display: "none" } }}
       >
@@ -573,14 +585,16 @@ const [totalSenders,setTotalSenders] = useState(0)
             <div
               style={{
                 display: "flex",
-                flexDirection:'column',
+                flexDirection: "column",
                 alignItems: "center",
                 marginTop: 10,
                 marginBottom: 10,
               }}
             >
-              <div className="m-head" style={{paddingBottom:5}}>View inExplorer: </div>
-              {Number(chainId) === Number(1115511) ? (
+              <div className="m-head" style={{ paddingBottom: 5 }}>
+                View inExplorer:{" "}
+              </div>
+              {Number(chainId) === Number(11155111) ? (
                 <div
                   className="m-desc cursor"
                   style={{ textDecoration: "underline", cursor: "pointer" }}
@@ -644,7 +658,14 @@ const [totalSenders,setTotalSenders] = useState(0)
           </>
         )}
         {loadingText == "error" && (
-          <div style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center'}}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
             <IconContext.Provider
               value={{
                 size: "4em",

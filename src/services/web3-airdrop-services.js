@@ -9,20 +9,25 @@ import config from "../config";
 import { getTokenInfo } from "./web3-token-services";
 import Web3 from "web3";
 
-let airdropContractAdd;
 const chainId = localStorage.getItem("netId");
 const publicAddress = localStorage.getItem("walletAddress");
-
-if (Number(chainId) === Number(1115511)) {
+let airdropContractAdd;
+let airdropFee;
+if (Number(chainId) === Number(11155111)) {
   airdropContractAdd = config.sepolia.airdrop;
+  airdropFee = config.sepolia.airdropFee;
 } else if (Number(chainId) === Number(5)) {
   airdropContractAdd = config.georli.airdrop;
+  airdropFee = config.georli.airdropFee;
 } else if (Number(chainId) === Number(80001)) {
   airdropContractAdd = config.mumbai.airdrop;
+  airdropFee = config.mumbai.airdropFee;
 } else if (Number(chainId) === Number(97)) {
   airdropContractAdd = config.bsc.airdrop;
+  airdropFee = config.bsc.airdropFee;
 } else if (Number(chainId) === Number(43113)) {
   airdropContractAdd = config.fuji.airdrop;
+  airdropFee = config.fuji.airdropFee;
 }
 
 export const AirdropERC20Token = async function (
@@ -46,7 +51,7 @@ export const AirdropERC20Token = async function (
     }
     let approve = await airdropContract.methods
       .transferToken(_tokenAddress, _toAddress, tempAmounts)
-      .send({ from: publicAddress, value: Web3.utils.toWei("0.005") })
+      .send({ from: publicAddress, value: Web3.utils.toWei(airdropFee) })
       .then(function (receipt) {
         return receipt;
       });

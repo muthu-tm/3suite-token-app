@@ -84,10 +84,12 @@ export const deployToken = async function (
       TOKEN_FACTORY_CONTRACT.abi,
       factoryContractAdd
     );
-    // let walletAddress = await getConnectedWalletAddress(
-    //   web3Obj,
-    //   localStorage.getItem("wallet_type")
-    // );
+    console.log("factoryContractAdd", factoryContractAdd);
+
+    let walletAddress = await getConnectedWalletAddress(
+      web3Obj,
+      localStorage.getItem("wallet_type")
+    );
 
     let deploy = await factoryContract.methods
       .deployToken(
@@ -99,7 +101,7 @@ export const deployToken = async function (
         _isBurn,
         _isPause
       )
-      .send({ from: publicAddress })
+      .send({ from: walletAddress })
       .then(function (receipt) {
         return receipt;
       });

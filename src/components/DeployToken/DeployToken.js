@@ -58,7 +58,7 @@ function DeployToken() {
       ChainName: "Sepolia",
       symbol: "ETH",
       image: `${Eth}`,
-      chainId: 1115511,
+      chainId: 11155111,
     },
     {
       id: 3,
@@ -168,7 +168,7 @@ function DeployToken() {
   };
 
   const lookupSearch = () => {
-    if (Number(chainId) === Number(1115511)) {
+    if (Number(chainId) === Number(11155111)) {
       window.open(config.sepolia.scan.concat(tnxHash), "_blank");
     } else if (Number(chainId) === Number(5)) {
       window.open(config.georli.scan.concat(tnxHash), "_blank");
@@ -434,7 +434,7 @@ function DeployToken() {
               }}
             >
               <div className="m-head">View in Explorer: </div>
-              {Number(chainId) === Number(1115511) ? (
+              {Number(chainId) === Number(11155111) ? (
                 <div
                   className="m-desc cursor"
                   style={{ textDecoration: "underline", cursor: "pointer" }}
