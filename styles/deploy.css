@@ -1,0 +1,262 @@
+.deploy-sec {
+    max-width: 1350px;
+    width: 100%;
+    margin: 75px auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+.left-sec {
+    max-width: 60%;
+
+}
+
+.mint-cont {
+    margin: auto;
+}
+
+.right-sec {}
+
+.Heading {
+    font-size: 32px;
+    font-weight: 600;
+}
+
+.select-bc {
+    margin-top: 40px;
+    margin-bottom: 25px;
+}
+
+.sub-head {
+    font-size: 1.5rem;
+    line-height: 2rem;
+    font-weight: 600;
+    padding-bottom: 10px;
+}
+
+.desc {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    color: rgb(107 114 128/1)
+}
+
+.bc-compartment {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin: 30px 0;
+}
+
+.single-card {
+    width: 42%;
+    padding: 12px 25px;
+    background: #3fa45a24;
+    border: 1px solid rgba(152, 161, 192, 0.24);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 250ms ease 0s;
+    margin-bottom: 16px;
+}
+
+.single-card:hover {
+    border: 1px solid rgb(76, 130, 251);
+    transition: transform 250ms ease 0s;
+}
+
+.bc-data {
+    display: flex;
+    align-items: center;
+
+}
+
+.bc-img {
+    width: 50px;
+    height: 50px;
+    margin-right: 20px;
+}
+
+.bc-name {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    padding-bottom: 10px;
+}
+
+.bc-symbol {
+    font-size: .75rem;
+    line-height: 1rem;
+    color: rgb(139 149 169);
+}
+
+.radio-btn {
+    width: 16px;
+    height: 16px;
+}
+
+.token-data {
+    margin-bottom: 25px;
+}
+
+.token-input {
+    width: 95%;
+    border: 2px solid rgba(152, 161, 192, 0.24);
+    background: transparent;
+    border-radius: 8px;
+    line-height: 1.5rem;
+
+    padding: 10px 12px;
+    font-size: 1rem;
+    margin-bottom: 10px;
+    outline-style: none;
+    color: #fff;
+}
+
+.tk-label {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    padding-bottom: 10px;
+}
+
+.deploy-cta {
+    background: #3fa45ab5;
+    color: #fff;
+    font-weight: 500;
+    font-size: 1.1rem;
+    width: 99%;
+    margin: 20px 0;
+    padding: 10px 0;
+    text-align: center;
+    border: 0;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.deploy-cta-gray {
+    background: #454b47b5;
+    color: #fff;
+    font-weight: 500;
+    font-size: 1.1rem;
+    width: 99%;
+    margin: 20px 0;
+    padding: 10px 0;
+    text-align: center;
+    border: 0;
+    border-radius: 8px;
+    cursor: not-allowed;
+}
+.checkbox {
+    cursor: pointer;
+
+}
+
+.right-sec {
+    max-width: 40%;
+    border: 2px solid rgba(152, 161, 192, 0.24);
+    padding: 12px 25px 0;
+    background: #3fa45a24;
+    height: fit-content;
+    border-radius: 8px;
+    width: 32%;
+
+}
+
+.Product {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.prod-desc {
+    margin-top: 10px;
+    font-size: 14px;
+    line-height: 1.2rem;
+    color: rgb(107 114 128/1)
+}
+
+.prod-img {
+    width: 90%;
+    margin: 20px auto;
+    border-radius: 8px;
+}
+
+.carousel .thumbs {
+    display: none !important;
+}
+
+.carousel .control-dots {
+    bottom: -13px !important;
+}
+
+.carousel .carousel-status {
+    display: none !important;
+}
+
+.carousel.carousel-slider .control-arrow:hover {
+    background: none !important;
+}
+
+.m-head {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 26px;
+    color: #fff;
+    letter-spacing: 0.5px;
+    /* width: 175px; */
+
+}
+
+.m-desc {
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 26px;
+    color: #ffffffcb;
+    margin-left: 5px;
+    letter-spacing: 0.8px;
+    cursor: pointer;
+}
+.load{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    margin: auto;
+
+}
+.loadingText{
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 26px;
+    color: #fff;
+    letter-spacing: 0.5px;
+    text-align: center;
+    margin-bottom: 30px;
+}
+.loadingGif{
+    width: 100px;
+    height: 100px;
+    display: block;
+    margin:30px auto 20px;
+}
+.cursor{
+    cursor: pointer;
+}
+
+@media (min-width:325px) and (max-width:960px) {
+    .token-input{
+        width: 90%;
+    }
+    .deploy-sec{
+        width: 90%;
+        padding: 0  10px;
+    }
+    .single-card{
+        width: 90%;
+    }
+    .bc-compartment{
+        margin: 30px auto;
+    }
+}

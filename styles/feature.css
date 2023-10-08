@@ -1,0 +1,102 @@
+.feature-cont {
+    max-width: 1300px;
+    width: 100%;
+    margin: 150px auto;
+}
+
+.f-head {
+   color: #fff;
+    font-size: 36px;
+    font-weight: 600;
+    padding-bottom: 20px;
+    text-align: center;
+}
+
+.f-desc {
+    font-size: 18px;
+    line-height: 32px;
+    width: 80%;
+    margin: auto;
+    letter-spacing: 0.8px;
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+.feature-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 50px 0;
+}
+
+
+
+.s-fc-head{
+    font-size: 28px;
+    line-height: 44px;
+    font-weight: 500;
+    text-align: center;
+    padding-bottom: 15px;
+}
+.s-fc-desc{
+    font-size: 18px;
+    line-height: 28px;
+    color: rgb(246 252 249 / 82%);
+    padding-bottom: 25px;
+    width: 95%;
+    margin: auto;
+    text-align: center;
+}
+.f-icon{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin:10px auto 20px ;
+
+}
+.f-cont{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 40px;
+
+}
+.single-fc{
+    display: flex;
+    margin-bottom: 15px;
+}
+.single-fc-cont{
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 28px;
+    color: #fff;
+    padding-bottom: 25px;
+}
+.f-cont-50{
+    width: 48%;
+
+}
+@media (min-width:325px) and (max-width:960px){
+.feature-cont{
+    margin: 105px auto;
+}
+.f-head{
+    width: 95%;
+    margin: auto;
+    
+    font-size: 28px;
+
+}
+.f-cont{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.f-cont-50 {
+    width: 95%;
+}
+.single-fc-cont{
+    padding-bottom: 15px;
+    font-size: 18px;
+}
+}
