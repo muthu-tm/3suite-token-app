@@ -11,10 +11,15 @@ import { getTokenInfo } from "./web3-token-services";
 import { ConnectWallet, useAddress, useChain } from "@thirdweb-dev/react";
 
 import Web3 from "web3";
+var chainId: any;
+var publicAddress: any;
 
+if (typeof window !== "undefined" && window.localStorage) {
+  publicAddress = localStorage.getItem("walletAddress");
 
-const chain = useChain();
-const chainId = chain?.chainId
+  chainId = localStorage.getItem("netId");
+}
+
 
 let airdropContractAdd:any;
 let airdropFee:any;
@@ -47,10 +52,7 @@ export const AirdropERC20Token = async function (
       TOKEN_AIRDROP_CONTRACT.abi,
       airdropContractAdd
     );
-    let walletAddress = await getConnectedWalletAddress(
-      web3Obj,
-      localStorage.getItem("wallet_type")
-    );
+  
     let [decimals, symbol] = await getTokenInfo(_tokenAddress);
     let tempAmounts = [];
     for (let index = 0; index < _amounts.length; index++) {
@@ -60,7 +62,7 @@ export const AirdropERC20Token = async function (
     }
     let approve = await airdropContract.methods
       .transferToken(_tokenAddress, _toAddress, tempAmounts)
-      .send({ from: walletAddress, value: Web3.utils.toWei(airdropFee) })
+      .send({ from: publicAddress, value: Web3.utils.toWei(airdropFee) })
       .then(function (receipt:any) {
         return receipt;
       });

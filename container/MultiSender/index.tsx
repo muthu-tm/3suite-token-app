@@ -136,21 +136,21 @@ function Multisender() {
       id: 1,
       ChainName: "Georli",
       symbol: "ETH",
-      image: `${Eth}`,
+      image: images.Eth.src,
       chainId: 5,
     },
     {
       id: 2,
       ChainName: "Sepolia",
       symbol: "ETH",
-      image: `${Eth}`,
+      image: images.Eth.src,
       chainId: 11155111,
     },
     {
       id: 3,
       ChainName: "Mumbai",
       symbol: "MATIC",
-      image: `${Matic}`,
+      image: images.Matic.src,
       chainId: 80001,
     },
     // {
@@ -164,7 +164,7 @@ function Multisender() {
       id: 5,
       ChainName: "Fuji C chain",
       symbol: "AVAX",
-      image: `${Avax}`,
+      image: images.Avax.src,
       chainId: 43113,
     },
   ];
