@@ -1,8 +1,4 @@
 import React, { useState, useEffect, useContext } from "react";
-import "./deploy.css";
-import Eth from "../../assets/Images/ethereum.svg";
-import Matic from "../../assets/Images/polygon.svg";
-import Avax from "../../assets/Images/avax.svg";
 import { HiSquares2X2 } from "react-icons/hi2";
 import { BsLink45Deg } from "react-icons/bs";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
@@ -18,11 +14,14 @@ import config from "../../config";
 import { AddCustomToken } from "../../services/addCustomToken";
 import { ConnectWallet, useAddress, useChain } from "@thirdweb-dev/react";
 import { images } from "../../assets/image";
-let factoryContractAdd;
+let factoryContractAdd:any;
+let chainId:any;
 
 function DeployToken() {
   const walletAddress = useAddress();
-  const chain = useChain();
+  const chain:any = useChain();
+  console.log("chainID",Number(chain?.chainId) )
+  console.log("chain",chain)
   const [radioOption, setRadioOption] = useState<any>();
   const [name, setName] = useState();
   const [symbol, setSymbol] = useState();
@@ -35,9 +34,12 @@ function DeployToken() {
   const [mintFunction, setMintFunction] = useState(false);
   const [burnFunction, setBurnFunction] = useState(false);
   const [pauseFunction, setPauseFunction] = useState(false);
+
   const { setChainGlobal, web3Obj }:any =
     useContext(web3GlobalContext);
-  const chainId = localStorage.getItem("netId");
+
+  
+ 
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
@@ -52,21 +54,21 @@ function DeployToken() {
       id: 1,
       ChainName: "Georli",
       symbol: "ETH",
-      image: `${Eth}`,
+      image: images.Eth.src,
       chainId: 5,
     },
     {
       id: 2,
       ChainName: "Sepolia",
       symbol: "ETH",
-      image: `${Eth}`,
+      image: images.Eth.src,
       chainId: 11155111,
     },
     {
       id: 3,
       ChainName: "Mumbai",
       symbol: "MATIC",
-      image: `${Matic}`,
+      image: images.Matic.src,
       chainId: 80001,
     },
     // {
@@ -80,7 +82,7 @@ function DeployToken() {
       id: 5,
       ChainName: "Fuji C chain",
       symbol: "AVAX",
-      image: `${Avax}`,
+      image: images.Avax.src,
       chainId: 43113,
     },
   ];
@@ -170,15 +172,15 @@ function DeployToken() {
   // };
 
   const lookupSearch = () => {
-    if (Number(chainId) === Number(11155111)) {
+    if (Number(chain?.chainId ) === Number(11155111)) {
       window.open(config.sepolia.scan.concat(tnxHash), "_blank");
-    } else if (Number(chainId) === Number(5)) {
+    } else if (Number(chain?.chainId ) === Number(5)) {
       window.open(config.georli.scan.concat(tnxHash), "_blank");
-    } else if (Number(chainId) === Number(80001)) {
+    } else if (Number(chain?.chainId ) === Number(80001)) {
       window.open(config.mumbai.scan.concat(tnxHash), "_blank");
-    } else if (Number(chainId) === Number(97)) {
+    } else if (Number(chain?.chainId ) === Number(97)) {
       window.open(config.bsc.scan.concat(tnxHash), "_blank");
-    } else if (Number(chainId) === Number(43113)) {
+    } else if (Number(chain?.chainId ) === Number(43113)) {
       window.open(config.fuji.scan.concat(tnxHash), "_blank");
     }
   };
@@ -234,7 +236,7 @@ function DeployToken() {
                       className="radio-btn"
                       onChange={(e) => onChainChange(e)}
                       checked={
-                        Number(chainId) === Number(item.chainId) ? true : false
+                        Number(chain?.chainId ) === Number(item.chainId) ? true : false
                       }
                     />
                   </div>
@@ -436,7 +438,7 @@ function DeployToken() {
               }}
             >
               <div className="m-head">View in Explorer: </div>
-              {Number(chainId) === Number(11155111) ? (
+              {Number(chain?.chainId ) === Number(11155111) ? (
                 <div
                   className="m-desc cursor"
                   style={{ textDecoration: "underline", cursor: "pointer" }}
@@ -446,7 +448,7 @@ function DeployToken() {
                 </div>
               ) : (
                 <>
-                  {Number(chainId) === Number(5) ? (
+                  {Number(chain?.chainId ) === Number(5) ? (
                     <div
                       className="m-desc cursor"
                       style={{ textDecoration: "underline" }}
@@ -456,7 +458,7 @@ function DeployToken() {
                     </div>
                   ) : (
                     <>
-                      {Number(chainId) === Number(80001) ? (
+                      {Number(chain?.chainId ) === Number(80001) ? (
                         <div
                           className="m-desc cursor"
                           style={{ textDecoration: "underline" }}
@@ -466,7 +468,7 @@ function DeployToken() {
                         </div>
                       ) : (
                         <>
-                          {Number(chainId) === Number(97) ? (
+                          {Number(chain?.chainId ) === Number(97) ? (
                             <div
                               className="m-desc cursor"
                               style={{ textDecoration: "underline" }}
@@ -476,7 +478,7 @@ function DeployToken() {
                             </div>
                           ) : (
                             <>
-                              {Number(chainId) === Number(43113) ? (
+                              {Number(chain?.chainId ) === Number(43113) ? (
                                 <div
                                   className="m-desc cursor"
                                   style={{ textDecoration: "underline" }}

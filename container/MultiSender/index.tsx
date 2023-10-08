@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import "./multisender.css";
 import { SiHiveBlockchain } from "react-icons/si";
 import { BiWallet, BiError } from "react-icons/bi";
 import { BsFiletypeCsv } from "react-icons/bs";

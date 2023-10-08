@@ -4,15 +4,20 @@ import {
   createContractObject,
   createWeb3Object,
   getConnectedWalletAddress,
+
 } from "./web3-services";
 import config from "../config";
 import { getTokenInfo } from "./web3-token-services";
+import { ConnectWallet, useAddress, useChain } from "@thirdweb-dev/react";
+
 import Web3 from "web3";
 
-const chainId = localStorage.getItem("netId");
-const publicAddress = localStorage.getItem("walletAddress");
-let airdropContractAdd;
-let airdropFee;
+
+const chain = useChain();
+const chainId = chain?.chainId
+
+let airdropContractAdd:any;
+let airdropFee:any;
 if (Number(chainId) === Number(11155111)) {
   airdropContractAdd = config.sepolia.airdrop;
   airdropFee = config.sepolia.airdropFee;
@@ -31,9 +36,9 @@ if (Number(chainId) === Number(11155111)) {
 }
 
 export const AirdropERC20Token = async function (
-  _tokenAddress,
-  _toAddress,
-  _amounts
+  _tokenAddress:any,
+  _toAddress:any,
+  _amounts:any
 ) {
   try {
     const web3Obj = await createWeb3Object();
@@ -41,6 +46,10 @@ export const AirdropERC20Token = async function (
       web3Obj,
       TOKEN_AIRDROP_CONTRACT.abi,
       airdropContractAdd
+    );
+    let walletAddress = await getConnectedWalletAddress(
+      web3Obj,
+      localStorage.getItem("wallet_type")
     );
     let [decimals, symbol] = await getTokenInfo(_tokenAddress);
     let tempAmounts = [];
@@ -51,8 +60,8 @@ export const AirdropERC20Token = async function (
     }
     let approve = await airdropContract.methods
       .transferToken(_tokenAddress, _toAddress, tempAmounts)
-      .send({ from: publicAddress, value: Web3.utils.toWei(airdropFee) })
-      .then(function (receipt) {
+      .send({ from: walletAddress, value: Web3.utils.toWei(airdropFee) })
+      .then(function (receipt:any) {
         return receipt;
       });
 
@@ -75,10 +84,7 @@ export const AirdropERC20Token = async function (
 //       NFT_CONTRACT.abi,
 //       _tokenAddress
 //     );
-//     let walletAddress = await getConnectedWalletAddress(
-//       web3Obj,
-//       localStorage.getItem("wallet_type")
-//     );
+
 
 //     let [decimals, symbol] = await getTokenInfo(_tokenAddress);
 //     _amount = _amount * Math.pow(10, decimals);

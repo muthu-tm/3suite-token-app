@@ -7,10 +7,18 @@ import {
   getConnectedWalletAddress,
 } from "./web3-services";
 import config from "../config";
+import { ConnectWallet, useAddress, useChain } from "@thirdweb-dev/react";
+var chainId: any;
+var publicAddress: any;
+let factoryContractAdd: any;
 
-let factoryContractAdd;
-const chainId = localStorage.getItem("netId");
-const publicAddress = localStorage.getItem("walletAddress");
+
+
+if (typeof window !== "undefined" && window.localStorage) {
+  publicAddress = localStorage.getItem("walletAddress");
+
+  chainId = localStorage.getItem("netId");
+}
 
 if (Number(chainId) === Number(11155111)) {
   factoryContractAdd = config.sepolia.tokenContract;
@@ -27,7 +35,7 @@ if (Number(chainId) === Number(11155111)) {
 // usersCount(address)
 // userTokens(address, index)
 
-export const getTokenInfo = async function (_tokenAddress) {
+export const getTokenInfo = async function (_tokenAddress: any) {
   const web3Obj = await createWeb3Object();
   const tokenContract = await createContractObject(
     web3Obj,
@@ -40,7 +48,7 @@ export const getTokenInfo = async function (_tokenAddress) {
   return [decimals, symbol];
 };
 
-export const getTokenBalance = async (_tokenAddress) => {
+export const getTokenBalance = async (_tokenAddress: any) => {
   try {
     const web3Obj = await createWeb3Object();
 
@@ -59,7 +67,7 @@ export const getTokenBalance = async (_tokenAddress) => {
   }
 };
 
-export const getTokenContract = async function (_tokenAddress) {
+export const getTokenContract = async function (_tokenAddress: any) {
   const web3Obj = await createWeb3Object();
   const tokenContract = await createContractObject(
     web3Obj,
@@ -71,13 +79,13 @@ export const getTokenContract = async function (_tokenAddress) {
 };
 
 export const deployToken = async function (
-  _name,
-  _symbol,
-  _supply,
-  _decimals,
-  _isMint,
-  _isBurn,
-  _isPause
+  _name: any,
+  _symbol: any,
+  _supply: any,
+  _decimals: any,
+  _isMint: any,
+  _isBurn: any,
+  _isPause: any
 ) {
   try {
     const web3Obj = await createWeb3Object();
@@ -105,7 +113,7 @@ export const deployToken = async function (
         _isPause
       )
       .send({ from: walletAddress })
-      .then(function (receipt) {
+      .then(function (receipt: any) {
         return receipt;
       });
 
@@ -150,7 +158,11 @@ export const getUserTokens = async function () {
   }
 };
 
-export const mintToken = async function (_tokenAddress, _toAdd, _amount) {
+export const mintToken = async function (
+  _tokenAddress: any,
+  _toAdd: any,
+  _amount: any
+) {
   try {
     const web3Obj = await createWeb3Object();
     const tokenContract = await createContractObject(
@@ -166,7 +178,7 @@ export const mintToken = async function (_tokenAddress, _toAdd, _amount) {
     let mint = await tokenContract.methods
       .mint(_toAdd, _amount.toString())
       .send({ from: walletAddress })
-      .then(function (receipt) {
+      .then(function (receipt: any) {
         return receipt;
       });
 
@@ -177,7 +189,7 @@ export const mintToken = async function (_tokenAddress, _toAdd, _amount) {
   }
 };
 
-export const burnToken = async function (_tokenAddress, _amount) {
+export const burnToken = async function (_tokenAddress: any, _amount: any) {
   try {
     const web3Obj = await createWeb3Object();
     const tokenContract = await createContractObject(
@@ -193,7 +205,7 @@ export const burnToken = async function (_tokenAddress, _amount) {
     let burn = await tokenContract.methods
       .burn(_amount.toString())
       .send({ from: walletAddress })
-      .then(function (receipt) {
+      .then(function (receipt: any) {
         return receipt;
       });
 
@@ -204,7 +216,7 @@ export const burnToken = async function (_tokenAddress, _amount) {
   }
 };
 
-export const pauseToken = async function (_tokenAddress) {
+export const pauseToken = async function (_tokenAddress: any) {
   try {
     const web3Obj = await createWeb3Object();
     const tokenContract = await createContractObject(
@@ -220,7 +232,7 @@ export const pauseToken = async function (_tokenAddress) {
     let pause = await tokenContract.methods
       .pause()
       .send({ from: walletAddress })
-      .then(function (receipt) {
+      .then(function (receipt: any) {
         return receipt;
       });
 
@@ -231,7 +243,7 @@ export const pauseToken = async function (_tokenAddress) {
   }
 };
 
-export const unPauseToken = async function (_tokenAddress) {
+export const unPauseToken = async function (_tokenAddress: any) {
   try {
     const web3Obj = await createWeb3Object();
     const tokenContract = await createContractObject(
@@ -247,7 +259,7 @@ export const unPauseToken = async function (_tokenAddress) {
     let unpause = await tokenContract.methods
       .unpause()
       .send({ from: walletAddress })
-      .then(function (receipt) {
+      .then(function (receipt: any) {
         return receipt;
       });
 
@@ -259,9 +271,9 @@ export const unPauseToken = async function (_tokenAddress) {
 };
 
 export const increaseERC20Allowance = async function (
-  _tokenAddress,
-  _toAddress,
-  _amount
+  _tokenAddress: any,
+  _toAddress: any,
+  _amount: any
 ) {
   try {
     const web3Obj = await createWeb3Object();
@@ -281,7 +293,7 @@ export const increaseERC20Allowance = async function (
     let approve = await nftContract.methods
       .increaseAllowance(_toAddress, _amount.toString())
       .send({ from: walletAddress })
-      .then(function (receipt) {
+      .then(function (receipt: any) {
         return receipt;
       });
 
@@ -293,9 +305,9 @@ export const increaseERC20Allowance = async function (
 };
 
 export const decreaseERC20Allowance = async function (
-  _tokenAddress,
-  _toAddress,
-  _amount
+  _tokenAddress: any,
+  _toAddress: any,
+  _amount: any
 ) {
   try {
     const web3Obj = await createWeb3Object();
@@ -314,7 +326,7 @@ export const decreaseERC20Allowance = async function (
     let revoke = await nftContract.methods
       .decreaseAllowance(_toAddress, _amount.toString())
       .send({ from: walletAddress })
-      .then(function (receipt) {
+      .then(function (receipt: any) {
         return receipt;
       });
 

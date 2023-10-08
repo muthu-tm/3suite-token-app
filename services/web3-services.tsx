@@ -14,9 +14,9 @@ export const createWeb3Object = async () => {
 
 
 export const createContractObject = async function (
-  web3Obj,
-  contractABI,
-  contractAddress
+  web3Obj:any,
+  contractABI:any,
+  contractAddress:any
 ) {
   try {
     const contractObj = new web3Obj.eth.Contract(contractABI, contractAddress);
@@ -26,7 +26,7 @@ export const createContractObject = async function (
     throw new Error("Error while creating contract object.");
   }
 };
-export const convertEthToWei = async function (valueInEth) {
+export const convertEthToWei = async function (valueInEth:any) {
   try {
     let valueInWei = [];
     for (let i = 0; i < valueInEth.length; i++) {
@@ -39,7 +39,7 @@ export const convertEthToWei = async function (valueInEth) {
   }
 };
 
-export const convertWeiToEth = async function (valueInWei) {
+export const convertWeiToEth = async function (valueInWei:any) {
   try {
     let valueInEth = [];
     for (let i = 0; i < valueInWei.length; i++) {
@@ -52,7 +52,7 @@ export const convertWeiToEth = async function (valueInWei) {
   }
 };
 
-export const convertToChecksum = async function (address) {
+export const convertToChecksum = async function (address:any) {
   try {
     return Web3.utils.toChecksumAddress(address);
   } catch (error) {
@@ -61,7 +61,7 @@ export const convertToChecksum = async function (address) {
   }
 };
 
-export const getConnectedWalletAddress = async (web3Obj, walletType) => {
+export const getConnectedWalletAddress = async (web3Obj:any, walletType:any) => {
   try {
     if (walletType === "metamask") {
 
@@ -80,10 +80,10 @@ export const getConnectedWalletAddress = async (web3Obj, walletType) => {
 };
 
 export const setApproval = async function (
-  web3Obj,
-  paxgAbi,
-  contractAddress,
-  paramObj
+  web3Obj:any,
+  paxgAbi:any,
+  contractAddress:any,
+  paramObj:any
 ) {
   try {
 

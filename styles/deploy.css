@@ -1,7 +1,8 @@
 .deploy-sec {
     max-width: 1350px;
     width: 100%;
-    margin: 75px auto;
+    padding: 75px 0;
+    margin: auto;
     display: flex;
     justify-content: space-between;
 }
@@ -12,7 +13,7 @@
 }
 
 .mint-cont {
-    margin: auto;
+    margin:125px auto 50px;
 }
 
 .right-sec {}
