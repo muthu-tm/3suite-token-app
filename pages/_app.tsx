@@ -16,13 +16,22 @@ import "../styles/newsletter.css";
 import "../styles/ToggleSwitch.css";
 import "../styles/product.css";
 import "../styles/globalStyles.css";
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
 
 import { Web3Global } from "../context/global-context";
-import React from "react";
+import React, { useEffect } from "react";
 
 
 
 export default function App({ Component, pageProps }:any) {
+  useEffect(() => {
+    AOS.init({
+         duration: 800,
+         once: false,
+       })
+ }, [])
   return (
     <Web3Global>
       <ThirdwebProvider

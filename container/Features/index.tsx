@@ -9,11 +9,11 @@ import { IconContext } from "react-icons";
 
 function Features() {
   return (
-    <div className="feature-cont" id="about">
-      <div className="f-head">Built by Web3 Experts for Token Management</div>
+    <div className="feature-cont" id="about" >
+      <div className="f-head" >Built by Web3 Experts for Token Management</div>
       <div className="f-cont">
         <div className="f-cont-50">
-          <div className="single-fc">
+          <div className="single-fc" data-aos="fade-right" data-aos-duration="3000">
           <IconContext.Provider
               value={{
                 size: "1.5em",
@@ -27,7 +27,7 @@ function Features() {
             </IconContext.Provider>
             <div className="single-fc-cont">Focus on creating your product, instead of spending time on token management.</div>
           </div>
-          <div className="single-fc">
+          <div className="single-fc" data-aos="fade-left" data-aos-duration="3000">
           <IconContext.Provider
               value={{
                 size: "1.5em",
@@ -41,7 +41,7 @@ function Features() {
             </IconContext.Provider>
             <div className="single-fc-cont">Save huge cost, time & effort with our fully customizable pre-audited smart contracts.</div>
           </div>
-          <div className="single-fc">
+          <div className="single-fc" data-aos="fade-right" data-aos-duration="3000">
           <IconContext.Provider
               value={{
                 size: "1.5em",
@@ -57,7 +57,7 @@ function Features() {
           </div>
         </div>
         <div className="f-cont-50" >
-          <div className="single-fc">
+          <div className="single-fc" data-aos="fade-left" data-aos-duration="3000">
           <IconContext.Provider
               value={{
                 size: "1.5em",
@@ -71,7 +71,7 @@ function Features() {
             </IconContext.Provider>
             <div className="single-fc-cont">Build, launch, customize and manage your tokens with our securely built dapps.</div>
           </div>
-          <div className="single-fc">
+          <div className="single-fc" data-aos="fade-right" data-aos-duration="3000">
           <IconContext.Provider
               value={{
                 size: "1.5em",
@@ -85,7 +85,7 @@ function Features() {
             </IconContext.Provider>
             <div className="single-fc-cont">Our audited smart contracts provides solid security, thus more time and cost savings for you.</div>
           </div>
-          <div className="single-fc">
+          <div className="single-fc" data-aos="fade-left" data-aos-duration="3000">
           <IconContext.Provider
               value={{
                 size: "1.5em",

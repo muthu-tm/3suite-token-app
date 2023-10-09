@@ -1,6 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+[data-aos^=fade][data-aos^=fade]{
+  opacity: 1!important;
+}
 .root-background{  
   background-color: #131414;
   min-height: 100vh;

@@ -23,8 +23,10 @@ const router = useRouter();
         user-friendly experience that simplifies the complexities of contract
         deployment.
       </div>
+      
       <div className="prod-section">
-        <div className="single-prod" >
+
+        <div className="single-prod" data-aos="flip-right"  data-aos-duration="3000">
           <div className="sp-head">Token Mint</div>
           <div className="sp-desc">
             {" "}
@@ -49,7 +51,8 @@ const router = useRouter();
             </IconContext.Provider>
           </div>
         </div>
-        <div className="single-prod">
+ 
+        <div className="single-prod" data-aos="flip-left" data-aos-duration="3000">
           <div className="sp-head">MultiSender/Airdrop</div>
           <div className="sp-desc">
             {" "}
@@ -74,7 +77,7 @@ const router = useRouter();
             </IconContext.Provider>
           </div>
         </div>
-        <div className="single-prod">
+        <div className="single-prod" data-aos="flip-right" data-aos-duration="3000">
           <div className="sp-head">Launchpad</div>
           <div className="sp-desc">
             {" "}
@@ -87,7 +90,7 @@ const router = useRouter();
             <div>Coming Soon.. </div>
           </div>
         </div>
-        <div className="single-prod">
+        <div className="single-prod" data-aos="flip-left" data-aos-duration="3000">
           <div className="sp-head">Token Swap</div>
           <div className="sp-desc">
             {" "}
@@ -101,7 +104,7 @@ const router = useRouter();
           </div>
         </div>
 
-        <div className="single-prod">
+        <div className="single-prod" data-aos="flip-right" data-aos-duration="3000">
           <div className="sp-head">Crypto Staking</div>
           <div className="sp-desc">
             {" "}
@@ -115,7 +118,7 @@ const router = useRouter();
           </div>
         </div>
 
-        <div className="single-prod">
+        <div className="single-prod" data-aos="flip-left" data-aos-duration="3000">
           <div className="sp-head">Allowance - Revoke</div>
           <div className="sp-desc">
             {" "}

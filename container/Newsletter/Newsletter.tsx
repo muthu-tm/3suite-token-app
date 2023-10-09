@@ -41,7 +41,7 @@ function Newsletter({ status, message, onValidated }:any) {
     return formattedMessage ? sanitize(formattedMessage) : null;
   };
   return (
-    <div className="newsletter" id="newsletter">
+    <div className="newsletter" id="newsletter" data-aos="zoom-in-up">
       <div className="n-head">Join with our 3Suite App</div>
       <div className="n-desc">
         Step into the realm of seamless token deployment with our cutting-edge

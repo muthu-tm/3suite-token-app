@@ -4,8 +4,8 @@ import { images } from "../../assets/image";
 
 function HomePage() {
   return (
-    <div className="banner" id="home">
-      <div className="banner-left">
+    <div className="banner" id="home" >
+      <div className="banner-left" >
         <div className="banner-head"> A suite of tools for Web3 Products</div>
         <div className="banner-desc">
           3suite App has a set of decentralized applications (dApps) to provide
