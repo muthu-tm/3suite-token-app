@@ -14,14 +14,14 @@ import config from "../../config";
 import { AddCustomToken } from "../../services/addCustomToken";
 import { ConnectWallet, useAddress, useChain } from "@thirdweb-dev/react";
 import { images } from "../../assets/image";
-let factoryContractAdd:any;
-let chainId:any;
+let factoryContractAdd: any;
+let chainId: any;
 
 function DeployToken() {
   const walletAddress = useAddress();
-  const chain:any = useChain();
-  console.log("chainID",Number(chain?.chainId) )
-  console.log("chain",chain)
+  const chain: any = useChain();
+  console.log("chainID", Number(chain?.chainId));
+  console.log("chain", chain);
   const [radioOption, setRadioOption] = useState<any>();
   const [name, setName] = useState();
   const [symbol, setSymbol] = useState();
@@ -35,11 +35,7 @@ function DeployToken() {
   const [burnFunction, setBurnFunction] = useState(false);
   const [pauseFunction, setPauseFunction] = useState(false);
 
-  const { setChainGlobal, web3Obj }:any =
-    useContext(web3GlobalContext);
-
-  
- 
+  const { setChainGlobal, web3Obj }: any = useContext(web3GlobalContext);
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
@@ -106,7 +102,7 @@ function DeployToken() {
     },
   };
 
-  const onChainChange = async (e:any) => {
+  const onChainChange = async (e: any) => {
     console.log("chainValue", Number(e.target.value));
     setRadioOption(Number(e.target.value));
     await switchBlockchain(Number(e.target.value));
@@ -160,27 +156,17 @@ function DeployToken() {
     }
   };
 
-  // const copyToClipboard = () => {
-  //   document.getElementById("tx-hash").style.color = "#3fa45a";
-  //   document.getElementById("tx-hash").style.fontWeight = 600;
-  //   setTimeout(() => {
-  //     document.getElementById("tx-hash").style.color = "#fff";
-  //     document.getElementById("tx-hash").style.fontWeight = 400;
-  //   }, 250);
-
-  //   copy(tnxHash);
-  // };
 
   const lookupSearch = () => {
-    if (Number(chain?.chainId ) === Number(11155111)) {
+    if (Number(chain?.chainId) === Number(11155111)) {
       window.open(config.sepolia.scan.concat(tnxHash), "_blank");
-    } else if (Number(chain?.chainId ) === Number(5)) {
+    } else if (Number(chain?.chainId) === Number(5)) {
       window.open(config.georli.scan.concat(tnxHash), "_blank");
-    } else if (Number(chain?.chainId ) === Number(80001)) {
+    } else if (Number(chain?.chainId) === Number(80001)) {
       window.open(config.mumbai.scan.concat(tnxHash), "_blank");
-    } else if (Number(chain?.chainId ) === Number(97)) {
+    } else if (Number(chain?.chainId) === Number(97)) {
       window.open(config.bsc.scan.concat(tnxHash), "_blank");
-    } else if (Number(chain?.chainId ) === Number(43113)) {
+    } else if (Number(chain?.chainId) === Number(43113)) {
       window.open(config.fuji.scan.concat(tnxHash), "_blank");
     }
   };
@@ -215,7 +201,7 @@ function DeployToken() {
           <div className="bc-compartment">
             {blockchainFeed?.map((item, index) => {
               return (
-                <div className="single-card">
+                <div className="single-card" data-aos="fade-down" data-aos-duration="800">
                   <div className="bc-data">
                     <img
                       src={item.image}
@@ -236,7 +222,9 @@ function DeployToken() {
                       className="radio-btn"
                       onChange={(e) => onChainChange(e)}
                       checked={
-                        Number(chain?.chainId ) === Number(item.chainId) ? true : false
+                        Number(chain?.chainId) === Number(item.chainId)
+                          ? true
+                          : false
                       }
                     />
                   </div>
@@ -245,7 +233,7 @@ function DeployToken() {
             })}
           </div>
         </div>
-        <div className="token-data">
+        <div className="token-data" >
           <div style={{ display: "flex", alignItems: "center" }}>
             <IconContext.Provider
               value={{
@@ -263,12 +251,13 @@ function DeployToken() {
           <div className="desc">
             Please provide the following information to create your token
           </div>
-          <div style={{ marginTop: 24 }}>
+          <div style={{ marginTop: 24 }} >
             <div className="tk-label">Token Name *</div>
             <input
               placeholder="3Suite Token"
               className="token-input"
-              onChange={(e:any) => setName(e.target.value)}
+              onChange={(e: any) => setName(e.target.value)}
+              
             />
           </div>
           <div style={{ marginTop: 15 }}>
@@ -276,7 +265,7 @@ function DeployToken() {
             <input
               placeholder="SUITE"
               className="token-input"
-              onChange={(e:any) => setSymbol(e.target.value)}
+              onChange={(e: any) => setSymbol(e.target.value)}
             />
           </div>
           <div style={{ marginTop: 15 }}>
@@ -284,7 +273,7 @@ function DeployToken() {
             <input
               placeholder="1000"
               className="token-input"
-              onChange={(e:any) => setSupply(e.target.value)}
+              onChange={(e: any) => setSupply(e.target.value)}
             />
           </div>
           <div style={{ marginTop: 15 }}>
@@ -292,7 +281,7 @@ function DeployToken() {
             <input
               placeholder="18"
               className="token-input"
-              onChange={(e:any) => setDecimals(e.target.value)}
+              onChange={(e: any) => setDecimals(e.target.value)}
             />
           </div>
           <div
@@ -438,7 +427,7 @@ function DeployToken() {
               }}
             >
               <div className="m-head">View in Explorer: </div>
-              {Number(chain?.chainId ) === Number(11155111) ? (
+              {Number(chain?.chainId) === Number(11155111) ? (
                 <div
                   className="m-desc cursor"
                   style={{ textDecoration: "underline", cursor: "pointer" }}
@@ -448,7 +437,7 @@ function DeployToken() {
                 </div>
               ) : (
                 <>
-                  {Number(chain?.chainId ) === Number(5) ? (
+                  {Number(chain?.chainId) === Number(5) ? (
                     <div
                       className="m-desc cursor"
                       style={{ textDecoration: "underline" }}
@@ -458,7 +447,7 @@ function DeployToken() {
                     </div>
                   ) : (
                     <>
-                      {Number(chain?.chainId ) === Number(80001) ? (
+                      {Number(chain?.chainId) === Number(80001) ? (
                         <div
                           className="m-desc cursor"
                           style={{ textDecoration: "underline" }}
@@ -468,7 +457,7 @@ function DeployToken() {
                         </div>
                       ) : (
                         <>
-                          {Number(chain?.chainId ) === Number(97) ? (
+                          {Number(chain?.chainId) === Number(97) ? (
                             <div
                               className="m-desc cursor"
                               style={{ textDecoration: "underline" }}
@@ -478,7 +467,7 @@ function DeployToken() {
                             </div>
                           ) : (
                             <>
-                              {Number(chain?.chainId ) === Number(43113) ? (
+                              {Number(chain?.chainId) === Number(43113) ? (
                                 <div
                                   className="m-desc cursor"
                                   style={{ textDecoration: "underline" }}

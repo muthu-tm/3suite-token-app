@@ -1,5 +1,4 @@
 import React from "react";
-import "./Activity.css";
 import { useRouter } from "next/router";
 
 function MainActivity() {

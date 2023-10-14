@@ -33,7 +33,7 @@ import { images } from "../../assets/image";
 // let total_amount = Number(0);
 let airdropContractAdd:any;
 let TokenSymbol:any = "";
-
+var chainId:any;
 const code = ``;
 
 const hightlightWithLineNumbers = (input: string, language: any) =>
@@ -73,8 +73,11 @@ function Multisender() {
 
   const { setChainGlobal, web3Obj }:any =
     useContext(web3GlobalContext);
-
-  const chainId = localStorage.getItem("netId");
+useEffect(()=>{
+  if (typeof window !== 'undefined' && window.localStorage) { 
+  chainId = localStorage.getItem("netId");
+  }
+},[])
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
@@ -341,7 +344,7 @@ function Multisender() {
         <div className="bc-compartment">
           {blockchainFeed?.map((item, index) => {
             return (
-              <div className="single-card">
+              <div className="single-card" data-aos="fade-down" data-aos-duration="800">
                 <div className="bc-data">
                   <img
                     src={item.image}
@@ -390,11 +393,14 @@ function Multisender() {
           </IconContext.Provider>
           <div className="sub-head">Wallet Address</div>
         </div>
+        <div data-aos="fade-down" data-aos-duration="800">
         <input
           placeholder={walletAddress ? "" : " Please connect your wallet "}
           className="token-input-ms"
           value={walletAddress}
+          
         />
+        </div>
       </div>
       <div className="tkn-sec">
         <div className="tkn-addr">
@@ -435,8 +441,9 @@ function Multisender() {
           </div>
           <div
             style={{ display: "flex", alignItems: "center", marginBottom: 10 }}
+            
           >
-            <div style={{ display: "flex", alignItems: "center" }}>
+            <div style={{ display: "flex", alignItems: "center" }} >
               <input
                 type="checkbox"
                 className="checkbox"
@@ -518,6 +525,7 @@ function Multisender() {
             outline: 0,
             width: "99%",
           }}
+          
         />
         <div className="csv-button">
           Upload CSV
